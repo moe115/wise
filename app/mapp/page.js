@@ -4,11 +4,11 @@ import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import 'leaflet/dist/leaflet.css';
 
- const sampleDamages = [
+const sampleDamages = [
     {
         damage_id: '1',
         category: 'Building Collapse',
-        coordinates: [ 40.7484 , -73.9857], // NYC
+        coordinates: [40.7484, -73.9857], // NYC
         radius: 2000,
         severity: 'High',
         location_name: 'New York City Center',
@@ -18,7 +18,7 @@ import 'leaflet/dist/leaflet.css';
     {
         damage_id: '2',
         category: 'Flooding',
-        coordinates: [ 40.7284 , -73.9957 ], // Lower NYC
+        coordinates: [40.7284, -73.9957], // Lower NYC
         radius: 3000,
         severity: 'Medium',
         location_name: 'Lower Manhattan',
@@ -27,14 +27,14 @@ import 'leaflet/dist/leaflet.css';
     }
 ];
 
- const severityColors = {
+const severityColors = {
     'Low': '#2ecc71',
     'Medium': '#f39c12',
     'High': '#e67e22',
     'Extreme': '#e74c3c'
 };
 
- const MapWithNoSSR = dynamic(() => import('./Map'), {
+const MapWithNoSSR = dynamic(() => import('../Map'), {
     ssr: false,
     loading: () => <div className="h-[600px] w-full flex items-center justify-center bg-gray-100">Loading Map...</div>,
 });
@@ -97,7 +97,7 @@ const CrisisMap = () => {
                         <div className="text-xl font-bold text-gray-500">{sampleDamages.length}</div>
                     </div>
                     <div className="bg-white p-3 rounded shadow text-gray-500">
-                          <div className="text-sm text-gray-500">extreme Crisis</div>
+                        <div className="text-sm text-gray-500">extreme Crisis</div>
                         <div className="text-xl font-bold">
                             {sampleDamages.filter(d => d.severity === 'Extreme').length}
                         </div>
