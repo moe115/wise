@@ -1,9 +1,13 @@
 // File: app/api/citizen-signup/route.js
 
-import { PrismaClient } from '@prisma/client';
+// Import PrismaClient with the correct path based on your schema configuration
+import { PrismaClient } from '../../../generated/prisma';
 import { NextResponse } from 'next/server';
 
-const prisma = new PrismaClient();
+// Proper initialization of Prisma client
+const globalForPrisma = global;
+const prisma = globalForPrisma.prisma || new PrismaClient();
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
 export async function POST(request) {
   try {
