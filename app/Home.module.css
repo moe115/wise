@@ -203,3 +203,9 @@
   padding: 15px 0;
   font-size: 0.9rem;
 }
+
+ .userEmail {
+  color: #2d3748;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+}

@@ -3,8 +3,33 @@
  import Head from 'next/head';
 import Link from 'next/link';
 import styles from './Home.module.css'; // Assuming you'll create this CSS module
+import { useEffect, useState } from 'react';
+import { auth } from '/lib/firebase'; // adjust path based on your folder structure
+import { onAuthStateChanged , signOut} from 'firebase/auth';
 
 export default function Home() {
+
+    const [userEmail, setUserEmail] = useState(null);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserEmail(user.email);
+      } else {
+        setUserEmail(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+    const handleSignOut = async () => {
+    await signOut(auth);
+    setUserEmail(null);
+    setDropdownOpen(false);
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,24 +38,45 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" /> {/* Replace with your favicon */}
       </Head>
 
+   
       <nav className={styles.navbar}>
         <div className={styles.logo}>WISE</div>
         <ul className={styles.navList}>
-          <li>
-            <div className={styles.dropdown}>
-              <button className={styles.dropbtn}>become a volunteer</button>
-              <div className={styles.dropdownContent}>
-                <Link href="/ngo/signup">Sign Up as NGO</Link>
-                <Link href="/citsignup">Sign Up as Individual</Link>
-              </div>
-            </div>
-          </li> 
-             <li>
-            <div className={styles.dropdown}>
-              <button className={styles.dropbtn}>LogIn</button>
-             
-            </div>
-          </li> 
+          {userEmail ? (
+            <li className={styles.dropdown}>
+              <button
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className={styles.dropbtn}
+              >
+                {userEmail}
+              </button>
+              {dropdownOpen && (
+                <div className={styles.dropdownContent}>
+                  <button onClick={handleSignOut} className={styles.signOutBtn}>
+                    Sign Out
+                  </button>
+                </div>
+              )}
+            </li>
+          ) : (
+            <>
+              <li>
+                <div className={styles.dropdown}>
+                  <button className={styles.dropbtn}>Become a Volunteer</button>
+                  <div className={styles.dropdownContent}>
+                    <Link href="/ngo/signup">Sign Up as NGO</Link>
+                    <Link href="/citsignup">Sign Up as Individual</Link>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div className={styles.dropdown}>  <Link href="/login">
+                  <button className={styles.dropbtn}>LogIn</button>
+                    </Link>     
+                                 </div>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
 
