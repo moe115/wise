@@ -18,11 +18,17 @@ export default function Home() {
         <ul className={styles.navList}>
           <li>
             <div className={styles.dropdown}>
-              <button className={styles.dropbtn}>Sign Up</button>
+              <button className={styles.dropbtn}>become a volunteer</button>
               <div className={styles.dropdownContent}>
                 <Link href="/ngo/signup">Sign Up as NGO</Link>
-                <Link href="/human/signup">Sign Up as Individual</Link>
+                <Link href="/citsignup">Sign Up as Individual</Link>
               </div>
+            </div>
+          </li> 
+             <li>
+            <div className={styles.dropdown}>
+              <button className={styles.dropbtn}>LogIn</button>
+             
             </div>
           </li> 
         </ul>
