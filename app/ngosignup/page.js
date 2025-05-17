@@ -13,7 +13,7 @@ export default function NgoSignup() {
         email: '',
         password: '',
         phone: '',
-        name:'',
+        name: '',
         availability: 'daywork', // Default value
         type: 'healthcare', // Default value
         category: ''
@@ -55,46 +55,46 @@ export default function NgoSignup() {
 
 
     const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsSubmitting(true);
-  setError('');
+        e.preventDefault();
+        setIsSubmitting(true);
+        setError('');
 
-  try {
-    // 1. Create user with Firebase
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      formData.email,
-      formData.password
-    );
+        try {
+            // 1. Create user with Firebase
+            const userCredential = await createUserWithEmailAndPassword(
+                auth,
+                formData.email,
+                formData.password
+            );
 
-    // 2. Send additional user info to your backend
-    const payload = {
-      user: {
-        email: formData.email,
-        role: 'volunteer',
-      },
-      volunteer: {
-        typeV: 'ngo',
-        phone: formData.phone,
-        AvailabilityV: formData.availability,
-        ReputationScore: 1,
-        CategoryV: formData.category
-      },
-      ngo: {
-         name: formData.name
-       }
+            // 2. Send additional user info to your backend
+            const payload = {
+                user: {
+                    email: formData.email,
+                    role: 'volunteer',
+                },
+                volunteer: {
+                    typeV: 'ngo',
+                    phone: formData.phone,
+                    AvailabilityV: formData.availability,
+                    ReputationScore: 1,
+                    CategoryV: formData.category
+                },
+                ngo: {
+                    ngoName: formData.ngoName
+                }
+            };
+
+            await axios.post('/api/ngo-signup', payload);
+            setSuccess(true);
+            setTimeout(() => router.push('/'), 2000);
+
+        } catch (err) {
+            setError(err.message || 'Something went wrong. Please try again.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
-
-    await axios.post('/api/ngo-signup', payload);
-    setSuccess(true);
-    setTimeout(() => router.push('/'), 2000);
-
-  } catch (err) {
-    setError(err.message || 'Something went wrong. Please try again.');
-  } finally {
-    setIsSubmitting(false);
-  }
-};
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -186,18 +186,18 @@ export default function NgoSignup() {
                                 </label>
                                 <div className="mt-1">
                                     <input
-                                        id="name"
-                                        name="name"
+                                        id="ngoName"
+                                        name="ngoName"
                                         type="text"
                                         required
-                                        value={formData.name}
+                                        value={formData.ngoName}
                                         onChange={handleChange}
                                         className="appearance-none block w-full text-gray-700 px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                     />
                                 </div>
                             </div>
 
-                            
+
                             <div>
                                 <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
                                     Phone Number

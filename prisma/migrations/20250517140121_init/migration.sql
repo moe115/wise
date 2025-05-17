@@ -33,11 +33,11 @@ CREATE TABLE "Citizen" (
 
 -- CreateTable
 CREATE TABLE "NGO" (
-    "CitizenId" SERIAL NOT NULL,
+    "NGOId" SERIAL NOT NULL,
     "ngoName" TEXT,
     "ngovolId" INTEGER NOT NULL,
 
-    CONSTRAINT "NGO_pkey" PRIMARY KEY ("CitizenId")
+    CONSTRAINT "NGO_pkey" PRIMARY KEY ("NGOId")
 );
 
 -- CreateIndex
@@ -59,7 +59,7 @@ CREATE UNIQUE INDEX "Citizen_CitizenId_key" ON "Citizen"("CitizenId");
 CREATE UNIQUE INDEX "Citizen_citvolId_key" ON "Citizen"("citvolId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "NGO_CitizenId_key" ON "NGO"("CitizenId");
+CREATE UNIQUE INDEX "NGO_NGOId_key" ON "NGO"("NGOId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "NGO_ngovolId_key" ON "NGO"("ngovolId");
