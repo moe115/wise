@@ -106,7 +106,7 @@ export default function Home() {
         <div className={styles.addCrisisContainer}>
           <h3>Report a Crisis Event</h3>
           <p>If you are aware of a crisis event that needs attention, please report it here.</p>
-          <Link href="/add-crisis" className={styles.addCrisisButton}>
+          <Link href="/addcrisis" className={styles.addCrisisButton}>
             Report Crisis
           </Link>
         </div>

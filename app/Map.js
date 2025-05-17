@@ -1,11 +1,12 @@
+
 'use client';
 
 import React from 'react';
-import { MapContainer, TileLayer, Circle, Popup, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet';
 import L from 'leaflet';
 
 // This component needs to be in a separate file to be dynamically imported
-const Map = ({ damages, severityColors, categoryColors }) => {
+const Map = ({ crises, typeColors }) => {
   // Set up Leaflet icons once the component mounts (client-side only)
   React.useEffect(() => {
     // Fix for default Leaflet markers
@@ -32,72 +33,119 @@ const Map = ({ damages, severityColors, categoryColors }) => {
     });
   };
 
-  // Create icons object from category colors
+  // Create icons object from type colors
   const icons = {};
-  Object.keys(categoryColors).forEach(category => {
-    icons[category] = createCustomIcon(categoryColors[category]);
+  Object.keys(typeColors).forEach(type => {
+    icons[type] = createCustomIcon(typeColors[type]);
   });
 
-  // Center the map on New York City
-  const center = [40.7128, -74.0060];
+  // Default center if no crises data (New York City)
+  const defaultCenter = [40.7128, -74.0060];
   const zoom = 11;
   
+  // Process GeoJSON polygon coordinates for Leaflet
+  // GeoJSON format: [longitude, latitude]
+  // Leaflet format: [latitude, longitude]
+  const formatPolygonCoordinates = (geometry) => {
+    if (!geometry || !geometry.coordinates || !geometry.coordinates[0]) {
+      return [];
+    }
+    
+    // Handle only the exterior ring (first array in coordinates)
+    // And flip the coordinates for Leaflet
+    return geometry.coordinates[0].map(coord => [coord[1], coord[0]]);
+  };
+
+  // Calculate center point of polygon for marker placement
+  const calculateCenter = (polygon) => {
+    if (!polygon || polygon.length === 0) return defaultCenter;
+    
+    let lat = 0, lng = 0;
+    polygon.forEach(point => {
+      lat += point[0];
+      lng += point[1];
+    });
+    
+    return [lat / polygon.length, lng / polygon.length];
+  };
+  
+  // Find bounds for the map based on all polygons
+  const getBounds = () => {
+    if (!crises || crises.length === 0) {
+      return L.latLngBounds([defaultCenter, defaultCenter]);
+    }
+    
+    const allPoints = crises.flatMap(crisis => {
+      const coordinates = formatPolygonCoordinates(crisis.geometry);
+      return coordinates;
+    });
+    
+    if (allPoints.length === 0) {
+      return L.latLngBounds([defaultCenter, defaultCenter]);
+    }
+    
+    return L.latLngBounds(allPoints);
+  };
+
   return (
     <MapContainer 
-      center={center}
+      center={defaultCenter}
       zoom={zoom}
       style={{ height: "600px", width: "100%" }}
       scrollWheelZoom={true}
+      bounds={getBounds()}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       
-      {damages.map(damage => {
-        const position = damage.coordinates; // [lat, lng]
-        const icon = icons[damage.category] || icons.default;
+      {crises.map(crisis => {
+        const polygonCoordinates = formatPolygonCoordinates(crisis.geometry);
+        const center = calculateCenter(polygonCoordinates);
+        const icon = icons[crisis.type] || icons.default;
         
         return (
-          <React.Fragment key={damage.damage_id}>
-            {/* Damage area circle */}
-            <Circle 
-              center={position}
-              radius={damage.radius}
-              pathOptions={{
-                fillColor: severityColors[damage.severity] || '#7f8c8d',
-                fillOpacity: 0.3,
-                color: severityColors[damage.severity] || '#7f8c8d',
-                weight: 1
-              }}
-            >
-              <Popup>
-                <div>
-                  <h3 className="font-bold">{damage.category}</h3>
-                  <p><strong>Location:</strong> {damage.location_name}</p>
-                  <p><strong>Severity:</strong> {damage.severity}</p>
-                  {damage.quantity && <p><strong>Quantity:</strong> {damage.quantity}</p>}
-                  {damage.financial_estimate && (
-                    <p><strong>Est. Financial Impact:</strong> ${damage.financial_estimate.toLocaleString()}</p>
-                  )}
-                  <div className="mt-2">
-                    <button className="bg-blue-500 text-white px-2 py-1 rounded text-sm mr-2">
-                      View Details
-                    </button>
-                    <button className="bg-green-500 text-white px-2 py-1 rounded text-sm">
-                      Offer Help
-                    </button>
+          <React.Fragment key={crisis.id}>
+            {/* Crisis area polygon */}
+            {polygonCoordinates.length > 0 && (
+              <Polygon 
+                positions={polygonCoordinates}
+                pathOptions={{
+                  fillColor: typeColors[crisis.type] || typeColors.default,
+                  fillOpacity: 0.3,
+                  color: typeColors[crisis.type] || typeColors.default,
+                  weight: 2
+                }}
+              >
+                <Popup>
+                  <div>
+                    <h3 className="font-bold">{crisis.name}</h3>
+                    <p>{crisis.description}</p>
+                    <p><strong>Type:</strong> {crisis.type}</p>
+                    <p><strong>Country:</strong> {crisis.country}</p>
+                    {crisis.startDate && (
+                      <p><strong>Start:</strong> {new Date(crisis.startDate).toLocaleDateString()}</p>
+                    )}
+                    <div className="mt-2">
+                      <button className="bg-blue-500 text-white px-2 py-1 rounded text-sm mr-2">
+                        View Details
+                      </button>
+                      <button className="bg-green-500 text-white px-2 py-1 rounded text-sm">
+                        Manage Crisis
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </Popup>
-            </Circle>
+                </Popup>
+              </Polygon>
+            )}
             
             {/* Center marker */}
-            <Marker position={position} icon={icon}>
+            <Marker position={center} icon={icon}>
               <Popup>
                 <div>
-                  <h3 className="font-bold">{damage.category}</h3>
-                  <p>{damage.location_name}</p>
+                  <h3 className="font-bold">{crisis.name}</h3>
+                  <p>{crisis.description}</p>
                 </div>
               </Popup>
             </Marker>

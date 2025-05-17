@@ -16,7 +16,7 @@ function CrisisReportForm() {
   const [name, setName] = useState('');
   const [dateStart, setDateStart] = useState('');
   const [description, setDescription] = useState('');
-  const [city, setCity] = useState('');
+  const [country, setCountry] = useState('');
   const [crisisType, setCrisisType] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -59,7 +59,7 @@ function CrisisReportForm() {
     };
 
     setPosition(newPosition);
-    setCity(result.display_name.split(',')[0]); // Set city to first part of display name
+    setCountry(result.display_name.split(',')[0]); // Set country to first part of display name
     setSearchResults([]); // Clear search results
     setSearchQuery(''); // Clear search query
   };
@@ -76,7 +76,7 @@ function CrisisReportForm() {
         CrisisDesc: description,
         CrisisStart: new Date(dateStart),
         CrisisEnd: null,
-        CrisisCountry: city,
+        CrisisCountry: country,
         TypeC: crisisType
       })
     });
@@ -130,12 +130,12 @@ function CrisisReportForm() {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="city">City:</label>
+          <label htmlFor="country">country:</label>
           <input
             type="text"
-            id="city"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
+            id="country"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
             required
           />
         </div>
