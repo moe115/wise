@@ -1,16 +1,16 @@
 'use client';
 
- import Head from 'next/head';
+import Head from 'next/head';
 import Link from 'next/link';
 import styles from './Home.module.css'; // Assuming you'll create this CSS module
 import { useEffect, useState } from 'react';
 import { auth } from '/lib/firebase'; // adjust path based on your folder structure
-import { onAuthStateChanged , signOut} from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 
 export default function Home() {
 
-    const [userEmail, setUserEmail] = useState(null);
-    const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -24,7 +24,7 @@ export default function Home() {
     return () => unsubscribe();
   }, []);
 
-    const handleSignOut = async () => {
+  const handleSignOut = async () => {
     await signOut(auth);
     setUserEmail(null);
     setDropdownOpen(false);
@@ -38,7 +38,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" /> {/* Replace with your favicon */}
       </Head>
 
-   
+
       <nav className={styles.navbar}>
         <div className={styles.logo}>WISE</div>
         <ul className={styles.navList}>
@@ -72,8 +72,8 @@ export default function Home() {
               <li>
                 <div className={styles.dropdown}>  <Link href="/login">
                   <button className={styles.dropbtn}>LogIn</button>
-                    </Link>     
-                                 </div>
+                </Link>
+                </div>
               </li>
             </>
           )}
@@ -87,7 +87,7 @@ export default function Home() {
             <p className={styles.heroSubtitle}>Connecting NGOs, individuals, and vital resources during critical times.</p>
           </div>
           <div className={styles.heroImage}>
-             <img src="https://www.communitiesprepared.org.uk/wp-content/uploads/2024/05/together-brc-mobile.webp" alt="People helping each other" />
+            <img src="https://www.communitiesprepared.org.uk/wp-content/uploads/2024/05/together-brc-mobile.webp" alt="People helping each other" />
           </div>
         </section>
 
@@ -106,7 +106,7 @@ export default function Home() {
         <div className={styles.addCrisisContainer}>
           <h3>Report a Crisis Event</h3>
           <p>If you are aware of a crisis event that needs attention, please report it here.</p>
-          <Link href="/add" className={styles.addCrisisButton}>
+          <Link href="/add-crisis" className={styles.addCrisisButton}>
             Report Crisis
           </Link>
         </div>

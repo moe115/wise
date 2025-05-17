@@ -24,15 +24,20 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type Volunteer = $Result.DefaultSelection<Prisma.$VolunteerPayload>
 /**
- * Model Citizen
- * 
- */
-export type Citizen = $Result.DefaultSelection<Prisma.$CitizenPayload>
-/**
  * Model NGO
  * 
  */
 export type NGO = $Result.DefaultSelection<Prisma.$NGOPayload>
+/**
+ * Model Crisis
+ * 
+ */
+export type Crisis = $Result.DefaultSelection<Prisma.$CrisisPayload>
+/**
+ * Model spatial_ref_sys
+ * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ */
+export type spatial_ref_sys = $Result.DefaultSelection<Prisma.$spatial_ref_sysPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -180,16 +185,6 @@ export class PrismaClient<
   get volunteer(): Prisma.VolunteerDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.citizen`: Exposes CRUD operations for the **Citizen** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Citizens
-    * const citizens = await prisma.citizen.findMany()
-    * ```
-    */
-  get citizen(): Prisma.CitizenDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.nGO`: Exposes CRUD operations for the **NGO** model.
     * Example usage:
     * ```ts
@@ -198,6 +193,26 @@ export class PrismaClient<
     * ```
     */
   get nGO(): Prisma.NGODelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.crisis`: Exposes CRUD operations for the **Crisis** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Crises
+    * const crises = await prisma.crisis.findMany()
+    * ```
+    */
+  get crisis(): Prisma.CrisisDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.spatial_ref_sys`: Exposes CRUD operations for the **spatial_ref_sys** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Spatial_ref_sys
+    * const spatial_ref_sys = await prisma.spatial_ref_sys.findMany()
+    * ```
+    */
+  get spatial_ref_sys(): Prisma.spatial_ref_sysDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -640,8 +655,9 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Volunteer: 'Volunteer',
-    Citizen: 'Citizen',
-    NGO: 'NGO'
+    NGO: 'NGO',
+    Crisis: 'Crisis',
+    spatial_ref_sys: 'spatial_ref_sys'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -660,7 +676,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "volunteer" | "citizen" | "nGO"
+      modelProps: "user" | "volunteer" | "nGO" | "crisis" | "spatial_ref_sys"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -812,80 +828,6 @@ export namespace Prisma {
           }
         }
       }
-      Citizen: {
-        payload: Prisma.$CitizenPayload<ExtArgs>
-        fields: Prisma.CitizenFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.CitizenFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CitizenPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.CitizenFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CitizenPayload>
-          }
-          findFirst: {
-            args: Prisma.CitizenFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CitizenPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.CitizenFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CitizenPayload>
-          }
-          findMany: {
-            args: Prisma.CitizenFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CitizenPayload>[]
-          }
-          create: {
-            args: Prisma.CitizenCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CitizenPayload>
-          }
-          createMany: {
-            args: Prisma.CitizenCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.CitizenCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CitizenPayload>[]
-          }
-          delete: {
-            args: Prisma.CitizenDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CitizenPayload>
-          }
-          update: {
-            args: Prisma.CitizenUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CitizenPayload>
-          }
-          deleteMany: {
-            args: Prisma.CitizenDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.CitizenUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.CitizenUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CitizenPayload>[]
-          }
-          upsert: {
-            args: Prisma.CitizenUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CitizenPayload>
-          }
-          aggregate: {
-            args: Prisma.CitizenAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateCitizen>
-          }
-          groupBy: {
-            args: Prisma.CitizenGroupByArgs<ExtArgs>
-            result: $Utils.Optional<CitizenGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.CitizenCountArgs<ExtArgs>
-            result: $Utils.Optional<CitizenCountAggregateOutputType> | number
-          }
-        }
-      }
       NGO: {
         payload: Prisma.$NGOPayload<ExtArgs>
         fields: Prisma.NGOFieldRefs
@@ -957,6 +899,154 @@ export namespace Prisma {
           count: {
             args: Prisma.NGOCountArgs<ExtArgs>
             result: $Utils.Optional<NGOCountAggregateOutputType> | number
+          }
+        }
+      }
+      Crisis: {
+        payload: Prisma.$CrisisPayload<ExtArgs>
+        fields: Prisma.CrisisFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CrisisFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CrisisPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CrisisFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CrisisPayload>
+          }
+          findFirst: {
+            args: Prisma.CrisisFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CrisisPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CrisisFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CrisisPayload>
+          }
+          findMany: {
+            args: Prisma.CrisisFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CrisisPayload>[]
+          }
+          create: {
+            args: Prisma.CrisisCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CrisisPayload>
+          }
+          createMany: {
+            args: Prisma.CrisisCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CrisisCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CrisisPayload>[]
+          }
+          delete: {
+            args: Prisma.CrisisDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CrisisPayload>
+          }
+          update: {
+            args: Prisma.CrisisUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CrisisPayload>
+          }
+          deleteMany: {
+            args: Prisma.CrisisDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CrisisUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CrisisUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CrisisPayload>[]
+          }
+          upsert: {
+            args: Prisma.CrisisUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CrisisPayload>
+          }
+          aggregate: {
+            args: Prisma.CrisisAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCrisis>
+          }
+          groupBy: {
+            args: Prisma.CrisisGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CrisisGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CrisisCountArgs<ExtArgs>
+            result: $Utils.Optional<CrisisCountAggregateOutputType> | number
+          }
+        }
+      }
+      spatial_ref_sys: {
+        payload: Prisma.$spatial_ref_sysPayload<ExtArgs>
+        fields: Prisma.spatial_ref_sysFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.spatial_ref_sysFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.spatial_ref_sysFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload>
+          }
+          findFirst: {
+            args: Prisma.spatial_ref_sysFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.spatial_ref_sysFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload>
+          }
+          findMany: {
+            args: Prisma.spatial_ref_sysFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload>[]
+          }
+          create: {
+            args: Prisma.spatial_ref_sysCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload>
+          }
+          createMany: {
+            args: Prisma.spatial_ref_sysCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.spatial_ref_sysCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload>[]
+          }
+          delete: {
+            args: Prisma.spatial_ref_sysDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload>
+          }
+          update: {
+            args: Prisma.spatial_ref_sysUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload>
+          }
+          deleteMany: {
+            args: Prisma.spatial_ref_sysDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.spatial_ref_sysUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.spatial_ref_sysUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload>[]
+          }
+          upsert: {
+            args: Prisma.spatial_ref_sysUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload>
+          }
+          aggregate: {
+            args: Prisma.Spatial_ref_sysAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSpatial_ref_sys>
+          }
+          groupBy: {
+            args: Prisma.spatial_ref_sysGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Spatial_ref_sysGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.spatial_ref_sysCountArgs<ExtArgs>
+            result: $Utils.Optional<Spatial_ref_sysCountAggregateOutputType> | number
           }
         }
       }
@@ -1046,8 +1136,9 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     volunteer?: VolunteerOmit
-    citizen?: CitizenOmit
     nGO?: NGOOmit
+    crisis?: CrisisOmit
+    spatial_ref_sys?: spatial_ref_sysOmit
   }
 
   /* Types for Logging */
@@ -2448,9 +2539,8 @@ export namespace Prisma {
     ReputationScore?: boolean
     CategoryV?: boolean
     userId?: boolean
-    USER?: boolean | UserDefaultArgs<ExtArgs>
-    citizen?: boolean | Volunteer$citizenArgs<ExtArgs>
     ngo?: boolean | Volunteer$ngoArgs<ExtArgs>
+    USER?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["volunteer"]>
 
   export type VolunteerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2487,9 +2577,8 @@ export namespace Prisma {
 
   export type VolunteerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"volId" | "typeV" | "phone" | "AvailabilityV" | "ReputationScore" | "CategoryV" | "userId", ExtArgs["result"]["volunteer"]>
   export type VolunteerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    USER?: boolean | UserDefaultArgs<ExtArgs>
-    citizen?: boolean | Volunteer$citizenArgs<ExtArgs>
     ngo?: boolean | Volunteer$ngoArgs<ExtArgs>
+    USER?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type VolunteerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     USER?: boolean | UserDefaultArgs<ExtArgs>
@@ -2501,9 +2590,8 @@ export namespace Prisma {
   export type $VolunteerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Volunteer"
     objects: {
-      USER: Prisma.$UserPayload<ExtArgs>
-      citizen: Prisma.$CitizenPayload<ExtArgs> | null
       ngo: Prisma.$NGOPayload<ExtArgs> | null
+      USER: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       volId: number
@@ -2907,9 +2995,8 @@ export namespace Prisma {
    */
   export interface Prisma__VolunteerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    USER<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    citizen<T extends Volunteer$citizenArgs<ExtArgs> = {}>(args?: Subset<T, Volunteer$citizenArgs<ExtArgs>>): Prisma__CitizenClient<$Result.GetResult<Prisma.$CitizenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ngo<T extends Volunteer$ngoArgs<ExtArgs> = {}>(args?: Subset<T, Volunteer$ngoArgs<ExtArgs>>): Prisma__NGOClient<$Result.GetResult<Prisma.$NGOPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    USER<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3342,25 +3429,6 @@ export namespace Prisma {
   }
 
   /**
-   * Volunteer.citizen
-   */
-  export type Volunteer$citizenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Citizen
-     */
-    select?: CitizenSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Citizen
-     */
-    omit?: CitizenOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CitizenInclude<ExtArgs> | null
-    where?: CitizenWhereInput
-  }
-
-  /**
    * Volunteer.ngo
    */
   export type Volunteer$ngoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3395,1089 +3463,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: VolunteerInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Citizen
-   */
-
-  export type AggregateCitizen = {
-    _count: CitizenCountAggregateOutputType | null
-    _avg: CitizenAvgAggregateOutputType | null
-    _sum: CitizenSumAggregateOutputType | null
-    _min: CitizenMinAggregateOutputType | null
-    _max: CitizenMaxAggregateOutputType | null
-  }
-
-  export type CitizenAvgAggregateOutputType = {
-    CitizenId: number | null
-    citvolId: number | null
-  }
-
-  export type CitizenSumAggregateOutputType = {
-    CitizenId: number | null
-    citvolId: number | null
-  }
-
-  export type CitizenMinAggregateOutputType = {
-    CitizenId: number | null
-    firstname: string | null
-    lastname: string | null
-    citvolId: number | null
-  }
-
-  export type CitizenMaxAggregateOutputType = {
-    CitizenId: number | null
-    firstname: string | null
-    lastname: string | null
-    citvolId: number | null
-  }
-
-  export type CitizenCountAggregateOutputType = {
-    CitizenId: number
-    firstname: number
-    lastname: number
-    citvolId: number
-    _all: number
-  }
-
-
-  export type CitizenAvgAggregateInputType = {
-    CitizenId?: true
-    citvolId?: true
-  }
-
-  export type CitizenSumAggregateInputType = {
-    CitizenId?: true
-    citvolId?: true
-  }
-
-  export type CitizenMinAggregateInputType = {
-    CitizenId?: true
-    firstname?: true
-    lastname?: true
-    citvolId?: true
-  }
-
-  export type CitizenMaxAggregateInputType = {
-    CitizenId?: true
-    firstname?: true
-    lastname?: true
-    citvolId?: true
-  }
-
-  export type CitizenCountAggregateInputType = {
-    CitizenId?: true
-    firstname?: true
-    lastname?: true
-    citvolId?: true
-    _all?: true
-  }
-
-  export type CitizenAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Citizen to aggregate.
-     */
-    where?: CitizenWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Citizens to fetch.
-     */
-    orderBy?: CitizenOrderByWithRelationInput | CitizenOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: CitizenWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Citizens from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Citizens.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Citizens
-    **/
-    _count?: true | CitizenCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: CitizenAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: CitizenSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: CitizenMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: CitizenMaxAggregateInputType
-  }
-
-  export type GetCitizenAggregateType<T extends CitizenAggregateArgs> = {
-        [P in keyof T & keyof AggregateCitizen]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateCitizen[P]>
-      : GetScalarType<T[P], AggregateCitizen[P]>
-  }
-
-
-
-
-  export type CitizenGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CitizenWhereInput
-    orderBy?: CitizenOrderByWithAggregationInput | CitizenOrderByWithAggregationInput[]
-    by: CitizenScalarFieldEnum[] | CitizenScalarFieldEnum
-    having?: CitizenScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: CitizenCountAggregateInputType | true
-    _avg?: CitizenAvgAggregateInputType
-    _sum?: CitizenSumAggregateInputType
-    _min?: CitizenMinAggregateInputType
-    _max?: CitizenMaxAggregateInputType
-  }
-
-  export type CitizenGroupByOutputType = {
-    CitizenId: number
-    firstname: string | null
-    lastname: string | null
-    citvolId: number
-    _count: CitizenCountAggregateOutputType | null
-    _avg: CitizenAvgAggregateOutputType | null
-    _sum: CitizenSumAggregateOutputType | null
-    _min: CitizenMinAggregateOutputType | null
-    _max: CitizenMaxAggregateOutputType | null
-  }
-
-  type GetCitizenGroupByPayload<T extends CitizenGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<CitizenGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof CitizenGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], CitizenGroupByOutputType[P]>
-            : GetScalarType<T[P], CitizenGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type CitizenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    CitizenId?: boolean
-    firstname?: boolean
-    lastname?: boolean
-    citvolId?: boolean
-    VOL?: boolean | VolunteerDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["citizen"]>
-
-  export type CitizenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    CitizenId?: boolean
-    firstname?: boolean
-    lastname?: boolean
-    citvolId?: boolean
-    VOL?: boolean | VolunteerDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["citizen"]>
-
-  export type CitizenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    CitizenId?: boolean
-    firstname?: boolean
-    lastname?: boolean
-    citvolId?: boolean
-    VOL?: boolean | VolunteerDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["citizen"]>
-
-  export type CitizenSelectScalar = {
-    CitizenId?: boolean
-    firstname?: boolean
-    lastname?: boolean
-    citvolId?: boolean
-  }
-
-  export type CitizenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"CitizenId" | "firstname" | "lastname" | "citvolId", ExtArgs["result"]["citizen"]>
-  export type CitizenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    VOL?: boolean | VolunteerDefaultArgs<ExtArgs>
-  }
-  export type CitizenIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    VOL?: boolean | VolunteerDefaultArgs<ExtArgs>
-  }
-  export type CitizenIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    VOL?: boolean | VolunteerDefaultArgs<ExtArgs>
-  }
-
-  export type $CitizenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Citizen"
-    objects: {
-      VOL: Prisma.$VolunteerPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      CitizenId: number
-      firstname: string | null
-      lastname: string | null
-      citvolId: number
-    }, ExtArgs["result"]["citizen"]>
-    composites: {}
-  }
-
-  type CitizenGetPayload<S extends boolean | null | undefined | CitizenDefaultArgs> = $Result.GetResult<Prisma.$CitizenPayload, S>
-
-  type CitizenCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<CitizenFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: CitizenCountAggregateInputType | true
-    }
-
-  export interface CitizenDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Citizen'], meta: { name: 'Citizen' } }
-    /**
-     * Find zero or one Citizen that matches the filter.
-     * @param {CitizenFindUniqueArgs} args - Arguments to find a Citizen
-     * @example
-     * // Get one Citizen
-     * const citizen = await prisma.citizen.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends CitizenFindUniqueArgs>(args: SelectSubset<T, CitizenFindUniqueArgs<ExtArgs>>): Prisma__CitizenClient<$Result.GetResult<Prisma.$CitizenPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Citizen that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {CitizenFindUniqueOrThrowArgs} args - Arguments to find a Citizen
-     * @example
-     * // Get one Citizen
-     * const citizen = await prisma.citizen.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends CitizenFindUniqueOrThrowArgs>(args: SelectSubset<T, CitizenFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CitizenClient<$Result.GetResult<Prisma.$CitizenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Citizen that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CitizenFindFirstArgs} args - Arguments to find a Citizen
-     * @example
-     * // Get one Citizen
-     * const citizen = await prisma.citizen.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends CitizenFindFirstArgs>(args?: SelectSubset<T, CitizenFindFirstArgs<ExtArgs>>): Prisma__CitizenClient<$Result.GetResult<Prisma.$CitizenPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Citizen that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CitizenFindFirstOrThrowArgs} args - Arguments to find a Citizen
-     * @example
-     * // Get one Citizen
-     * const citizen = await prisma.citizen.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends CitizenFindFirstOrThrowArgs>(args?: SelectSubset<T, CitizenFindFirstOrThrowArgs<ExtArgs>>): Prisma__CitizenClient<$Result.GetResult<Prisma.$CitizenPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Citizens that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CitizenFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Citizens
-     * const citizens = await prisma.citizen.findMany()
-     * 
-     * // Get first 10 Citizens
-     * const citizens = await prisma.citizen.findMany({ take: 10 })
-     * 
-     * // Only select the `CitizenId`
-     * const citizenWithCitizenIdOnly = await prisma.citizen.findMany({ select: { CitizenId: true } })
-     * 
-     */
-    findMany<T extends CitizenFindManyArgs>(args?: SelectSubset<T, CitizenFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CitizenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Citizen.
-     * @param {CitizenCreateArgs} args - Arguments to create a Citizen.
-     * @example
-     * // Create one Citizen
-     * const Citizen = await prisma.citizen.create({
-     *   data: {
-     *     // ... data to create a Citizen
-     *   }
-     * })
-     * 
-     */
-    create<T extends CitizenCreateArgs>(args: SelectSubset<T, CitizenCreateArgs<ExtArgs>>): Prisma__CitizenClient<$Result.GetResult<Prisma.$CitizenPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Citizens.
-     * @param {CitizenCreateManyArgs} args - Arguments to create many Citizens.
-     * @example
-     * // Create many Citizens
-     * const citizen = await prisma.citizen.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends CitizenCreateManyArgs>(args?: SelectSubset<T, CitizenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Citizens and returns the data saved in the database.
-     * @param {CitizenCreateManyAndReturnArgs} args - Arguments to create many Citizens.
-     * @example
-     * // Create many Citizens
-     * const citizen = await prisma.citizen.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Citizens and only return the `CitizenId`
-     * const citizenWithCitizenIdOnly = await prisma.citizen.createManyAndReturn({
-     *   select: { CitizenId: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends CitizenCreateManyAndReturnArgs>(args?: SelectSubset<T, CitizenCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CitizenPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Citizen.
-     * @param {CitizenDeleteArgs} args - Arguments to delete one Citizen.
-     * @example
-     * // Delete one Citizen
-     * const Citizen = await prisma.citizen.delete({
-     *   where: {
-     *     // ... filter to delete one Citizen
-     *   }
-     * })
-     * 
-     */
-    delete<T extends CitizenDeleteArgs>(args: SelectSubset<T, CitizenDeleteArgs<ExtArgs>>): Prisma__CitizenClient<$Result.GetResult<Prisma.$CitizenPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Citizen.
-     * @param {CitizenUpdateArgs} args - Arguments to update one Citizen.
-     * @example
-     * // Update one Citizen
-     * const citizen = await prisma.citizen.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends CitizenUpdateArgs>(args: SelectSubset<T, CitizenUpdateArgs<ExtArgs>>): Prisma__CitizenClient<$Result.GetResult<Prisma.$CitizenPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Citizens.
-     * @param {CitizenDeleteManyArgs} args - Arguments to filter Citizens to delete.
-     * @example
-     * // Delete a few Citizens
-     * const { count } = await prisma.citizen.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends CitizenDeleteManyArgs>(args?: SelectSubset<T, CitizenDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Citizens.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CitizenUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Citizens
-     * const citizen = await prisma.citizen.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends CitizenUpdateManyArgs>(args: SelectSubset<T, CitizenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Citizens and returns the data updated in the database.
-     * @param {CitizenUpdateManyAndReturnArgs} args - Arguments to update many Citizens.
-     * @example
-     * // Update many Citizens
-     * const citizen = await prisma.citizen.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Citizens and only return the `CitizenId`
-     * const citizenWithCitizenIdOnly = await prisma.citizen.updateManyAndReturn({
-     *   select: { CitizenId: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends CitizenUpdateManyAndReturnArgs>(args: SelectSubset<T, CitizenUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CitizenPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Citizen.
-     * @param {CitizenUpsertArgs} args - Arguments to update or create a Citizen.
-     * @example
-     * // Update or create a Citizen
-     * const citizen = await prisma.citizen.upsert({
-     *   create: {
-     *     // ... data to create a Citizen
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Citizen we want to update
-     *   }
-     * })
-     */
-    upsert<T extends CitizenUpsertArgs>(args: SelectSubset<T, CitizenUpsertArgs<ExtArgs>>): Prisma__CitizenClient<$Result.GetResult<Prisma.$CitizenPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Citizens.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CitizenCountArgs} args - Arguments to filter Citizens to count.
-     * @example
-     * // Count the number of Citizens
-     * const count = await prisma.citizen.count({
-     *   where: {
-     *     // ... the filter for the Citizens we want to count
-     *   }
-     * })
-    **/
-    count<T extends CitizenCountArgs>(
-      args?: Subset<T, CitizenCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], CitizenCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Citizen.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CitizenAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends CitizenAggregateArgs>(args: Subset<T, CitizenAggregateArgs>): Prisma.PrismaPromise<GetCitizenAggregateType<T>>
-
-    /**
-     * Group by Citizen.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CitizenGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends CitizenGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: CitizenGroupByArgs['orderBy'] }
-        : { orderBy?: CitizenGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, CitizenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCitizenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Citizen model
-   */
-  readonly fields: CitizenFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Citizen.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__CitizenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    VOL<T extends VolunteerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VolunteerDefaultArgs<ExtArgs>>): Prisma__VolunteerClient<$Result.GetResult<Prisma.$VolunteerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Citizen model
-   */
-  interface CitizenFieldRefs {
-    readonly CitizenId: FieldRef<"Citizen", 'Int'>
-    readonly firstname: FieldRef<"Citizen", 'String'>
-    readonly lastname: FieldRef<"Citizen", 'String'>
-    readonly citvolId: FieldRef<"Citizen", 'Int'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Citizen findUnique
-   */
-  export type CitizenFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Citizen
-     */
-    select?: CitizenSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Citizen
-     */
-    omit?: CitizenOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CitizenInclude<ExtArgs> | null
-    /**
-     * Filter, which Citizen to fetch.
-     */
-    where: CitizenWhereUniqueInput
-  }
-
-  /**
-   * Citizen findUniqueOrThrow
-   */
-  export type CitizenFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Citizen
-     */
-    select?: CitizenSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Citizen
-     */
-    omit?: CitizenOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CitizenInclude<ExtArgs> | null
-    /**
-     * Filter, which Citizen to fetch.
-     */
-    where: CitizenWhereUniqueInput
-  }
-
-  /**
-   * Citizen findFirst
-   */
-  export type CitizenFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Citizen
-     */
-    select?: CitizenSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Citizen
-     */
-    omit?: CitizenOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CitizenInclude<ExtArgs> | null
-    /**
-     * Filter, which Citizen to fetch.
-     */
-    where?: CitizenWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Citizens to fetch.
-     */
-    orderBy?: CitizenOrderByWithRelationInput | CitizenOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Citizens.
-     */
-    cursor?: CitizenWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Citizens from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Citizens.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Citizens.
-     */
-    distinct?: CitizenScalarFieldEnum | CitizenScalarFieldEnum[]
-  }
-
-  /**
-   * Citizen findFirstOrThrow
-   */
-  export type CitizenFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Citizen
-     */
-    select?: CitizenSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Citizen
-     */
-    omit?: CitizenOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CitizenInclude<ExtArgs> | null
-    /**
-     * Filter, which Citizen to fetch.
-     */
-    where?: CitizenWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Citizens to fetch.
-     */
-    orderBy?: CitizenOrderByWithRelationInput | CitizenOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Citizens.
-     */
-    cursor?: CitizenWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Citizens from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Citizens.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Citizens.
-     */
-    distinct?: CitizenScalarFieldEnum | CitizenScalarFieldEnum[]
-  }
-
-  /**
-   * Citizen findMany
-   */
-  export type CitizenFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Citizen
-     */
-    select?: CitizenSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Citizen
-     */
-    omit?: CitizenOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CitizenInclude<ExtArgs> | null
-    /**
-     * Filter, which Citizens to fetch.
-     */
-    where?: CitizenWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Citizens to fetch.
-     */
-    orderBy?: CitizenOrderByWithRelationInput | CitizenOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Citizens.
-     */
-    cursor?: CitizenWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Citizens from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Citizens.
-     */
-    skip?: number
-    distinct?: CitizenScalarFieldEnum | CitizenScalarFieldEnum[]
-  }
-
-  /**
-   * Citizen create
-   */
-  export type CitizenCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Citizen
-     */
-    select?: CitizenSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Citizen
-     */
-    omit?: CitizenOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CitizenInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Citizen.
-     */
-    data: XOR<CitizenCreateInput, CitizenUncheckedCreateInput>
-  }
-
-  /**
-   * Citizen createMany
-   */
-  export type CitizenCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Citizens.
-     */
-    data: CitizenCreateManyInput | CitizenCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Citizen createManyAndReturn
-   */
-  export type CitizenCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Citizen
-     */
-    select?: CitizenSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Citizen
-     */
-    omit?: CitizenOmit<ExtArgs> | null
-    /**
-     * The data used to create many Citizens.
-     */
-    data: CitizenCreateManyInput | CitizenCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CitizenIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Citizen update
-   */
-  export type CitizenUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Citizen
-     */
-    select?: CitizenSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Citizen
-     */
-    omit?: CitizenOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CitizenInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Citizen.
-     */
-    data: XOR<CitizenUpdateInput, CitizenUncheckedUpdateInput>
-    /**
-     * Choose, which Citizen to update.
-     */
-    where: CitizenWhereUniqueInput
-  }
-
-  /**
-   * Citizen updateMany
-   */
-  export type CitizenUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Citizens.
-     */
-    data: XOR<CitizenUpdateManyMutationInput, CitizenUncheckedUpdateManyInput>
-    /**
-     * Filter which Citizens to update
-     */
-    where?: CitizenWhereInput
-    /**
-     * Limit how many Citizens to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Citizen updateManyAndReturn
-   */
-  export type CitizenUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Citizen
-     */
-    select?: CitizenSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Citizen
-     */
-    omit?: CitizenOmit<ExtArgs> | null
-    /**
-     * The data used to update Citizens.
-     */
-    data: XOR<CitizenUpdateManyMutationInput, CitizenUncheckedUpdateManyInput>
-    /**
-     * Filter which Citizens to update
-     */
-    where?: CitizenWhereInput
-    /**
-     * Limit how many Citizens to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CitizenIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Citizen upsert
-   */
-  export type CitizenUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Citizen
-     */
-    select?: CitizenSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Citizen
-     */
-    omit?: CitizenOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CitizenInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Citizen to update in case it exists.
-     */
-    where: CitizenWhereUniqueInput
-    /**
-     * In case the Citizen found by the `where` argument doesn't exist, create a new Citizen with this data.
-     */
-    create: XOR<CitizenCreateInput, CitizenUncheckedCreateInput>
-    /**
-     * In case the Citizen was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<CitizenUpdateInput, CitizenUncheckedUpdateInput>
-  }
-
-  /**
-   * Citizen delete
-   */
-  export type CitizenDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Citizen
-     */
-    select?: CitizenSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Citizen
-     */
-    omit?: CitizenOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CitizenInclude<ExtArgs> | null
-    /**
-     * Filter which Citizen to delete.
-     */
-    where: CitizenWhereUniqueInput
-  }
-
-  /**
-   * Citizen deleteMany
-   */
-  export type CitizenDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Citizens to delete
-     */
-    where?: CitizenWhereInput
-    /**
-     * Limit how many Citizens to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Citizen without action
-   */
-  export type CitizenDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Citizen
-     */
-    select?: CitizenSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Citizen
-     */
-    omit?: CitizenOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CitizenInclude<ExtArgs> | null
   }
 
 
@@ -5552,6 +4537,2094 @@ export namespace Prisma {
 
 
   /**
+   * Model Crisis
+   */
+
+  export type AggregateCrisis = {
+    _count: CrisisCountAggregateOutputType | null
+    _avg: CrisisAvgAggregateOutputType | null
+    _sum: CrisisSumAggregateOutputType | null
+    _min: CrisisMinAggregateOutputType | null
+    _max: CrisisMaxAggregateOutputType | null
+  }
+
+  export type CrisisAvgAggregateOutputType = {
+    CrisisId: number | null
+  }
+
+  export type CrisisSumAggregateOutputType = {
+    CrisisId: number | null
+  }
+
+  export type CrisisMinAggregateOutputType = {
+    CrisisId: number | null
+    Crisisname: string | null
+    CrisisDesc: string | null
+    CrisisStart: Date | null
+    CrisisEnd: Date | null
+    CrisisCountry: string | null
+    TypeC: string | null
+  }
+
+  export type CrisisMaxAggregateOutputType = {
+    CrisisId: number | null
+    Crisisname: string | null
+    CrisisDesc: string | null
+    CrisisStart: Date | null
+    CrisisEnd: Date | null
+    CrisisCountry: string | null
+    TypeC: string | null
+  }
+
+  export type CrisisCountAggregateOutputType = {
+    CrisisId: number
+    Crisisname: number
+    CrisisDesc: number
+    CrisisStart: number
+    CrisisEnd: number
+    CrisisCountry: number
+    TypeC: number
+    _all: number
+  }
+
+
+  export type CrisisAvgAggregateInputType = {
+    CrisisId?: true
+  }
+
+  export type CrisisSumAggregateInputType = {
+    CrisisId?: true
+  }
+
+  export type CrisisMinAggregateInputType = {
+    CrisisId?: true
+    Crisisname?: true
+    CrisisDesc?: true
+    CrisisStart?: true
+    CrisisEnd?: true
+    CrisisCountry?: true
+    TypeC?: true
+  }
+
+  export type CrisisMaxAggregateInputType = {
+    CrisisId?: true
+    Crisisname?: true
+    CrisisDesc?: true
+    CrisisStart?: true
+    CrisisEnd?: true
+    CrisisCountry?: true
+    TypeC?: true
+  }
+
+  export type CrisisCountAggregateInputType = {
+    CrisisId?: true
+    Crisisname?: true
+    CrisisDesc?: true
+    CrisisStart?: true
+    CrisisEnd?: true
+    CrisisCountry?: true
+    TypeC?: true
+    _all?: true
+  }
+
+  export type CrisisAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Crisis to aggregate.
+     */
+    where?: CrisisWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Crises to fetch.
+     */
+    orderBy?: CrisisOrderByWithRelationInput | CrisisOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CrisisWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Crises from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Crises.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Crises
+    **/
+    _count?: true | CrisisCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CrisisAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CrisisSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CrisisMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CrisisMaxAggregateInputType
+  }
+
+  export type GetCrisisAggregateType<T extends CrisisAggregateArgs> = {
+        [P in keyof T & keyof AggregateCrisis]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCrisis[P]>
+      : GetScalarType<T[P], AggregateCrisis[P]>
+  }
+
+
+
+
+  export type CrisisGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CrisisWhereInput
+    orderBy?: CrisisOrderByWithAggregationInput | CrisisOrderByWithAggregationInput[]
+    by: CrisisScalarFieldEnum[] | CrisisScalarFieldEnum
+    having?: CrisisScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CrisisCountAggregateInputType | true
+    _avg?: CrisisAvgAggregateInputType
+    _sum?: CrisisSumAggregateInputType
+    _min?: CrisisMinAggregateInputType
+    _max?: CrisisMaxAggregateInputType
+  }
+
+  export type CrisisGroupByOutputType = {
+    CrisisId: number
+    Crisisname: string
+    CrisisDesc: string
+    CrisisStart: Date | null
+    CrisisEnd: Date | null
+    CrisisCountry: string | null
+    TypeC: string | null
+    _count: CrisisCountAggregateOutputType | null
+    _avg: CrisisAvgAggregateOutputType | null
+    _sum: CrisisSumAggregateOutputType | null
+    _min: CrisisMinAggregateOutputType | null
+    _max: CrisisMaxAggregateOutputType | null
+  }
+
+  type GetCrisisGroupByPayload<T extends CrisisGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CrisisGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CrisisGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CrisisGroupByOutputType[P]>
+            : GetScalarType<T[P], CrisisGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CrisisSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    CrisisId?: boolean
+    Crisisname?: boolean
+    CrisisDesc?: boolean
+    CrisisStart?: boolean
+    CrisisEnd?: boolean
+    CrisisCountry?: boolean
+    TypeC?: boolean
+  }, ExtArgs["result"]["crisis"]>
+
+  export type CrisisSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    CrisisId?: boolean
+    Crisisname?: boolean
+    CrisisDesc?: boolean
+    CrisisStart?: boolean
+    CrisisEnd?: boolean
+    CrisisCountry?: boolean
+    TypeC?: boolean
+  }, ExtArgs["result"]["crisis"]>
+
+  export type CrisisSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    CrisisId?: boolean
+    Crisisname?: boolean
+    CrisisDesc?: boolean
+    CrisisStart?: boolean
+    CrisisEnd?: boolean
+    CrisisCountry?: boolean
+    TypeC?: boolean
+  }, ExtArgs["result"]["crisis"]>
+
+  export type CrisisSelectScalar = {
+    CrisisId?: boolean
+    Crisisname?: boolean
+    CrisisDesc?: boolean
+    CrisisStart?: boolean
+    CrisisEnd?: boolean
+    CrisisCountry?: boolean
+    TypeC?: boolean
+  }
+
+  export type CrisisOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"CrisisId" | "Crisisname" | "CrisisDesc" | "CrisisStart" | "CrisisEnd" | "CrisisCountry" | "TypeC", ExtArgs["result"]["crisis"]>
+
+  export type $CrisisPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Crisis"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      CrisisId: number
+      Crisisname: string
+      CrisisDesc: string
+      CrisisStart: Date | null
+      CrisisEnd: Date | null
+      CrisisCountry: string | null
+      TypeC: string | null
+    }, ExtArgs["result"]["crisis"]>
+    composites: {}
+  }
+
+  type CrisisGetPayload<S extends boolean | null | undefined | CrisisDefaultArgs> = $Result.GetResult<Prisma.$CrisisPayload, S>
+
+  type CrisisCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CrisisFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CrisisCountAggregateInputType | true
+    }
+
+  export interface CrisisDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Crisis'], meta: { name: 'Crisis' } }
+    /**
+     * Find zero or one Crisis that matches the filter.
+     * @param {CrisisFindUniqueArgs} args - Arguments to find a Crisis
+     * @example
+     * // Get one Crisis
+     * const crisis = await prisma.crisis.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CrisisFindUniqueArgs>(args: SelectSubset<T, CrisisFindUniqueArgs<ExtArgs>>): Prisma__CrisisClient<$Result.GetResult<Prisma.$CrisisPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Crisis that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CrisisFindUniqueOrThrowArgs} args - Arguments to find a Crisis
+     * @example
+     * // Get one Crisis
+     * const crisis = await prisma.crisis.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CrisisFindUniqueOrThrowArgs>(args: SelectSubset<T, CrisisFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CrisisClient<$Result.GetResult<Prisma.$CrisisPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Crisis that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CrisisFindFirstArgs} args - Arguments to find a Crisis
+     * @example
+     * // Get one Crisis
+     * const crisis = await prisma.crisis.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CrisisFindFirstArgs>(args?: SelectSubset<T, CrisisFindFirstArgs<ExtArgs>>): Prisma__CrisisClient<$Result.GetResult<Prisma.$CrisisPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Crisis that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CrisisFindFirstOrThrowArgs} args - Arguments to find a Crisis
+     * @example
+     * // Get one Crisis
+     * const crisis = await prisma.crisis.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CrisisFindFirstOrThrowArgs>(args?: SelectSubset<T, CrisisFindFirstOrThrowArgs<ExtArgs>>): Prisma__CrisisClient<$Result.GetResult<Prisma.$CrisisPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Crises that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CrisisFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Crises
+     * const crises = await prisma.crisis.findMany()
+     * 
+     * // Get first 10 Crises
+     * const crises = await prisma.crisis.findMany({ take: 10 })
+     * 
+     * // Only select the `CrisisId`
+     * const crisisWithCrisisIdOnly = await prisma.crisis.findMany({ select: { CrisisId: true } })
+     * 
+     */
+    findMany<T extends CrisisFindManyArgs>(args?: SelectSubset<T, CrisisFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CrisisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Crisis.
+     * @param {CrisisCreateArgs} args - Arguments to create a Crisis.
+     * @example
+     * // Create one Crisis
+     * const Crisis = await prisma.crisis.create({
+     *   data: {
+     *     // ... data to create a Crisis
+     *   }
+     * })
+     * 
+     */
+    create<T extends CrisisCreateArgs>(args: SelectSubset<T, CrisisCreateArgs<ExtArgs>>): Prisma__CrisisClient<$Result.GetResult<Prisma.$CrisisPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Crises.
+     * @param {CrisisCreateManyArgs} args - Arguments to create many Crises.
+     * @example
+     * // Create many Crises
+     * const crisis = await prisma.crisis.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CrisisCreateManyArgs>(args?: SelectSubset<T, CrisisCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Crises and returns the data saved in the database.
+     * @param {CrisisCreateManyAndReturnArgs} args - Arguments to create many Crises.
+     * @example
+     * // Create many Crises
+     * const crisis = await prisma.crisis.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Crises and only return the `CrisisId`
+     * const crisisWithCrisisIdOnly = await prisma.crisis.createManyAndReturn({
+     *   select: { CrisisId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CrisisCreateManyAndReturnArgs>(args?: SelectSubset<T, CrisisCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CrisisPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Crisis.
+     * @param {CrisisDeleteArgs} args - Arguments to delete one Crisis.
+     * @example
+     * // Delete one Crisis
+     * const Crisis = await prisma.crisis.delete({
+     *   where: {
+     *     // ... filter to delete one Crisis
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CrisisDeleteArgs>(args: SelectSubset<T, CrisisDeleteArgs<ExtArgs>>): Prisma__CrisisClient<$Result.GetResult<Prisma.$CrisisPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Crisis.
+     * @param {CrisisUpdateArgs} args - Arguments to update one Crisis.
+     * @example
+     * // Update one Crisis
+     * const crisis = await prisma.crisis.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CrisisUpdateArgs>(args: SelectSubset<T, CrisisUpdateArgs<ExtArgs>>): Prisma__CrisisClient<$Result.GetResult<Prisma.$CrisisPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Crises.
+     * @param {CrisisDeleteManyArgs} args - Arguments to filter Crises to delete.
+     * @example
+     * // Delete a few Crises
+     * const { count } = await prisma.crisis.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CrisisDeleteManyArgs>(args?: SelectSubset<T, CrisisDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Crises.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CrisisUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Crises
+     * const crisis = await prisma.crisis.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CrisisUpdateManyArgs>(args: SelectSubset<T, CrisisUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Crises and returns the data updated in the database.
+     * @param {CrisisUpdateManyAndReturnArgs} args - Arguments to update many Crises.
+     * @example
+     * // Update many Crises
+     * const crisis = await prisma.crisis.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Crises and only return the `CrisisId`
+     * const crisisWithCrisisIdOnly = await prisma.crisis.updateManyAndReturn({
+     *   select: { CrisisId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CrisisUpdateManyAndReturnArgs>(args: SelectSubset<T, CrisisUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CrisisPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Crisis.
+     * @param {CrisisUpsertArgs} args - Arguments to update or create a Crisis.
+     * @example
+     * // Update or create a Crisis
+     * const crisis = await prisma.crisis.upsert({
+     *   create: {
+     *     // ... data to create a Crisis
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Crisis we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CrisisUpsertArgs>(args: SelectSubset<T, CrisisUpsertArgs<ExtArgs>>): Prisma__CrisisClient<$Result.GetResult<Prisma.$CrisisPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Crises.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CrisisCountArgs} args - Arguments to filter Crises to count.
+     * @example
+     * // Count the number of Crises
+     * const count = await prisma.crisis.count({
+     *   where: {
+     *     // ... the filter for the Crises we want to count
+     *   }
+     * })
+    **/
+    count<T extends CrisisCountArgs>(
+      args?: Subset<T, CrisisCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CrisisCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Crisis.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CrisisAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CrisisAggregateArgs>(args: Subset<T, CrisisAggregateArgs>): Prisma.PrismaPromise<GetCrisisAggregateType<T>>
+
+    /**
+     * Group by Crisis.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CrisisGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CrisisGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CrisisGroupByArgs['orderBy'] }
+        : { orderBy?: CrisisGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CrisisGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCrisisGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Crisis model
+   */
+  readonly fields: CrisisFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Crisis.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CrisisClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Crisis model
+   */
+  interface CrisisFieldRefs {
+    readonly CrisisId: FieldRef<"Crisis", 'Int'>
+    readonly Crisisname: FieldRef<"Crisis", 'String'>
+    readonly CrisisDesc: FieldRef<"Crisis", 'String'>
+    readonly CrisisStart: FieldRef<"Crisis", 'DateTime'>
+    readonly CrisisEnd: FieldRef<"Crisis", 'DateTime'>
+    readonly CrisisCountry: FieldRef<"Crisis", 'String'>
+    readonly TypeC: FieldRef<"Crisis", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Crisis findUnique
+   */
+  export type CrisisFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Crisis
+     */
+    select?: CrisisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Crisis
+     */
+    omit?: CrisisOmit<ExtArgs> | null
+    /**
+     * Filter, which Crisis to fetch.
+     */
+    where: CrisisWhereUniqueInput
+  }
+
+  /**
+   * Crisis findUniqueOrThrow
+   */
+  export type CrisisFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Crisis
+     */
+    select?: CrisisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Crisis
+     */
+    omit?: CrisisOmit<ExtArgs> | null
+    /**
+     * Filter, which Crisis to fetch.
+     */
+    where: CrisisWhereUniqueInput
+  }
+
+  /**
+   * Crisis findFirst
+   */
+  export type CrisisFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Crisis
+     */
+    select?: CrisisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Crisis
+     */
+    omit?: CrisisOmit<ExtArgs> | null
+    /**
+     * Filter, which Crisis to fetch.
+     */
+    where?: CrisisWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Crises to fetch.
+     */
+    orderBy?: CrisisOrderByWithRelationInput | CrisisOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Crises.
+     */
+    cursor?: CrisisWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Crises from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Crises.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Crises.
+     */
+    distinct?: CrisisScalarFieldEnum | CrisisScalarFieldEnum[]
+  }
+
+  /**
+   * Crisis findFirstOrThrow
+   */
+  export type CrisisFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Crisis
+     */
+    select?: CrisisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Crisis
+     */
+    omit?: CrisisOmit<ExtArgs> | null
+    /**
+     * Filter, which Crisis to fetch.
+     */
+    where?: CrisisWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Crises to fetch.
+     */
+    orderBy?: CrisisOrderByWithRelationInput | CrisisOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Crises.
+     */
+    cursor?: CrisisWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Crises from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Crises.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Crises.
+     */
+    distinct?: CrisisScalarFieldEnum | CrisisScalarFieldEnum[]
+  }
+
+  /**
+   * Crisis findMany
+   */
+  export type CrisisFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Crisis
+     */
+    select?: CrisisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Crisis
+     */
+    omit?: CrisisOmit<ExtArgs> | null
+    /**
+     * Filter, which Crises to fetch.
+     */
+    where?: CrisisWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Crises to fetch.
+     */
+    orderBy?: CrisisOrderByWithRelationInput | CrisisOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Crises.
+     */
+    cursor?: CrisisWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Crises from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Crises.
+     */
+    skip?: number
+    distinct?: CrisisScalarFieldEnum | CrisisScalarFieldEnum[]
+  }
+
+  /**
+   * Crisis create
+   */
+  export type CrisisCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Crisis
+     */
+    select?: CrisisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Crisis
+     */
+    omit?: CrisisOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Crisis.
+     */
+    data: XOR<CrisisCreateInput, CrisisUncheckedCreateInput>
+  }
+
+  /**
+   * Crisis createMany
+   */
+  export type CrisisCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Crises.
+     */
+    data: CrisisCreateManyInput | CrisisCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Crisis createManyAndReturn
+   */
+  export type CrisisCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Crisis
+     */
+    select?: CrisisSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Crisis
+     */
+    omit?: CrisisOmit<ExtArgs> | null
+    /**
+     * The data used to create many Crises.
+     */
+    data: CrisisCreateManyInput | CrisisCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Crisis update
+   */
+  export type CrisisUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Crisis
+     */
+    select?: CrisisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Crisis
+     */
+    omit?: CrisisOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Crisis.
+     */
+    data: XOR<CrisisUpdateInput, CrisisUncheckedUpdateInput>
+    /**
+     * Choose, which Crisis to update.
+     */
+    where: CrisisWhereUniqueInput
+  }
+
+  /**
+   * Crisis updateMany
+   */
+  export type CrisisUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Crises.
+     */
+    data: XOR<CrisisUpdateManyMutationInput, CrisisUncheckedUpdateManyInput>
+    /**
+     * Filter which Crises to update
+     */
+    where?: CrisisWhereInput
+    /**
+     * Limit how many Crises to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Crisis updateManyAndReturn
+   */
+  export type CrisisUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Crisis
+     */
+    select?: CrisisSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Crisis
+     */
+    omit?: CrisisOmit<ExtArgs> | null
+    /**
+     * The data used to update Crises.
+     */
+    data: XOR<CrisisUpdateManyMutationInput, CrisisUncheckedUpdateManyInput>
+    /**
+     * Filter which Crises to update
+     */
+    where?: CrisisWhereInput
+    /**
+     * Limit how many Crises to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Crisis upsert
+   */
+  export type CrisisUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Crisis
+     */
+    select?: CrisisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Crisis
+     */
+    omit?: CrisisOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Crisis to update in case it exists.
+     */
+    where: CrisisWhereUniqueInput
+    /**
+     * In case the Crisis found by the `where` argument doesn't exist, create a new Crisis with this data.
+     */
+    create: XOR<CrisisCreateInput, CrisisUncheckedCreateInput>
+    /**
+     * In case the Crisis was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CrisisUpdateInput, CrisisUncheckedUpdateInput>
+  }
+
+  /**
+   * Crisis delete
+   */
+  export type CrisisDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Crisis
+     */
+    select?: CrisisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Crisis
+     */
+    omit?: CrisisOmit<ExtArgs> | null
+    /**
+     * Filter which Crisis to delete.
+     */
+    where: CrisisWhereUniqueInput
+  }
+
+  /**
+   * Crisis deleteMany
+   */
+  export type CrisisDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Crises to delete
+     */
+    where?: CrisisWhereInput
+    /**
+     * Limit how many Crises to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Crisis without action
+   */
+  export type CrisisDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Crisis
+     */
+    select?: CrisisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Crisis
+     */
+    omit?: CrisisOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model spatial_ref_sys
+   */
+
+  export type AggregateSpatial_ref_sys = {
+    _count: Spatial_ref_sysCountAggregateOutputType | null
+    _avg: Spatial_ref_sysAvgAggregateOutputType | null
+    _sum: Spatial_ref_sysSumAggregateOutputType | null
+    _min: Spatial_ref_sysMinAggregateOutputType | null
+    _max: Spatial_ref_sysMaxAggregateOutputType | null
+  }
+
+  export type Spatial_ref_sysAvgAggregateOutputType = {
+    srid: number | null
+    auth_srid: number | null
+  }
+
+  export type Spatial_ref_sysSumAggregateOutputType = {
+    srid: number | null
+    auth_srid: number | null
+  }
+
+  export type Spatial_ref_sysMinAggregateOutputType = {
+    srid: number | null
+    auth_name: string | null
+    auth_srid: number | null
+    srtext: string | null
+    proj4text: string | null
+  }
+
+  export type Spatial_ref_sysMaxAggregateOutputType = {
+    srid: number | null
+    auth_name: string | null
+    auth_srid: number | null
+    srtext: string | null
+    proj4text: string | null
+  }
+
+  export type Spatial_ref_sysCountAggregateOutputType = {
+    srid: number
+    auth_name: number
+    auth_srid: number
+    srtext: number
+    proj4text: number
+    _all: number
+  }
+
+
+  export type Spatial_ref_sysAvgAggregateInputType = {
+    srid?: true
+    auth_srid?: true
+  }
+
+  export type Spatial_ref_sysSumAggregateInputType = {
+    srid?: true
+    auth_srid?: true
+  }
+
+  export type Spatial_ref_sysMinAggregateInputType = {
+    srid?: true
+    auth_name?: true
+    auth_srid?: true
+    srtext?: true
+    proj4text?: true
+  }
+
+  export type Spatial_ref_sysMaxAggregateInputType = {
+    srid?: true
+    auth_name?: true
+    auth_srid?: true
+    srtext?: true
+    proj4text?: true
+  }
+
+  export type Spatial_ref_sysCountAggregateInputType = {
+    srid?: true
+    auth_name?: true
+    auth_srid?: true
+    srtext?: true
+    proj4text?: true
+    _all?: true
+  }
+
+  export type Spatial_ref_sysAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which spatial_ref_sys to aggregate.
+     */
+    where?: spatial_ref_sysWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of spatial_ref_sys to fetch.
+     */
+    orderBy?: spatial_ref_sysOrderByWithRelationInput | spatial_ref_sysOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: spatial_ref_sysWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` spatial_ref_sys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` spatial_ref_sys.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned spatial_ref_sys
+    **/
+    _count?: true | Spatial_ref_sysCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Spatial_ref_sysAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Spatial_ref_sysSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Spatial_ref_sysMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Spatial_ref_sysMaxAggregateInputType
+  }
+
+  export type GetSpatial_ref_sysAggregateType<T extends Spatial_ref_sysAggregateArgs> = {
+        [P in keyof T & keyof AggregateSpatial_ref_sys]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSpatial_ref_sys[P]>
+      : GetScalarType<T[P], AggregateSpatial_ref_sys[P]>
+  }
+
+
+
+
+  export type spatial_ref_sysGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: spatial_ref_sysWhereInput
+    orderBy?: spatial_ref_sysOrderByWithAggregationInput | spatial_ref_sysOrderByWithAggregationInput[]
+    by: Spatial_ref_sysScalarFieldEnum[] | Spatial_ref_sysScalarFieldEnum
+    having?: spatial_ref_sysScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Spatial_ref_sysCountAggregateInputType | true
+    _avg?: Spatial_ref_sysAvgAggregateInputType
+    _sum?: Spatial_ref_sysSumAggregateInputType
+    _min?: Spatial_ref_sysMinAggregateInputType
+    _max?: Spatial_ref_sysMaxAggregateInputType
+  }
+
+  export type Spatial_ref_sysGroupByOutputType = {
+    srid: number
+    auth_name: string | null
+    auth_srid: number | null
+    srtext: string | null
+    proj4text: string | null
+    _count: Spatial_ref_sysCountAggregateOutputType | null
+    _avg: Spatial_ref_sysAvgAggregateOutputType | null
+    _sum: Spatial_ref_sysSumAggregateOutputType | null
+    _min: Spatial_ref_sysMinAggregateOutputType | null
+    _max: Spatial_ref_sysMaxAggregateOutputType | null
+  }
+
+  type GetSpatial_ref_sysGroupByPayload<T extends spatial_ref_sysGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Spatial_ref_sysGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Spatial_ref_sysGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Spatial_ref_sysGroupByOutputType[P]>
+            : GetScalarType<T[P], Spatial_ref_sysGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type spatial_ref_sysSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    srid?: boolean
+    auth_name?: boolean
+    auth_srid?: boolean
+    srtext?: boolean
+    proj4text?: boolean
+  }, ExtArgs["result"]["spatial_ref_sys"]>
+
+  export type spatial_ref_sysSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    srid?: boolean
+    auth_name?: boolean
+    auth_srid?: boolean
+    srtext?: boolean
+    proj4text?: boolean
+  }, ExtArgs["result"]["spatial_ref_sys"]>
+
+  export type spatial_ref_sysSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    srid?: boolean
+    auth_name?: boolean
+    auth_srid?: boolean
+    srtext?: boolean
+    proj4text?: boolean
+  }, ExtArgs["result"]["spatial_ref_sys"]>
+
+  export type spatial_ref_sysSelectScalar = {
+    srid?: boolean
+    auth_name?: boolean
+    auth_srid?: boolean
+    srtext?: boolean
+    proj4text?: boolean
+  }
+
+  export type spatial_ref_sysOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"srid" | "auth_name" | "auth_srid" | "srtext" | "proj4text", ExtArgs["result"]["spatial_ref_sys"]>
+
+  export type $spatial_ref_sysPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "spatial_ref_sys"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      srid: number
+      auth_name: string | null
+      auth_srid: number | null
+      srtext: string | null
+      proj4text: string | null
+    }, ExtArgs["result"]["spatial_ref_sys"]>
+    composites: {}
+  }
+
+  type spatial_ref_sysGetPayload<S extends boolean | null | undefined | spatial_ref_sysDefaultArgs> = $Result.GetResult<Prisma.$spatial_ref_sysPayload, S>
+
+  type spatial_ref_sysCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<spatial_ref_sysFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Spatial_ref_sysCountAggregateInputType | true
+    }
+
+  export interface spatial_ref_sysDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['spatial_ref_sys'], meta: { name: 'spatial_ref_sys' } }
+    /**
+     * Find zero or one Spatial_ref_sys that matches the filter.
+     * @param {spatial_ref_sysFindUniqueArgs} args - Arguments to find a Spatial_ref_sys
+     * @example
+     * // Get one Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends spatial_ref_sysFindUniqueArgs>(args: SelectSubset<T, spatial_ref_sysFindUniqueArgs<ExtArgs>>): Prisma__spatial_ref_sysClient<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Spatial_ref_sys that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {spatial_ref_sysFindUniqueOrThrowArgs} args - Arguments to find a Spatial_ref_sys
+     * @example
+     * // Get one Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends spatial_ref_sysFindUniqueOrThrowArgs>(args: SelectSubset<T, spatial_ref_sysFindUniqueOrThrowArgs<ExtArgs>>): Prisma__spatial_ref_sysClient<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Spatial_ref_sys that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {spatial_ref_sysFindFirstArgs} args - Arguments to find a Spatial_ref_sys
+     * @example
+     * // Get one Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends spatial_ref_sysFindFirstArgs>(args?: SelectSubset<T, spatial_ref_sysFindFirstArgs<ExtArgs>>): Prisma__spatial_ref_sysClient<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Spatial_ref_sys that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {spatial_ref_sysFindFirstOrThrowArgs} args - Arguments to find a Spatial_ref_sys
+     * @example
+     * // Get one Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends spatial_ref_sysFindFirstOrThrowArgs>(args?: SelectSubset<T, spatial_ref_sysFindFirstOrThrowArgs<ExtArgs>>): Prisma__spatial_ref_sysClient<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Spatial_ref_sys that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {spatial_ref_sysFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.findMany()
+     * 
+     * // Get first 10 Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.findMany({ take: 10 })
+     * 
+     * // Only select the `srid`
+     * const spatial_ref_sysWithSridOnly = await prisma.spatial_ref_sys.findMany({ select: { srid: true } })
+     * 
+     */
+    findMany<T extends spatial_ref_sysFindManyArgs>(args?: SelectSubset<T, spatial_ref_sysFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Spatial_ref_sys.
+     * @param {spatial_ref_sysCreateArgs} args - Arguments to create a Spatial_ref_sys.
+     * @example
+     * // Create one Spatial_ref_sys
+     * const Spatial_ref_sys = await prisma.spatial_ref_sys.create({
+     *   data: {
+     *     // ... data to create a Spatial_ref_sys
+     *   }
+     * })
+     * 
+     */
+    create<T extends spatial_ref_sysCreateArgs>(args: SelectSubset<T, spatial_ref_sysCreateArgs<ExtArgs>>): Prisma__spatial_ref_sysClient<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Spatial_ref_sys.
+     * @param {spatial_ref_sysCreateManyArgs} args - Arguments to create many Spatial_ref_sys.
+     * @example
+     * // Create many Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends spatial_ref_sysCreateManyArgs>(args?: SelectSubset<T, spatial_ref_sysCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Spatial_ref_sys and returns the data saved in the database.
+     * @param {spatial_ref_sysCreateManyAndReturnArgs} args - Arguments to create many Spatial_ref_sys.
+     * @example
+     * // Create many Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Spatial_ref_sys and only return the `srid`
+     * const spatial_ref_sysWithSridOnly = await prisma.spatial_ref_sys.createManyAndReturn({
+     *   select: { srid: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends spatial_ref_sysCreateManyAndReturnArgs>(args?: SelectSubset<T, spatial_ref_sysCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Spatial_ref_sys.
+     * @param {spatial_ref_sysDeleteArgs} args - Arguments to delete one Spatial_ref_sys.
+     * @example
+     * // Delete one Spatial_ref_sys
+     * const Spatial_ref_sys = await prisma.spatial_ref_sys.delete({
+     *   where: {
+     *     // ... filter to delete one Spatial_ref_sys
+     *   }
+     * })
+     * 
+     */
+    delete<T extends spatial_ref_sysDeleteArgs>(args: SelectSubset<T, spatial_ref_sysDeleteArgs<ExtArgs>>): Prisma__spatial_ref_sysClient<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Spatial_ref_sys.
+     * @param {spatial_ref_sysUpdateArgs} args - Arguments to update one Spatial_ref_sys.
+     * @example
+     * // Update one Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends spatial_ref_sysUpdateArgs>(args: SelectSubset<T, spatial_ref_sysUpdateArgs<ExtArgs>>): Prisma__spatial_ref_sysClient<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Spatial_ref_sys.
+     * @param {spatial_ref_sysDeleteManyArgs} args - Arguments to filter Spatial_ref_sys to delete.
+     * @example
+     * // Delete a few Spatial_ref_sys
+     * const { count } = await prisma.spatial_ref_sys.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends spatial_ref_sysDeleteManyArgs>(args?: SelectSubset<T, spatial_ref_sysDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Spatial_ref_sys.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {spatial_ref_sysUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends spatial_ref_sysUpdateManyArgs>(args: SelectSubset<T, spatial_ref_sysUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Spatial_ref_sys and returns the data updated in the database.
+     * @param {spatial_ref_sysUpdateManyAndReturnArgs} args - Arguments to update many Spatial_ref_sys.
+     * @example
+     * // Update many Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Spatial_ref_sys and only return the `srid`
+     * const spatial_ref_sysWithSridOnly = await prisma.spatial_ref_sys.updateManyAndReturn({
+     *   select: { srid: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends spatial_ref_sysUpdateManyAndReturnArgs>(args: SelectSubset<T, spatial_ref_sysUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Spatial_ref_sys.
+     * @param {spatial_ref_sysUpsertArgs} args - Arguments to update or create a Spatial_ref_sys.
+     * @example
+     * // Update or create a Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.upsert({
+     *   create: {
+     *     // ... data to create a Spatial_ref_sys
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Spatial_ref_sys we want to update
+     *   }
+     * })
+     */
+    upsert<T extends spatial_ref_sysUpsertArgs>(args: SelectSubset<T, spatial_ref_sysUpsertArgs<ExtArgs>>): Prisma__spatial_ref_sysClient<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Spatial_ref_sys.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {spatial_ref_sysCountArgs} args - Arguments to filter Spatial_ref_sys to count.
+     * @example
+     * // Count the number of Spatial_ref_sys
+     * const count = await prisma.spatial_ref_sys.count({
+     *   where: {
+     *     // ... the filter for the Spatial_ref_sys we want to count
+     *   }
+     * })
+    **/
+    count<T extends spatial_ref_sysCountArgs>(
+      args?: Subset<T, spatial_ref_sysCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Spatial_ref_sysCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Spatial_ref_sys.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Spatial_ref_sysAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Spatial_ref_sysAggregateArgs>(args: Subset<T, Spatial_ref_sysAggregateArgs>): Prisma.PrismaPromise<GetSpatial_ref_sysAggregateType<T>>
+
+    /**
+     * Group by Spatial_ref_sys.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {spatial_ref_sysGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends spatial_ref_sysGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: spatial_ref_sysGroupByArgs['orderBy'] }
+        : { orderBy?: spatial_ref_sysGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, spatial_ref_sysGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSpatial_ref_sysGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the spatial_ref_sys model
+   */
+  readonly fields: spatial_ref_sysFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for spatial_ref_sys.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__spatial_ref_sysClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the spatial_ref_sys model
+   */
+  interface spatial_ref_sysFieldRefs {
+    readonly srid: FieldRef<"spatial_ref_sys", 'Int'>
+    readonly auth_name: FieldRef<"spatial_ref_sys", 'String'>
+    readonly auth_srid: FieldRef<"spatial_ref_sys", 'Int'>
+    readonly srtext: FieldRef<"spatial_ref_sys", 'String'>
+    readonly proj4text: FieldRef<"spatial_ref_sys", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * spatial_ref_sys findUnique
+   */
+  export type spatial_ref_sysFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * Filter, which spatial_ref_sys to fetch.
+     */
+    where: spatial_ref_sysWhereUniqueInput
+  }
+
+  /**
+   * spatial_ref_sys findUniqueOrThrow
+   */
+  export type spatial_ref_sysFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * Filter, which spatial_ref_sys to fetch.
+     */
+    where: spatial_ref_sysWhereUniqueInput
+  }
+
+  /**
+   * spatial_ref_sys findFirst
+   */
+  export type spatial_ref_sysFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * Filter, which spatial_ref_sys to fetch.
+     */
+    where?: spatial_ref_sysWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of spatial_ref_sys to fetch.
+     */
+    orderBy?: spatial_ref_sysOrderByWithRelationInput | spatial_ref_sysOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for spatial_ref_sys.
+     */
+    cursor?: spatial_ref_sysWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` spatial_ref_sys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` spatial_ref_sys.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of spatial_ref_sys.
+     */
+    distinct?: Spatial_ref_sysScalarFieldEnum | Spatial_ref_sysScalarFieldEnum[]
+  }
+
+  /**
+   * spatial_ref_sys findFirstOrThrow
+   */
+  export type spatial_ref_sysFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * Filter, which spatial_ref_sys to fetch.
+     */
+    where?: spatial_ref_sysWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of spatial_ref_sys to fetch.
+     */
+    orderBy?: spatial_ref_sysOrderByWithRelationInput | spatial_ref_sysOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for spatial_ref_sys.
+     */
+    cursor?: spatial_ref_sysWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` spatial_ref_sys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` spatial_ref_sys.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of spatial_ref_sys.
+     */
+    distinct?: Spatial_ref_sysScalarFieldEnum | Spatial_ref_sysScalarFieldEnum[]
+  }
+
+  /**
+   * spatial_ref_sys findMany
+   */
+  export type spatial_ref_sysFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * Filter, which spatial_ref_sys to fetch.
+     */
+    where?: spatial_ref_sysWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of spatial_ref_sys to fetch.
+     */
+    orderBy?: spatial_ref_sysOrderByWithRelationInput | spatial_ref_sysOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing spatial_ref_sys.
+     */
+    cursor?: spatial_ref_sysWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` spatial_ref_sys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` spatial_ref_sys.
+     */
+    skip?: number
+    distinct?: Spatial_ref_sysScalarFieldEnum | Spatial_ref_sysScalarFieldEnum[]
+  }
+
+  /**
+   * spatial_ref_sys create
+   */
+  export type spatial_ref_sysCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * The data needed to create a spatial_ref_sys.
+     */
+    data: XOR<spatial_ref_sysCreateInput, spatial_ref_sysUncheckedCreateInput>
+  }
+
+  /**
+   * spatial_ref_sys createMany
+   */
+  export type spatial_ref_sysCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many spatial_ref_sys.
+     */
+    data: spatial_ref_sysCreateManyInput | spatial_ref_sysCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * spatial_ref_sys createManyAndReturn
+   */
+  export type spatial_ref_sysCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * The data used to create many spatial_ref_sys.
+     */
+    data: spatial_ref_sysCreateManyInput | spatial_ref_sysCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * spatial_ref_sys update
+   */
+  export type spatial_ref_sysUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * The data needed to update a spatial_ref_sys.
+     */
+    data: XOR<spatial_ref_sysUpdateInput, spatial_ref_sysUncheckedUpdateInput>
+    /**
+     * Choose, which spatial_ref_sys to update.
+     */
+    where: spatial_ref_sysWhereUniqueInput
+  }
+
+  /**
+   * spatial_ref_sys updateMany
+   */
+  export type spatial_ref_sysUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update spatial_ref_sys.
+     */
+    data: XOR<spatial_ref_sysUpdateManyMutationInput, spatial_ref_sysUncheckedUpdateManyInput>
+    /**
+     * Filter which spatial_ref_sys to update
+     */
+    where?: spatial_ref_sysWhereInput
+    /**
+     * Limit how many spatial_ref_sys to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * spatial_ref_sys updateManyAndReturn
+   */
+  export type spatial_ref_sysUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * The data used to update spatial_ref_sys.
+     */
+    data: XOR<spatial_ref_sysUpdateManyMutationInput, spatial_ref_sysUncheckedUpdateManyInput>
+    /**
+     * Filter which spatial_ref_sys to update
+     */
+    where?: spatial_ref_sysWhereInput
+    /**
+     * Limit how many spatial_ref_sys to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * spatial_ref_sys upsert
+   */
+  export type spatial_ref_sysUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * The filter to search for the spatial_ref_sys to update in case it exists.
+     */
+    where: spatial_ref_sysWhereUniqueInput
+    /**
+     * In case the spatial_ref_sys found by the `where` argument doesn't exist, create a new spatial_ref_sys with this data.
+     */
+    create: XOR<spatial_ref_sysCreateInput, spatial_ref_sysUncheckedCreateInput>
+    /**
+     * In case the spatial_ref_sys was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<spatial_ref_sysUpdateInput, spatial_ref_sysUncheckedUpdateInput>
+  }
+
+  /**
+   * spatial_ref_sys delete
+   */
+  export type spatial_ref_sysDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * Filter which spatial_ref_sys to delete.
+     */
+    where: spatial_ref_sysWhereUniqueInput
+  }
+
+  /**
+   * spatial_ref_sys deleteMany
+   */
+  export type spatial_ref_sysDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which spatial_ref_sys to delete
+     */
+    where?: spatial_ref_sysWhereInput
+    /**
+     * Limit how many spatial_ref_sys to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * spatial_ref_sys without action
+   */
+  export type spatial_ref_sysDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -5588,16 +6661,6 @@ export namespace Prisma {
   export type VolunteerScalarFieldEnum = (typeof VolunteerScalarFieldEnum)[keyof typeof VolunteerScalarFieldEnum]
 
 
-  export const CitizenScalarFieldEnum: {
-    CitizenId: 'CitizenId',
-    firstname: 'firstname',
-    lastname: 'lastname',
-    citvolId: 'citvolId'
-  };
-
-  export type CitizenScalarFieldEnum = (typeof CitizenScalarFieldEnum)[keyof typeof CitizenScalarFieldEnum]
-
-
   export const NGOScalarFieldEnum: {
     NGOId: 'NGOId',
     ngoName: 'ngoName',
@@ -5605,6 +6668,30 @@ export namespace Prisma {
   };
 
   export type NGOScalarFieldEnum = (typeof NGOScalarFieldEnum)[keyof typeof NGOScalarFieldEnum]
+
+
+  export const CrisisScalarFieldEnum: {
+    CrisisId: 'CrisisId',
+    Crisisname: 'Crisisname',
+    CrisisDesc: 'CrisisDesc',
+    CrisisStart: 'CrisisStart',
+    CrisisEnd: 'CrisisEnd',
+    CrisisCountry: 'CrisisCountry',
+    TypeC: 'TypeC'
+  };
+
+  export type CrisisScalarFieldEnum = (typeof CrisisScalarFieldEnum)[keyof typeof CrisisScalarFieldEnum]
+
+
+  export const Spatial_ref_sysScalarFieldEnum: {
+    srid: 'srid',
+    auth_name: 'auth_name',
+    auth_srid: 'auth_srid',
+    srtext: 'srtext',
+    proj4text: 'proj4text'
+  };
+
+  export type Spatial_ref_sysScalarFieldEnum = (typeof Spatial_ref_sysScalarFieldEnum)[keyof typeof Spatial_ref_sysScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -5772,9 +6859,8 @@ export namespace Prisma {
     ReputationScore?: DecimalFilter<"Volunteer"> | Decimal | DecimalJsLike | number | string
     CategoryV?: StringNullableFilter<"Volunteer"> | string | null
     userId?: IntFilter<"Volunteer"> | number
-    USER?: XOR<UserScalarRelationFilter, UserWhereInput>
-    citizen?: XOR<CitizenNullableScalarRelationFilter, CitizenWhereInput> | null
     ngo?: XOR<NGONullableScalarRelationFilter, NGOWhereInput> | null
+    USER?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type VolunteerOrderByWithRelationInput = {
@@ -5785,9 +6871,8 @@ export namespace Prisma {
     ReputationScore?: SortOrder
     CategoryV?: SortOrderInput | SortOrder
     userId?: SortOrder
-    USER?: UserOrderByWithRelationInput
-    citizen?: CitizenOrderByWithRelationInput
     ngo?: NGOOrderByWithRelationInput
+    USER?: UserOrderByWithRelationInput
   }
 
   export type VolunteerWhereUniqueInput = Prisma.AtLeast<{
@@ -5801,9 +6886,8 @@ export namespace Prisma {
     AvailabilityV?: StringNullableFilter<"Volunteer"> | string | null
     ReputationScore?: DecimalFilter<"Volunteer"> | Decimal | DecimalJsLike | number | string
     CategoryV?: StringNullableFilter<"Volunteer"> | string | null
-    USER?: XOR<UserScalarRelationFilter, UserWhereInput>
-    citizen?: XOR<CitizenNullableScalarRelationFilter, CitizenWhereInput> | null
     ngo?: XOR<NGONullableScalarRelationFilter, NGOWhereInput> | null
+    USER?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "volId" | "volId" | "userId">
 
   export type VolunteerOrderByWithAggregationInput = {
@@ -5832,58 +6916,6 @@ export namespace Prisma {
     ReputationScore?: DecimalWithAggregatesFilter<"Volunteer"> | Decimal | DecimalJsLike | number | string
     CategoryV?: StringNullableWithAggregatesFilter<"Volunteer"> | string | null
     userId?: IntWithAggregatesFilter<"Volunteer"> | number
-  }
-
-  export type CitizenWhereInput = {
-    AND?: CitizenWhereInput | CitizenWhereInput[]
-    OR?: CitizenWhereInput[]
-    NOT?: CitizenWhereInput | CitizenWhereInput[]
-    CitizenId?: IntFilter<"Citizen"> | number
-    firstname?: StringNullableFilter<"Citizen"> | string | null
-    lastname?: StringNullableFilter<"Citizen"> | string | null
-    citvolId?: IntFilter<"Citizen"> | number
-    VOL?: XOR<VolunteerScalarRelationFilter, VolunteerWhereInput>
-  }
-
-  export type CitizenOrderByWithRelationInput = {
-    CitizenId?: SortOrder
-    firstname?: SortOrderInput | SortOrder
-    lastname?: SortOrderInput | SortOrder
-    citvolId?: SortOrder
-    VOL?: VolunteerOrderByWithRelationInput
-  }
-
-  export type CitizenWhereUniqueInput = Prisma.AtLeast<{
-    CitizenId?: number
-    citvolId?: number
-    AND?: CitizenWhereInput | CitizenWhereInput[]
-    OR?: CitizenWhereInput[]
-    NOT?: CitizenWhereInput | CitizenWhereInput[]
-    firstname?: StringNullableFilter<"Citizen"> | string | null
-    lastname?: StringNullableFilter<"Citizen"> | string | null
-    VOL?: XOR<VolunteerScalarRelationFilter, VolunteerWhereInput>
-  }, "CitizenId" | "CitizenId" | "citvolId">
-
-  export type CitizenOrderByWithAggregationInput = {
-    CitizenId?: SortOrder
-    firstname?: SortOrderInput | SortOrder
-    lastname?: SortOrderInput | SortOrder
-    citvolId?: SortOrder
-    _count?: CitizenCountOrderByAggregateInput
-    _avg?: CitizenAvgOrderByAggregateInput
-    _max?: CitizenMaxOrderByAggregateInput
-    _min?: CitizenMinOrderByAggregateInput
-    _sum?: CitizenSumOrderByAggregateInput
-  }
-
-  export type CitizenScalarWhereWithAggregatesInput = {
-    AND?: CitizenScalarWhereWithAggregatesInput | CitizenScalarWhereWithAggregatesInput[]
-    OR?: CitizenScalarWhereWithAggregatesInput[]
-    NOT?: CitizenScalarWhereWithAggregatesInput | CitizenScalarWhereWithAggregatesInput[]
-    CitizenId?: IntWithAggregatesFilter<"Citizen"> | number
-    firstname?: StringNullableWithAggregatesFilter<"Citizen"> | string | null
-    lastname?: StringNullableWithAggregatesFilter<"Citizen"> | string | null
-    citvolId?: IntWithAggregatesFilter<"Citizen"> | number
   }
 
   export type NGOWhereInput = {
@@ -5931,6 +6963,124 @@ export namespace Prisma {
     NGOId?: IntWithAggregatesFilter<"NGO"> | number
     ngoName?: StringNullableWithAggregatesFilter<"NGO"> | string | null
     ngovolId?: IntWithAggregatesFilter<"NGO"> | number
+  }
+
+  export type CrisisWhereInput = {
+    AND?: CrisisWhereInput | CrisisWhereInput[]
+    OR?: CrisisWhereInput[]
+    NOT?: CrisisWhereInput | CrisisWhereInput[]
+    CrisisId?: IntFilter<"Crisis"> | number
+    Crisisname?: StringFilter<"Crisis"> | string
+    CrisisDesc?: StringFilter<"Crisis"> | string
+    CrisisStart?: DateTimeNullableFilter<"Crisis"> | Date | string | null
+    CrisisEnd?: DateTimeNullableFilter<"Crisis"> | Date | string | null
+    CrisisCountry?: StringNullableFilter<"Crisis"> | string | null
+    TypeC?: StringNullableFilter<"Crisis"> | string | null
+  }
+
+  export type CrisisOrderByWithRelationInput = {
+    CrisisId?: SortOrder
+    Crisisname?: SortOrder
+    CrisisDesc?: SortOrder
+    CrisisStart?: SortOrderInput | SortOrder
+    CrisisEnd?: SortOrderInput | SortOrder
+    CrisisCountry?: SortOrderInput | SortOrder
+    TypeC?: SortOrderInput | SortOrder
+  }
+
+  export type CrisisWhereUniqueInput = Prisma.AtLeast<{
+    CrisisId?: number
+    AND?: CrisisWhereInput | CrisisWhereInput[]
+    OR?: CrisisWhereInput[]
+    NOT?: CrisisWhereInput | CrisisWhereInput[]
+    Crisisname?: StringFilter<"Crisis"> | string
+    CrisisDesc?: StringFilter<"Crisis"> | string
+    CrisisStart?: DateTimeNullableFilter<"Crisis"> | Date | string | null
+    CrisisEnd?: DateTimeNullableFilter<"Crisis"> | Date | string | null
+    CrisisCountry?: StringNullableFilter<"Crisis"> | string | null
+    TypeC?: StringNullableFilter<"Crisis"> | string | null
+  }, "CrisisId">
+
+  export type CrisisOrderByWithAggregationInput = {
+    CrisisId?: SortOrder
+    Crisisname?: SortOrder
+    CrisisDesc?: SortOrder
+    CrisisStart?: SortOrderInput | SortOrder
+    CrisisEnd?: SortOrderInput | SortOrder
+    CrisisCountry?: SortOrderInput | SortOrder
+    TypeC?: SortOrderInput | SortOrder
+    _count?: CrisisCountOrderByAggregateInput
+    _avg?: CrisisAvgOrderByAggregateInput
+    _max?: CrisisMaxOrderByAggregateInput
+    _min?: CrisisMinOrderByAggregateInput
+    _sum?: CrisisSumOrderByAggregateInput
+  }
+
+  export type CrisisScalarWhereWithAggregatesInput = {
+    AND?: CrisisScalarWhereWithAggregatesInput | CrisisScalarWhereWithAggregatesInput[]
+    OR?: CrisisScalarWhereWithAggregatesInput[]
+    NOT?: CrisisScalarWhereWithAggregatesInput | CrisisScalarWhereWithAggregatesInput[]
+    CrisisId?: IntWithAggregatesFilter<"Crisis"> | number
+    Crisisname?: StringWithAggregatesFilter<"Crisis"> | string
+    CrisisDesc?: StringWithAggregatesFilter<"Crisis"> | string
+    CrisisStart?: DateTimeNullableWithAggregatesFilter<"Crisis"> | Date | string | null
+    CrisisEnd?: DateTimeNullableWithAggregatesFilter<"Crisis"> | Date | string | null
+    CrisisCountry?: StringNullableWithAggregatesFilter<"Crisis"> | string | null
+    TypeC?: StringNullableWithAggregatesFilter<"Crisis"> | string | null
+  }
+
+  export type spatial_ref_sysWhereInput = {
+    AND?: spatial_ref_sysWhereInput | spatial_ref_sysWhereInput[]
+    OR?: spatial_ref_sysWhereInput[]
+    NOT?: spatial_ref_sysWhereInput | spatial_ref_sysWhereInput[]
+    srid?: IntFilter<"spatial_ref_sys"> | number
+    auth_name?: StringNullableFilter<"spatial_ref_sys"> | string | null
+    auth_srid?: IntNullableFilter<"spatial_ref_sys"> | number | null
+    srtext?: StringNullableFilter<"spatial_ref_sys"> | string | null
+    proj4text?: StringNullableFilter<"spatial_ref_sys"> | string | null
+  }
+
+  export type spatial_ref_sysOrderByWithRelationInput = {
+    srid?: SortOrder
+    auth_name?: SortOrderInput | SortOrder
+    auth_srid?: SortOrderInput | SortOrder
+    srtext?: SortOrderInput | SortOrder
+    proj4text?: SortOrderInput | SortOrder
+  }
+
+  export type spatial_ref_sysWhereUniqueInput = Prisma.AtLeast<{
+    srid?: number
+    AND?: spatial_ref_sysWhereInput | spatial_ref_sysWhereInput[]
+    OR?: spatial_ref_sysWhereInput[]
+    NOT?: spatial_ref_sysWhereInput | spatial_ref_sysWhereInput[]
+    auth_name?: StringNullableFilter<"spatial_ref_sys"> | string | null
+    auth_srid?: IntNullableFilter<"spatial_ref_sys"> | number | null
+    srtext?: StringNullableFilter<"spatial_ref_sys"> | string | null
+    proj4text?: StringNullableFilter<"spatial_ref_sys"> | string | null
+  }, "srid">
+
+  export type spatial_ref_sysOrderByWithAggregationInput = {
+    srid?: SortOrder
+    auth_name?: SortOrderInput | SortOrder
+    auth_srid?: SortOrderInput | SortOrder
+    srtext?: SortOrderInput | SortOrder
+    proj4text?: SortOrderInput | SortOrder
+    _count?: spatial_ref_sysCountOrderByAggregateInput
+    _avg?: spatial_ref_sysAvgOrderByAggregateInput
+    _max?: spatial_ref_sysMaxOrderByAggregateInput
+    _min?: spatial_ref_sysMinOrderByAggregateInput
+    _sum?: spatial_ref_sysSumOrderByAggregateInput
+  }
+
+  export type spatial_ref_sysScalarWhereWithAggregatesInput = {
+    AND?: spatial_ref_sysScalarWhereWithAggregatesInput | spatial_ref_sysScalarWhereWithAggregatesInput[]
+    OR?: spatial_ref_sysScalarWhereWithAggregatesInput[]
+    NOT?: spatial_ref_sysScalarWhereWithAggregatesInput | spatial_ref_sysScalarWhereWithAggregatesInput[]
+    srid?: IntWithAggregatesFilter<"spatial_ref_sys"> | number
+    auth_name?: StringNullableWithAggregatesFilter<"spatial_ref_sys"> | string | null
+    auth_srid?: IntNullableWithAggregatesFilter<"spatial_ref_sys"> | number | null
+    srtext?: StringNullableWithAggregatesFilter<"spatial_ref_sys"> | string | null
+    proj4text?: StringNullableWithAggregatesFilter<"spatial_ref_sys"> | string | null
   }
 
   export type UserCreateInput = {
@@ -5989,9 +7139,8 @@ export namespace Prisma {
     AvailabilityV?: string | null
     ReputationScore: Decimal | DecimalJsLike | number | string
     CategoryV?: string | null
-    USER: UserCreateNestedOneWithoutVolunteerInput
-    citizen?: CitizenCreateNestedOneWithoutVOLInput
     ngo?: NGOCreateNestedOneWithoutVOLLInput
+    USER: UserCreateNestedOneWithoutVolunteerInput
   }
 
   export type VolunteerUncheckedCreateInput = {
@@ -6002,7 +7151,6 @@ export namespace Prisma {
     ReputationScore: Decimal | DecimalJsLike | number | string
     CategoryV?: string | null
     userId: number
-    citizen?: CitizenUncheckedCreateNestedOneWithoutVOLInput
     ngo?: NGOUncheckedCreateNestedOneWithoutVOLLInput
   }
 
@@ -6012,9 +7160,8 @@ export namespace Prisma {
     AvailabilityV?: NullableStringFieldUpdateOperationsInput | string | null
     ReputationScore?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     CategoryV?: NullableStringFieldUpdateOperationsInput | string | null
-    USER?: UserUpdateOneRequiredWithoutVolunteerNestedInput
-    citizen?: CitizenUpdateOneWithoutVOLNestedInput
     ngo?: NGOUpdateOneWithoutVOLLNestedInput
+    USER?: UserUpdateOneRequiredWithoutVolunteerNestedInput
   }
 
   export type VolunteerUncheckedUpdateInput = {
@@ -6025,7 +7172,6 @@ export namespace Prisma {
     ReputationScore?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     CategoryV?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: IntFieldUpdateOperationsInput | number
-    citizen?: CitizenUncheckedUpdateOneWithoutVOLNestedInput
     ngo?: NGOUncheckedUpdateOneWithoutVOLLNestedInput
   }
 
@@ -6055,51 +7201,6 @@ export namespace Prisma {
     ReputationScore?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     CategoryV?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type CitizenCreateInput = {
-    firstname?: string | null
-    lastname?: string | null
-    VOL: VolunteerCreateNestedOneWithoutCitizenInput
-  }
-
-  export type CitizenUncheckedCreateInput = {
-    CitizenId?: number
-    firstname?: string | null
-    lastname?: string | null
-    citvolId: number
-  }
-
-  export type CitizenUpdateInput = {
-    firstname?: NullableStringFieldUpdateOperationsInput | string | null
-    lastname?: NullableStringFieldUpdateOperationsInput | string | null
-    VOL?: VolunteerUpdateOneRequiredWithoutCitizenNestedInput
-  }
-
-  export type CitizenUncheckedUpdateInput = {
-    CitizenId?: IntFieldUpdateOperationsInput | number
-    firstname?: NullableStringFieldUpdateOperationsInput | string | null
-    lastname?: NullableStringFieldUpdateOperationsInput | string | null
-    citvolId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type CitizenCreateManyInput = {
-    CitizenId?: number
-    firstname?: string | null
-    lastname?: string | null
-    citvolId: number
-  }
-
-  export type CitizenUpdateManyMutationInput = {
-    firstname?: NullableStringFieldUpdateOperationsInput | string | null
-    lastname?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type CitizenUncheckedUpdateManyInput = {
-    CitizenId?: IntFieldUpdateOperationsInput | number
-    firstname?: NullableStringFieldUpdateOperationsInput | string | null
-    lastname?: NullableStringFieldUpdateOperationsInput | string | null
-    citvolId?: IntFieldUpdateOperationsInput | number
   }
 
   export type NGOCreateInput = {
@@ -6138,6 +7239,129 @@ export namespace Prisma {
     NGOId?: IntFieldUpdateOperationsInput | number
     ngoName?: NullableStringFieldUpdateOperationsInput | string | null
     ngovolId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type CrisisCreateInput = {
+    Crisisname: string
+    CrisisDesc: string
+    CrisisStart?: Date | string | null
+    CrisisEnd?: Date | string | null
+    CrisisCountry?: string | null
+    TypeC?: string | null
+  }
+
+  export type CrisisUncheckedCreateInput = {
+    CrisisId?: number
+    Crisisname: string
+    CrisisDesc: string
+    CrisisStart?: Date | string | null
+    CrisisEnd?: Date | string | null
+    CrisisCountry?: string | null
+    TypeC?: string | null
+  }
+
+  export type CrisisUpdateInput = {
+    Crisisname?: StringFieldUpdateOperationsInput | string
+    CrisisDesc?: StringFieldUpdateOperationsInput | string
+    CrisisStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    CrisisEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    CrisisCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    TypeC?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CrisisUncheckedUpdateInput = {
+    CrisisId?: IntFieldUpdateOperationsInput | number
+    Crisisname?: StringFieldUpdateOperationsInput | string
+    CrisisDesc?: StringFieldUpdateOperationsInput | string
+    CrisisStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    CrisisEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    CrisisCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    TypeC?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CrisisCreateManyInput = {
+    CrisisId?: number
+    Crisisname: string
+    CrisisDesc: string
+    CrisisStart?: Date | string | null
+    CrisisEnd?: Date | string | null
+    CrisisCountry?: string | null
+    TypeC?: string | null
+  }
+
+  export type CrisisUpdateManyMutationInput = {
+    Crisisname?: StringFieldUpdateOperationsInput | string
+    CrisisDesc?: StringFieldUpdateOperationsInput | string
+    CrisisStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    CrisisEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    CrisisCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    TypeC?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CrisisUncheckedUpdateManyInput = {
+    CrisisId?: IntFieldUpdateOperationsInput | number
+    Crisisname?: StringFieldUpdateOperationsInput | string
+    CrisisDesc?: StringFieldUpdateOperationsInput | string
+    CrisisStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    CrisisEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    CrisisCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    TypeC?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type spatial_ref_sysCreateInput = {
+    srid: number
+    auth_name?: string | null
+    auth_srid?: number | null
+    srtext?: string | null
+    proj4text?: string | null
+  }
+
+  export type spatial_ref_sysUncheckedCreateInput = {
+    srid: number
+    auth_name?: string | null
+    auth_srid?: number | null
+    srtext?: string | null
+    proj4text?: string | null
+  }
+
+  export type spatial_ref_sysUpdateInput = {
+    srid?: IntFieldUpdateOperationsInput | number
+    auth_name?: NullableStringFieldUpdateOperationsInput | string | null
+    auth_srid?: NullableIntFieldUpdateOperationsInput | number | null
+    srtext?: NullableStringFieldUpdateOperationsInput | string | null
+    proj4text?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type spatial_ref_sysUncheckedUpdateInput = {
+    srid?: IntFieldUpdateOperationsInput | number
+    auth_name?: NullableStringFieldUpdateOperationsInput | string | null
+    auth_srid?: NullableIntFieldUpdateOperationsInput | number | null
+    srtext?: NullableStringFieldUpdateOperationsInput | string | null
+    proj4text?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type spatial_ref_sysCreateManyInput = {
+    srid: number
+    auth_name?: string | null
+    auth_srid?: number | null
+    srtext?: string | null
+    proj4text?: string | null
+  }
+
+  export type spatial_ref_sysUpdateManyMutationInput = {
+    srid?: IntFieldUpdateOperationsInput | number
+    auth_name?: NullableStringFieldUpdateOperationsInput | string | null
+    auth_srid?: NullableIntFieldUpdateOperationsInput | number | null
+    srtext?: NullableStringFieldUpdateOperationsInput | string | null
+    proj4text?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type spatial_ref_sysUncheckedUpdateManyInput = {
+    srid?: IntFieldUpdateOperationsInput | number
+    auth_name?: NullableStringFieldUpdateOperationsInput | string | null
+    auth_srid?: NullableIntFieldUpdateOperationsInput | number | null
+    srtext?: NullableStringFieldUpdateOperationsInput | string | null
+    proj4text?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -6275,19 +7499,14 @@ export namespace Prisma {
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
-  }
-
-  export type CitizenNullableScalarRelationFilter = {
-    is?: CitizenWhereInput | null
-    isNot?: CitizenWhereInput | null
-  }
-
   export type NGONullableScalarRelationFilter = {
     is?: NGOWhereInput | null
     isNot?: NGOWhereInput | null
+  }
+
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
   }
 
   export type VolunteerCountOrderByAggregateInput = {
@@ -6353,37 +7572,6 @@ export namespace Prisma {
     isNot?: VolunteerWhereInput
   }
 
-  export type CitizenCountOrderByAggregateInput = {
-    CitizenId?: SortOrder
-    firstname?: SortOrder
-    lastname?: SortOrder
-    citvolId?: SortOrder
-  }
-
-  export type CitizenAvgOrderByAggregateInput = {
-    CitizenId?: SortOrder
-    citvolId?: SortOrder
-  }
-
-  export type CitizenMaxOrderByAggregateInput = {
-    CitizenId?: SortOrder
-    firstname?: SortOrder
-    lastname?: SortOrder
-    citvolId?: SortOrder
-  }
-
-  export type CitizenMinOrderByAggregateInput = {
-    CitizenId?: SortOrder
-    firstname?: SortOrder
-    lastname?: SortOrder
-    citvolId?: SortOrder
-  }
-
-  export type CitizenSumOrderByAggregateInput = {
-    CitizenId?: SortOrder
-    citvolId?: SortOrder
-  }
-
   export type NGOCountOrderByAggregateInput = {
     NGOId?: SortOrder
     ngoName?: SortOrder
@@ -6410,6 +7598,163 @@ export namespace Prisma {
   export type NGOSumOrderByAggregateInput = {
     NGOId?: SortOrder
     ngovolId?: SortOrder
+  }
+
+  export type StringFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type CrisisCountOrderByAggregateInput = {
+    CrisisId?: SortOrder
+    Crisisname?: SortOrder
+    CrisisDesc?: SortOrder
+    CrisisStart?: SortOrder
+    CrisisEnd?: SortOrder
+    CrisisCountry?: SortOrder
+    TypeC?: SortOrder
+  }
+
+  export type CrisisAvgOrderByAggregateInput = {
+    CrisisId?: SortOrder
+  }
+
+  export type CrisisMaxOrderByAggregateInput = {
+    CrisisId?: SortOrder
+    Crisisname?: SortOrder
+    CrisisDesc?: SortOrder
+    CrisisStart?: SortOrder
+    CrisisEnd?: SortOrder
+    CrisisCountry?: SortOrder
+    TypeC?: SortOrder
+  }
+
+  export type CrisisMinOrderByAggregateInput = {
+    CrisisId?: SortOrder
+    Crisisname?: SortOrder
+    CrisisDesc?: SortOrder
+    CrisisStart?: SortOrder
+    CrisisEnd?: SortOrder
+    CrisisCountry?: SortOrder
+    TypeC?: SortOrder
+  }
+
+  export type CrisisSumOrderByAggregateInput = {
+    CrisisId?: SortOrder
+  }
+
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type spatial_ref_sysCountOrderByAggregateInput = {
+    srid?: SortOrder
+    auth_name?: SortOrder
+    auth_srid?: SortOrder
+    srtext?: SortOrder
+    proj4text?: SortOrder
+  }
+
+  export type spatial_ref_sysAvgOrderByAggregateInput = {
+    srid?: SortOrder
+    auth_srid?: SortOrder
+  }
+
+  export type spatial_ref_sysMaxOrderByAggregateInput = {
+    srid?: SortOrder
+    auth_name?: SortOrder
+    auth_srid?: SortOrder
+    srtext?: SortOrder
+    proj4text?: SortOrder
+  }
+
+  export type spatial_ref_sysMinOrderByAggregateInput = {
+    srid?: SortOrder
+    auth_name?: SortOrder
+    auth_srid?: SortOrder
+    srtext?: SortOrder
+    proj4text?: SortOrder
+  }
+
+  export type spatial_ref_sysSumOrderByAggregateInput = {
+    srid?: SortOrder
+    auth_srid?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type VolunteerCreateNestedOneWithoutUSERInput = {
@@ -6460,28 +7805,16 @@ export namespace Prisma {
     update?: XOR<XOR<VolunteerUpdateToOneWithWhereWithoutUSERInput, VolunteerUpdateWithoutUSERInput>, VolunteerUncheckedUpdateWithoutUSERInput>
   }
 
-  export type UserCreateNestedOneWithoutVolunteerInput = {
-    create?: XOR<UserCreateWithoutVolunteerInput, UserUncheckedCreateWithoutVolunteerInput>
-    connectOrCreate?: UserCreateOrConnectWithoutVolunteerInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type CitizenCreateNestedOneWithoutVOLInput = {
-    create?: XOR<CitizenCreateWithoutVOLInput, CitizenUncheckedCreateWithoutVOLInput>
-    connectOrCreate?: CitizenCreateOrConnectWithoutVOLInput
-    connect?: CitizenWhereUniqueInput
-  }
-
   export type NGOCreateNestedOneWithoutVOLLInput = {
     create?: XOR<NGOCreateWithoutVOLLInput, NGOUncheckedCreateWithoutVOLLInput>
     connectOrCreate?: NGOCreateOrConnectWithoutVOLLInput
     connect?: NGOWhereUniqueInput
   }
 
-  export type CitizenUncheckedCreateNestedOneWithoutVOLInput = {
-    create?: XOR<CitizenCreateWithoutVOLInput, CitizenUncheckedCreateWithoutVOLInput>
-    connectOrCreate?: CitizenCreateOrConnectWithoutVOLInput
-    connect?: CitizenWhereUniqueInput
+  export type UserCreateNestedOneWithoutVolunteerInput = {
+    create?: XOR<UserCreateWithoutVolunteerInput, UserUncheckedCreateWithoutVolunteerInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVolunteerInput
+    connect?: UserWhereUniqueInput
   }
 
   export type NGOUncheckedCreateNestedOneWithoutVOLLInput = {
@@ -6498,24 +7831,6 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
-  export type UserUpdateOneRequiredWithoutVolunteerNestedInput = {
-    create?: XOR<UserCreateWithoutVolunteerInput, UserUncheckedCreateWithoutVolunteerInput>
-    connectOrCreate?: UserCreateOrConnectWithoutVolunteerInput
-    upsert?: UserUpsertWithoutVolunteerInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVolunteerInput, UserUpdateWithoutVolunteerInput>, UserUncheckedUpdateWithoutVolunteerInput>
-  }
-
-  export type CitizenUpdateOneWithoutVOLNestedInput = {
-    create?: XOR<CitizenCreateWithoutVOLInput, CitizenUncheckedCreateWithoutVOLInput>
-    connectOrCreate?: CitizenCreateOrConnectWithoutVOLInput
-    upsert?: CitizenUpsertWithoutVOLInput
-    disconnect?: CitizenWhereInput | boolean
-    delete?: CitizenWhereInput | boolean
-    connect?: CitizenWhereUniqueInput
-    update?: XOR<XOR<CitizenUpdateToOneWithWhereWithoutVOLInput, CitizenUpdateWithoutVOLInput>, CitizenUncheckedUpdateWithoutVOLInput>
-  }
-
   export type NGOUpdateOneWithoutVOLLNestedInput = {
     create?: XOR<NGOCreateWithoutVOLLInput, NGOUncheckedCreateWithoutVOLLInput>
     connectOrCreate?: NGOCreateOrConnectWithoutVOLLInput
@@ -6526,14 +7841,12 @@ export namespace Prisma {
     update?: XOR<XOR<NGOUpdateToOneWithWhereWithoutVOLLInput, NGOUpdateWithoutVOLLInput>, NGOUncheckedUpdateWithoutVOLLInput>
   }
 
-  export type CitizenUncheckedUpdateOneWithoutVOLNestedInput = {
-    create?: XOR<CitizenCreateWithoutVOLInput, CitizenUncheckedCreateWithoutVOLInput>
-    connectOrCreate?: CitizenCreateOrConnectWithoutVOLInput
-    upsert?: CitizenUpsertWithoutVOLInput
-    disconnect?: CitizenWhereInput | boolean
-    delete?: CitizenWhereInput | boolean
-    connect?: CitizenWhereUniqueInput
-    update?: XOR<XOR<CitizenUpdateToOneWithWhereWithoutVOLInput, CitizenUpdateWithoutVOLInput>, CitizenUncheckedUpdateWithoutVOLInput>
+  export type UserUpdateOneRequiredWithoutVolunteerNestedInput = {
+    create?: XOR<UserCreateWithoutVolunteerInput, UserUncheckedCreateWithoutVolunteerInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVolunteerInput
+    upsert?: UserUpsertWithoutVolunteerInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVolunteerInput, UserUpdateWithoutVolunteerInput>, UserUncheckedUpdateWithoutVolunteerInput>
   }
 
   export type NGOUncheckedUpdateOneWithoutVOLLNestedInput = {
@@ -6544,20 +7857,6 @@ export namespace Prisma {
     delete?: NGOWhereInput | boolean
     connect?: NGOWhereUniqueInput
     update?: XOR<XOR<NGOUpdateToOneWithWhereWithoutVOLLInput, NGOUpdateWithoutVOLLInput>, NGOUncheckedUpdateWithoutVOLLInput>
-  }
-
-  export type VolunteerCreateNestedOneWithoutCitizenInput = {
-    create?: XOR<VolunteerCreateWithoutCitizenInput, VolunteerUncheckedCreateWithoutCitizenInput>
-    connectOrCreate?: VolunteerCreateOrConnectWithoutCitizenInput
-    connect?: VolunteerWhereUniqueInput
-  }
-
-  export type VolunteerUpdateOneRequiredWithoutCitizenNestedInput = {
-    create?: XOR<VolunteerCreateWithoutCitizenInput, VolunteerUncheckedCreateWithoutCitizenInput>
-    connectOrCreate?: VolunteerCreateOrConnectWithoutCitizenInput
-    upsert?: VolunteerUpsertWithoutCitizenInput
-    connect?: VolunteerWhereUniqueInput
-    update?: XOR<XOR<VolunteerUpdateToOneWithWhereWithoutCitizenInput, VolunteerUpdateWithoutCitizenInput>, VolunteerUncheckedUpdateWithoutCitizenInput>
   }
 
   export type VolunteerCreateNestedOneWithoutNgoInput = {
@@ -6572,6 +7871,22 @@ export namespace Prisma {
     upsert?: VolunteerUpsertWithoutNgoInput
     connect?: VolunteerWhereUniqueInput
     update?: XOR<XOR<VolunteerUpdateToOneWithWhereWithoutNgoInput, VolunteerUpdateWithoutNgoInput>, VolunteerUncheckedUpdateWithoutNgoInput>
+  }
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -6706,13 +8021,95 @@ export namespace Prisma {
     _max?: NestedDecimalFilter<$PrismaModel>
   }
 
+  export type NestedStringFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type VolunteerCreateWithoutUSERInput = {
     typeV?: string | null
     phone?: string | null
     AvailabilityV?: string | null
     ReputationScore: Decimal | DecimalJsLike | number | string
     CategoryV?: string | null
-    citizen?: CitizenCreateNestedOneWithoutVOLInput
     ngo?: NGOCreateNestedOneWithoutVOLLInput
   }
 
@@ -6723,7 +8120,6 @@ export namespace Prisma {
     AvailabilityV?: string | null
     ReputationScore: Decimal | DecimalJsLike | number | string
     CategoryV?: string | null
-    citizen?: CitizenUncheckedCreateNestedOneWithoutVOLInput
     ngo?: NGOUncheckedCreateNestedOneWithoutVOLLInput
   }
 
@@ -6749,7 +8145,6 @@ export namespace Prisma {
     AvailabilityV?: NullableStringFieldUpdateOperationsInput | string | null
     ReputationScore?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     CategoryV?: NullableStringFieldUpdateOperationsInput | string | null
-    citizen?: CitizenUpdateOneWithoutVOLNestedInput
     ngo?: NGOUpdateOneWithoutVOLLNestedInput
   }
 
@@ -6760,8 +8155,21 @@ export namespace Prisma {
     AvailabilityV?: NullableStringFieldUpdateOperationsInput | string | null
     ReputationScore?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     CategoryV?: NullableStringFieldUpdateOperationsInput | string | null
-    citizen?: CitizenUncheckedUpdateOneWithoutVOLNestedInput
     ngo?: NGOUncheckedUpdateOneWithoutVOLLNestedInput
+  }
+
+  export type NGOCreateWithoutVOLLInput = {
+    ngoName?: string | null
+  }
+
+  export type NGOUncheckedCreateWithoutVOLLInput = {
+    NGOId?: number
+    ngoName?: string | null
+  }
+
+  export type NGOCreateOrConnectWithoutVOLLInput = {
+    where: NGOWhereUniqueInput
+    create: XOR<NGOCreateWithoutVOLLInput, NGOUncheckedCreateWithoutVOLLInput>
   }
 
   export type UserCreateWithoutVolunteerInput = {
@@ -6782,34 +8190,24 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutVolunteerInput, UserUncheckedCreateWithoutVolunteerInput>
   }
 
-  export type CitizenCreateWithoutVOLInput = {
-    firstname?: string | null
-    lastname?: string | null
-  }
-
-  export type CitizenUncheckedCreateWithoutVOLInput = {
-    CitizenId?: number
-    firstname?: string | null
-    lastname?: string | null
-  }
-
-  export type CitizenCreateOrConnectWithoutVOLInput = {
-    where: CitizenWhereUniqueInput
-    create: XOR<CitizenCreateWithoutVOLInput, CitizenUncheckedCreateWithoutVOLInput>
-  }
-
-  export type NGOCreateWithoutVOLLInput = {
-    ngoName?: string | null
-  }
-
-  export type NGOUncheckedCreateWithoutVOLLInput = {
-    NGOId?: number
-    ngoName?: string | null
-  }
-
-  export type NGOCreateOrConnectWithoutVOLLInput = {
-    where: NGOWhereUniqueInput
+  export type NGOUpsertWithoutVOLLInput = {
+    update: XOR<NGOUpdateWithoutVOLLInput, NGOUncheckedUpdateWithoutVOLLInput>
     create: XOR<NGOCreateWithoutVOLLInput, NGOUncheckedCreateWithoutVOLLInput>
+    where?: NGOWhereInput
+  }
+
+  export type NGOUpdateToOneWithWhereWithoutVOLLInput = {
+    where?: NGOWhereInput
+    data: XOR<NGOUpdateWithoutVOLLInput, NGOUncheckedUpdateWithoutVOLLInput>
+  }
+
+  export type NGOUpdateWithoutVOLLInput = {
+    ngoName?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type NGOUncheckedUpdateWithoutVOLLInput = {
+    NGOId?: IntFieldUpdateOperationsInput | number
+    ngoName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUpsertWithoutVolunteerInput = {
@@ -6836,106 +8234,6 @@ export namespace Prisma {
     role?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type CitizenUpsertWithoutVOLInput = {
-    update: XOR<CitizenUpdateWithoutVOLInput, CitizenUncheckedUpdateWithoutVOLInput>
-    create: XOR<CitizenCreateWithoutVOLInput, CitizenUncheckedCreateWithoutVOLInput>
-    where?: CitizenWhereInput
-  }
-
-  export type CitizenUpdateToOneWithWhereWithoutVOLInput = {
-    where?: CitizenWhereInput
-    data: XOR<CitizenUpdateWithoutVOLInput, CitizenUncheckedUpdateWithoutVOLInput>
-  }
-
-  export type CitizenUpdateWithoutVOLInput = {
-    firstname?: NullableStringFieldUpdateOperationsInput | string | null
-    lastname?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type CitizenUncheckedUpdateWithoutVOLInput = {
-    CitizenId?: IntFieldUpdateOperationsInput | number
-    firstname?: NullableStringFieldUpdateOperationsInput | string | null
-    lastname?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type NGOUpsertWithoutVOLLInput = {
-    update: XOR<NGOUpdateWithoutVOLLInput, NGOUncheckedUpdateWithoutVOLLInput>
-    create: XOR<NGOCreateWithoutVOLLInput, NGOUncheckedCreateWithoutVOLLInput>
-    where?: NGOWhereInput
-  }
-
-  export type NGOUpdateToOneWithWhereWithoutVOLLInput = {
-    where?: NGOWhereInput
-    data: XOR<NGOUpdateWithoutVOLLInput, NGOUncheckedUpdateWithoutVOLLInput>
-  }
-
-  export type NGOUpdateWithoutVOLLInput = {
-    ngoName?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type NGOUncheckedUpdateWithoutVOLLInput = {
-    NGOId?: IntFieldUpdateOperationsInput | number
-    ngoName?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type VolunteerCreateWithoutCitizenInput = {
-    typeV?: string | null
-    phone?: string | null
-    AvailabilityV?: string | null
-    ReputationScore: Decimal | DecimalJsLike | number | string
-    CategoryV?: string | null
-    USER: UserCreateNestedOneWithoutVolunteerInput
-    ngo?: NGOCreateNestedOneWithoutVOLLInput
-  }
-
-  export type VolunteerUncheckedCreateWithoutCitizenInput = {
-    volId?: number
-    typeV?: string | null
-    phone?: string | null
-    AvailabilityV?: string | null
-    ReputationScore: Decimal | DecimalJsLike | number | string
-    CategoryV?: string | null
-    userId: number
-    ngo?: NGOUncheckedCreateNestedOneWithoutVOLLInput
-  }
-
-  export type VolunteerCreateOrConnectWithoutCitizenInput = {
-    where: VolunteerWhereUniqueInput
-    create: XOR<VolunteerCreateWithoutCitizenInput, VolunteerUncheckedCreateWithoutCitizenInput>
-  }
-
-  export type VolunteerUpsertWithoutCitizenInput = {
-    update: XOR<VolunteerUpdateWithoutCitizenInput, VolunteerUncheckedUpdateWithoutCitizenInput>
-    create: XOR<VolunteerCreateWithoutCitizenInput, VolunteerUncheckedCreateWithoutCitizenInput>
-    where?: VolunteerWhereInput
-  }
-
-  export type VolunteerUpdateToOneWithWhereWithoutCitizenInput = {
-    where?: VolunteerWhereInput
-    data: XOR<VolunteerUpdateWithoutCitizenInput, VolunteerUncheckedUpdateWithoutCitizenInput>
-  }
-
-  export type VolunteerUpdateWithoutCitizenInput = {
-    typeV?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    AvailabilityV?: NullableStringFieldUpdateOperationsInput | string | null
-    ReputationScore?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    CategoryV?: NullableStringFieldUpdateOperationsInput | string | null
-    USER?: UserUpdateOneRequiredWithoutVolunteerNestedInput
-    ngo?: NGOUpdateOneWithoutVOLLNestedInput
-  }
-
-  export type VolunteerUncheckedUpdateWithoutCitizenInput = {
-    volId?: IntFieldUpdateOperationsInput | number
-    typeV?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    AvailabilityV?: NullableStringFieldUpdateOperationsInput | string | null
-    ReputationScore?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    CategoryV?: NullableStringFieldUpdateOperationsInput | string | null
-    userId?: IntFieldUpdateOperationsInput | number
-    ngo?: NGOUncheckedUpdateOneWithoutVOLLNestedInput
-  }
-
   export type VolunteerCreateWithoutNgoInput = {
     typeV?: string | null
     phone?: string | null
@@ -6943,7 +8241,6 @@ export namespace Prisma {
     ReputationScore: Decimal | DecimalJsLike | number | string
     CategoryV?: string | null
     USER: UserCreateNestedOneWithoutVolunteerInput
-    citizen?: CitizenCreateNestedOneWithoutVOLInput
   }
 
   export type VolunteerUncheckedCreateWithoutNgoInput = {
@@ -6954,7 +8251,6 @@ export namespace Prisma {
     ReputationScore: Decimal | DecimalJsLike | number | string
     CategoryV?: string | null
     userId: number
-    citizen?: CitizenUncheckedCreateNestedOneWithoutVOLInput
   }
 
   export type VolunteerCreateOrConnectWithoutNgoInput = {
@@ -6980,7 +8276,6 @@ export namespace Prisma {
     ReputationScore?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     CategoryV?: NullableStringFieldUpdateOperationsInput | string | null
     USER?: UserUpdateOneRequiredWithoutVolunteerNestedInput
-    citizen?: CitizenUpdateOneWithoutVOLNestedInput
   }
 
   export type VolunteerUncheckedUpdateWithoutNgoInput = {
@@ -6991,7 +8286,6 @@ export namespace Prisma {
     ReputationScore?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     CategoryV?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: IntFieldUpdateOperationsInput | number
-    citizen?: CitizenUncheckedUpdateOneWithoutVOLNestedInput
   }
 
 

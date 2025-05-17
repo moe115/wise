@@ -137,17 +137,28 @@ exports.Prisma.VolunteerScalarFieldEnum = {
   userId: 'userId'
 };
 
-exports.Prisma.CitizenScalarFieldEnum = {
-  CitizenId: 'CitizenId',
-  firstname: 'firstname',
-  lastname: 'lastname',
-  citvolId: 'citvolId'
-};
-
 exports.Prisma.NGOScalarFieldEnum = {
   NGOId: 'NGOId',
   ngoName: 'ngoName',
   ngovolId: 'ngovolId'
+};
+
+exports.Prisma.CrisisScalarFieldEnum = {
+  CrisisId: 'CrisisId',
+  Crisisname: 'Crisisname',
+  CrisisDesc: 'CrisisDesc',
+  CrisisStart: 'CrisisStart',
+  CrisisEnd: 'CrisisEnd',
+  CrisisCountry: 'CrisisCountry',
+  TypeC: 'TypeC'
+};
+
+exports.Prisma.Spatial_ref_sysScalarFieldEnum = {
+  srid: 'srid',
+  auth_name: 'auth_name',
+  auth_srid: 'auth_srid',
+  srtext: 'srtext',
+  proj4text: 'proj4text'
 };
 
 exports.Prisma.SortOrder = {
@@ -169,8 +180,9 @@ exports.Prisma.NullsOrder = {
 exports.Prisma.ModelName = {
   User: 'User',
   Volunteer: 'Volunteer',
-  Citizen: 'Citizen',
-  NGO: 'NGO'
+  NGO: 'NGO',
+  Crisis: 'Crisis',
+  spatial_ref_sys: 'spatial_ref_sys'
 };
 
 /**

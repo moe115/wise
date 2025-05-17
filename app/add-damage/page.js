@@ -4,9 +4,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents, Circle, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import styles from './page.module.css';  
-
-import L from 'leaflet';
+import 'leaflet-draw/dist/leaflet.draw.css';
+ import L from 'leaflet';
  
+
 const defaultIcon = L.icon({
   iconUrl: 'https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/images/marker-icon.png',
   iconRetinaUrl: 'https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/images/marker-icon-2x.png',
@@ -41,7 +42,10 @@ function FlyToLocation({ position }) {
   return null;
 }
 
-function CrisisReportForm() {
+function DamageReportForm() {
+
+ 
+
   const [position, setPosition] = useState(null);
   const [radius, setRadius] = useState(500); // Default radius value
   const [description, setDescription] = useState('');
@@ -105,7 +109,7 @@ function CrisisReportForm() {
 
   return (
     <div className={styles.container}>
-      <h1>Report a Crisis Event</h1>
+      <h1>Report a damage Event</h1>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
           <label htmlFor="location">Search Location:</label>
@@ -160,12 +164,12 @@ function CrisisReportForm() {
             zoom={10}
             style={{ height: '300px', width: '100%' }}
             ref={mapRef}
-          >
+          > 
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
-            <MapClickHandler onPositionChange={handleMapClick} />
+            <MapClickHandler onPositionChange={handleMapClick} />  
             {position && (
               <>
                 <Marker position={[position.lat, position.lng]} />
@@ -238,4 +242,4 @@ function CrisisReportForm() {
   );
 }
 
-export default CrisisReportForm;
+export default DamageReportForm;
