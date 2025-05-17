@@ -182,6 +182,10 @@ function CrisisReportForm() {
             <option value="earthquake">Earthquake</option>
             <option value="fire">Fire</option>
             <option value="medical_emergency">Medical Emergency</option>
+                        <option value="medical_emergency">Natural Disaster</option>
+
+            <option value="medical_emergency">Hurricane</option>
+
             <option value="other">Other</option>
           </select>
         </div>

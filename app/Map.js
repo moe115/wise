@@ -89,7 +89,7 @@ const Map = ({ crises, typeColors }) => {
 
   return (
     <MapContainer 
-      center={defaultCenter}
+      // center={defaultCenter}
       zoom={zoom}
       style={{ height: "600px", width: "100%" }}
       scrollWheelZoom={true}
@@ -132,8 +132,9 @@ const Map = ({ crises, typeColors }) => {
                         View Details
                       </button>
                       <button className="bg-green-500 text-white px-2 py-1 rounded text-sm">
-                        Manage Crisis
+                       add damage
                       </button>
+                             <p>{crisis.description}</p>
                     </div>
                   </div>
                 </Popup>
@@ -141,14 +142,14 @@ const Map = ({ crises, typeColors }) => {
             )}
             
             {/* Center marker */}
-            <Marker position={center} icon={icon}>
+            {/* <Marker position={center} icon={icon}>
               <Popup>
                 <div>
                   <h3 className="font-bold">{crisis.name}</h3>
                   <p>{crisis.description}</p>
                 </div>
               </Popup>
-            </Marker>
+            </Marker> */}
           </React.Fragment>
         );
       })}

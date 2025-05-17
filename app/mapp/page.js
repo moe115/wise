@@ -6,10 +6,11 @@ import 'leaflet/dist/leaflet.css';
 
 const typeColors = {
     'Natural Disaster': '#e74c3c',
-    'Flooding': '#3498db',
+    'flood': '#3498db',
     'Earthquake': '#f39c12',
     'Hurricane': '#9b59b6',
-    'Wildfire': '#e67e22',
+    'Fire': '#e67e22',
+       'Medical Emergency': '#c17a6a',
     'default': '#7f8c8d'
 };
 
@@ -53,10 +54,9 @@ const CrisisMap = () => {
 
     // Calculate total area and other statistics
     const calculateStats = () => {
-        // In a real app, you would calculate area from the polygon data
-        // This is a simplified version
+   
         const totalCrises = crises.length;
-        const totalFinancialImpact = 0; // You would calculate this from your data
+        const totalFinancialImpact = 0;  
 
         return {
             totalCrises,
