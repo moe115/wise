@@ -145,7 +145,7 @@ exports.Prisma.CitizenScalarFieldEnum = {
 };
 
 exports.Prisma.NGOScalarFieldEnum = {
-  CitizenId: 'CitizenId',
+  NGOId: 'NGOId',
   ngoName: 'ngoName',
   ngovolId: 'ngovolId'
 };

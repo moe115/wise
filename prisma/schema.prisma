@@ -54,7 +54,7 @@ model Citizen {
 }
 
 model NGO {
-  CitizenId Int       @id @unique @default(autoincrement())
+  NGOId Int       @id @unique @default(autoincrement())
   ngoName   String?
   ngovolId  Int @unique 
 

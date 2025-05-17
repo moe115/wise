@@ -64,7 +64,7 @@ export default function Home() {
                 <div className={styles.dropdown}>
                   <button className={styles.dropbtn}>Become a Volunteer</button>
                   <div className={styles.dropdownContent}>
-                    <Link href="/ngo/signup">Sign Up as NGO</Link>
+                    <Link href="/ngosignup">Sign Up as NGO</Link>
                     <Link href="/citsignup">Sign Up as Individual</Link>
                   </div>
                 </div>

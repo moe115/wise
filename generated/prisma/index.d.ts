@@ -4494,29 +4494,29 @@ export namespace Prisma {
   }
 
   export type NGOAvgAggregateOutputType = {
-    CitizenId: number | null
+    NGOId: number | null
     ngovolId: number | null
   }
 
   export type NGOSumAggregateOutputType = {
-    CitizenId: number | null
+    NGOId: number | null
     ngovolId: number | null
   }
 
   export type NGOMinAggregateOutputType = {
-    CitizenId: number | null
+    NGOId: number | null
     ngoName: string | null
     ngovolId: number | null
   }
 
   export type NGOMaxAggregateOutputType = {
-    CitizenId: number | null
+    NGOId: number | null
     ngoName: string | null
     ngovolId: number | null
   }
 
   export type NGOCountAggregateOutputType = {
-    CitizenId: number
+    NGOId: number
     ngoName: number
     ngovolId: number
     _all: number
@@ -4524,29 +4524,29 @@ export namespace Prisma {
 
 
   export type NGOAvgAggregateInputType = {
-    CitizenId?: true
+    NGOId?: true
     ngovolId?: true
   }
 
   export type NGOSumAggregateInputType = {
-    CitizenId?: true
+    NGOId?: true
     ngovolId?: true
   }
 
   export type NGOMinAggregateInputType = {
-    CitizenId?: true
+    NGOId?: true
     ngoName?: true
     ngovolId?: true
   }
 
   export type NGOMaxAggregateInputType = {
-    CitizenId?: true
+    NGOId?: true
     ngoName?: true
     ngovolId?: true
   }
 
   export type NGOCountAggregateInputType = {
-    CitizenId?: true
+    NGOId?: true
     ngoName?: true
     ngovolId?: true
     _all?: true
@@ -4639,7 +4639,7 @@ export namespace Prisma {
   }
 
   export type NGOGroupByOutputType = {
-    CitizenId: number
+    NGOId: number
     ngoName: string | null
     ngovolId: number
     _count: NGOCountAggregateOutputType | null
@@ -4664,33 +4664,33 @@ export namespace Prisma {
 
 
   export type NGOSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    CitizenId?: boolean
+    NGOId?: boolean
     ngoName?: boolean
     ngovolId?: boolean
     VOLL?: boolean | VolunteerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["nGO"]>
 
   export type NGOSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    CitizenId?: boolean
+    NGOId?: boolean
     ngoName?: boolean
     ngovolId?: boolean
     VOLL?: boolean | VolunteerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["nGO"]>
 
   export type NGOSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    CitizenId?: boolean
+    NGOId?: boolean
     ngoName?: boolean
     ngovolId?: boolean
     VOLL?: boolean | VolunteerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["nGO"]>
 
   export type NGOSelectScalar = {
-    CitizenId?: boolean
+    NGOId?: boolean
     ngoName?: boolean
     ngovolId?: boolean
   }
 
-  export type NGOOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"CitizenId" | "ngoName" | "ngovolId", ExtArgs["result"]["nGO"]>
+  export type NGOOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"NGOId" | "ngoName" | "ngovolId", ExtArgs["result"]["nGO"]>
   export type NGOInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     VOLL?: boolean | VolunteerDefaultArgs<ExtArgs>
   }
@@ -4707,7 +4707,7 @@ export namespace Prisma {
       VOLL: Prisma.$VolunteerPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      CitizenId: number
+      NGOId: number
       ngoName: string | null
       ngovolId: number
     }, ExtArgs["result"]["nGO"]>
@@ -4793,8 +4793,8 @@ export namespace Prisma {
      * // Get first 10 NGOS
      * const nGOS = await prisma.nGO.findMany({ take: 10 })
      * 
-     * // Only select the `CitizenId`
-     * const nGOWithCitizenIdOnly = await prisma.nGO.findMany({ select: { CitizenId: true } })
+     * // Only select the `NGOId`
+     * const nGOWithNGOIdOnly = await prisma.nGO.findMany({ select: { NGOId: true } })
      * 
      */
     findMany<T extends NGOFindManyArgs>(args?: SelectSubset<T, NGOFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NGOPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -4838,9 +4838,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Create many NGOS and only return the `CitizenId`
-     * const nGOWithCitizenIdOnly = await prisma.nGO.createManyAndReturn({
-     *   select: { CitizenId: true },
+     * // Create many NGOS and only return the `NGOId`
+     * const nGOWithNGOIdOnly = await prisma.nGO.createManyAndReturn({
+     *   select: { NGOId: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -4929,9 +4929,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more NGOS and only return the `CitizenId`
-     * const nGOWithCitizenIdOnly = await prisma.nGO.updateManyAndReturn({
-     *   select: { CitizenId: true },
+     * // Update zero or more NGOS and only return the `NGOId`
+     * const nGOWithNGOIdOnly = await prisma.nGO.updateManyAndReturn({
+     *   select: { NGOId: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5134,7 +5134,7 @@ export namespace Prisma {
    * Fields of the NGO model
    */
   interface NGOFieldRefs {
-    readonly CitizenId: FieldRef<"NGO", 'Int'>
+    readonly NGOId: FieldRef<"NGO", 'Int'>
     readonly ngoName: FieldRef<"NGO", 'String'>
     readonly ngovolId: FieldRef<"NGO", 'Int'>
   }
@@ -5599,7 +5599,7 @@ export namespace Prisma {
 
 
   export const NGOScalarFieldEnum: {
-    CitizenId: 'CitizenId',
+    NGOId: 'NGOId',
     ngoName: 'ngoName',
     ngovolId: 'ngovolId'
   };
@@ -5890,31 +5890,31 @@ export namespace Prisma {
     AND?: NGOWhereInput | NGOWhereInput[]
     OR?: NGOWhereInput[]
     NOT?: NGOWhereInput | NGOWhereInput[]
-    CitizenId?: IntFilter<"NGO"> | number
+    NGOId?: IntFilter<"NGO"> | number
     ngoName?: StringNullableFilter<"NGO"> | string | null
     ngovolId?: IntFilter<"NGO"> | number
     VOLL?: XOR<VolunteerScalarRelationFilter, VolunteerWhereInput>
   }
 
   export type NGOOrderByWithRelationInput = {
-    CitizenId?: SortOrder
+    NGOId?: SortOrder
     ngoName?: SortOrderInput | SortOrder
     ngovolId?: SortOrder
     VOLL?: VolunteerOrderByWithRelationInput
   }
 
   export type NGOWhereUniqueInput = Prisma.AtLeast<{
-    CitizenId?: number
+    NGOId?: number
     ngovolId?: number
     AND?: NGOWhereInput | NGOWhereInput[]
     OR?: NGOWhereInput[]
     NOT?: NGOWhereInput | NGOWhereInput[]
     ngoName?: StringNullableFilter<"NGO"> | string | null
     VOLL?: XOR<VolunteerScalarRelationFilter, VolunteerWhereInput>
-  }, "CitizenId" | "CitizenId" | "ngovolId">
+  }, "NGOId" | "NGOId" | "ngovolId">
 
   export type NGOOrderByWithAggregationInput = {
-    CitizenId?: SortOrder
+    NGOId?: SortOrder
     ngoName?: SortOrderInput | SortOrder
     ngovolId?: SortOrder
     _count?: NGOCountOrderByAggregateInput
@@ -5928,7 +5928,7 @@ export namespace Prisma {
     AND?: NGOScalarWhereWithAggregatesInput | NGOScalarWhereWithAggregatesInput[]
     OR?: NGOScalarWhereWithAggregatesInput[]
     NOT?: NGOScalarWhereWithAggregatesInput | NGOScalarWhereWithAggregatesInput[]
-    CitizenId?: IntWithAggregatesFilter<"NGO"> | number
+    NGOId?: IntWithAggregatesFilter<"NGO"> | number
     ngoName?: StringNullableWithAggregatesFilter<"NGO"> | string | null
     ngovolId?: IntWithAggregatesFilter<"NGO"> | number
   }
@@ -6108,7 +6108,7 @@ export namespace Prisma {
   }
 
   export type NGOUncheckedCreateInput = {
-    CitizenId?: number
+    NGOId?: number
     ngoName?: string | null
     ngovolId: number
   }
@@ -6119,13 +6119,13 @@ export namespace Prisma {
   }
 
   export type NGOUncheckedUpdateInput = {
-    CitizenId?: IntFieldUpdateOperationsInput | number
+    NGOId?: IntFieldUpdateOperationsInput | number
     ngoName?: NullableStringFieldUpdateOperationsInput | string | null
     ngovolId?: IntFieldUpdateOperationsInput | number
   }
 
   export type NGOCreateManyInput = {
-    CitizenId?: number
+    NGOId?: number
     ngoName?: string | null
     ngovolId: number
   }
@@ -6135,7 +6135,7 @@ export namespace Prisma {
   }
 
   export type NGOUncheckedUpdateManyInput = {
-    CitizenId?: IntFieldUpdateOperationsInput | number
+    NGOId?: IntFieldUpdateOperationsInput | number
     ngoName?: NullableStringFieldUpdateOperationsInput | string | null
     ngovolId?: IntFieldUpdateOperationsInput | number
   }
@@ -6385,30 +6385,30 @@ export namespace Prisma {
   }
 
   export type NGOCountOrderByAggregateInput = {
-    CitizenId?: SortOrder
+    NGOId?: SortOrder
     ngoName?: SortOrder
     ngovolId?: SortOrder
   }
 
   export type NGOAvgOrderByAggregateInput = {
-    CitizenId?: SortOrder
+    NGOId?: SortOrder
     ngovolId?: SortOrder
   }
 
   export type NGOMaxOrderByAggregateInput = {
-    CitizenId?: SortOrder
+    NGOId?: SortOrder
     ngoName?: SortOrder
     ngovolId?: SortOrder
   }
 
   export type NGOMinOrderByAggregateInput = {
-    CitizenId?: SortOrder
+    NGOId?: SortOrder
     ngoName?: SortOrder
     ngovolId?: SortOrder
   }
 
   export type NGOSumOrderByAggregateInput = {
-    CitizenId?: SortOrder
+    NGOId?: SortOrder
     ngovolId?: SortOrder
   }
 
@@ -6803,7 +6803,7 @@ export namespace Prisma {
   }
 
   export type NGOUncheckedCreateWithoutVOLLInput = {
-    CitizenId?: number
+    NGOId?: number
     ngoName?: string | null
   }
 
@@ -6874,7 +6874,7 @@ export namespace Prisma {
   }
 
   export type NGOUncheckedUpdateWithoutVOLLInput = {
-    CitizenId?: IntFieldUpdateOperationsInput | number
+    NGOId?: IntFieldUpdateOperationsInput | number
     ngoName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 

@@ -53,9 +53,9 @@ model Citizen {
 }
 
 model NGO {
-  CitizenId Int     @id @unique @default(autoincrement())
-  ngoName   String?
-  ngovolId  Int     @unique
+  NGOId    Int     @id @unique @default(autoincrement())
+  ngoName  String?
+  ngovolId Int     @unique
 
   // 👇 Relation to Volunteer
   VOLL Volunteer @relation(fields: [ngovolId], references: [volId])
