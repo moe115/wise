@@ -34,17 +34,17 @@ model NGO {
   ngovolId Int       @unique
   VOLL     Volunteer @relation(fields: [ngovolId], references: [volId])
 }
+
 model Crisis {
-  CrisisId      Int      @id @default(autoincrement())
+  CrisisId      Int                      @id @default(autoincrement())
   Crisisname    String
+  area          Unsupported("geometry")?
   CrisisDesc    String
   CrisisStart   DateTime?
   CrisisEnd     DateTime?
   CrisisCountry String?
   TypeC         String?
-  // area        Unsupported("geometry") ← Prisma warns you about this, omit or ignore
 }
-
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model spatial_ref_sys {

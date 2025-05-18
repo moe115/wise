@@ -5,12 +5,12 @@ import dynamic from 'next/dynamic';
 import 'leaflet/dist/leaflet.css';
 
 const typeColors = {
-    'Natural Disaster': '#e74c3c',
+    'Natural_Disaster': '#e74c3c',
     'flood': '#3498db',
-    'Earthquake': '#f39c12',
+    'earthquake': '#f39c12',
     'Hurricane': '#9b59b6',
-    'Fire': '#e67e22',
-       'Medical Emergency': '#c17a6a',
+    'fire': '#e67e22',
+    'medical_emergency': '#c17a6a',
     'default': '#7f8c8d'
 };
 
@@ -54,9 +54,9 @@ const CrisisMap = () => {
 
     // Calculate total area and other statistics
     const calculateStats = () => {
-   
+
         const totalCrises = crises.length;
-        const totalFinancialImpact = 0;  
+        const totalFinancialImpact = 0;
 
         return {
             totalCrises,

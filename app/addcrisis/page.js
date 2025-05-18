@@ -159,11 +159,11 @@ function CrisisReportForm() {
             required
           />
         </div>
-        
+
         <div className={styles.mapContainer}>
-          <MapWithNoSSR 
-            position={position} 
-            onPolygonDrawn={handlePolygonDrawn} 
+          <MapWithNoSSR
+            position={position}
+            onPolygonDrawn={handlePolygonDrawn}
           />
           <p>Click on the map to draw the crisis location or use the search above.</p>
           {position && <p>Selected Coordinates: Latitude: {position.lat.toFixed(6)}, Longitude: {position.lng.toFixed(6)}</p>}
@@ -182,9 +182,9 @@ function CrisisReportForm() {
             <option value="earthquake">Earthquake</option>
             <option value="fire">Fire</option>
             <option value="medical_emergency">Medical Emergency</option>
-                        <option value="medical_emergency">Natural Disaster</option>
+            <option value="Natural_Disaster">Natural Disaster</option>
 
-            <option value="medical_emergency">Hurricane</option>
+            <option value="Hurricane">Hurricane</option>
 
             <option value="other">Other</option>
           </select>
