@@ -137,10 +137,25 @@ exports.Prisma.VolunteerScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.CitizenScalarFieldEnum = {
+  CitizenId: 'CitizenId',
+  firstname: 'firstname',
+  lastname: 'lastname',
+  citvolId: 'citvolId'
+};
+
 exports.Prisma.NGOScalarFieldEnum = {
   NGOId: 'NGOId',
   ngoName: 'ngoName',
   ngovolId: 'ngovolId'
+};
+
+exports.Prisma.Spatial_ref_sysScalarFieldEnum = {
+  srid: 'srid',
+  auth_name: 'auth_name',
+  auth_srid: 'auth_srid',
+  srtext: 'srtext',
+  proj4text: 'proj4text'
 };
 
 exports.Prisma.CrisisScalarFieldEnum = {
@@ -153,12 +168,25 @@ exports.Prisma.CrisisScalarFieldEnum = {
   TypeC: 'TypeC'
 };
 
-exports.Prisma.Spatial_ref_sysScalarFieldEnum = {
-  srid: 'srid',
-  auth_name: 'auth_name',
-  auth_srid: 'auth_srid',
-  srtext: 'srtext',
-  proj4text: 'proj4text'
+exports.Prisma.DamageScalarFieldEnum = {
+  DamageID: 'DamageID',
+  CategoryD: 'CategoryD',
+  StartDateD: 'StartDateD',
+  EndDateD: 'EndDateD',
+  FinancialEstimationD: 'FinancialEstimationD',
+  CrisisID: 'CrisisID',
+  Description: 'Description',
+  Radius: 'Radius',
+  City: 'City'
+};
+
+exports.Prisma.TESTIMONYScalarFieldEnum = {
+  testimonyId: 'testimonyId',
+  contentT: 'contentT',
+  dateT: 'dateT',
+  mediaURL: 'mediaURL',
+  damageId: 'damageId',
+  volunteerId: 'volunteerId'
 };
 
 exports.Prisma.SortOrder = {
@@ -180,9 +208,12 @@ exports.Prisma.NullsOrder = {
 exports.Prisma.ModelName = {
   User: 'User',
   Volunteer: 'Volunteer',
+  Citizen: 'Citizen',
   NGO: 'NGO',
+  spatial_ref_sys: 'spatial_ref_sys',
   Crisis: 'Crisis',
-  spatial_ref_sys: 'spatial_ref_sys'
+  Damage: 'Damage',
+  TESTIMONY: 'TESTIMONY'
 };
 
 /**

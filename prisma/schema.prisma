@@ -17,15 +17,25 @@ model User {
 }
 
 model Volunteer {
-  volId           Int     @id @unique @default(autoincrement())
+  volId           Int         @id @unique @default(autoincrement())
   typeV           String?
   phone           String?
   AvailabilityV   String?
   ReputationScore Decimal
   CategoryV       String?
-  userId          Int     @unique
+  userId          Int         @unique
+  Citizen         Citizen?
   ngo             NGO?
-  USER            User    @relation(fields: [userId], references: [id])
+  TESTIMONY       TESTIMONY[]
+  USER            User        @relation(fields: [userId], references: [id])
+}
+
+model Citizen {
+  CitizenId Int       @id @unique @default(autoincrement())
+  firstname String?
+  lastname  String?
+  citvolId  Int       @unique
+  VOL       Volunteer @relation(fields: [citvolId], references: [volId])
 }
 
 model NGO {
@@ -33,6 +43,15 @@ model NGO {
   ngoName  String?
   ngovolId Int       @unique
   VOLL     Volunteer @relation(fields: [ngovolId], references: [volId])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model spatial_ref_sys {
+  srid      Int     @id
+  auth_name String? @db.VarChar(256)
+  auth_srid Int?
+  srtext    String? @db.VarChar(2048)
+  proj4text String? @db.VarChar(2048)
 }
 
 model Crisis {
@@ -44,13 +63,31 @@ model Crisis {
   CrisisEnd     DateTime?
   CrisisCountry String?
   TypeC         String?
+  Damage        Damage[]
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model spatial_ref_sys {
-  srid      Int     @id
-  auth_name String? @db.VarChar(256)
-  auth_srid Int?
-  srtext    String? @db.VarChar(2048)
-  proj4text String? @db.VarChar(2048)
+model Damage {
+  DamageID             Int                      @id @default(autoincrement())
+  CategoryD            String
+  StartDateD           DateTime?                @db.Date
+  EndDateD             DateTime?                @db.Date
+  FinancialEstimationD Decimal?                 @db.Decimal(15, 2)
+  CrisisID             Int?
+  Description          String?
+  GeoLonglat           Unsupported("geometry")?
+  Radius               Float?
+  City                 String?
+  Crisis               Crisis?                  @relation(fields: [CrisisID], references: [CrisisId], onDelete: Cascade, onUpdate: NoAction)
+  TESTIMONY            TESTIMONY[]
+}
+
+model TESTIMONY {
+  testimonyId Int       @id @default(autoincrement())
+  contentT    String    @db.VarChar(1000)
+  dateT       DateTime? @default(now()) @db.Timestamp(6)
+  mediaURL    String?   @db.VarChar(500)
+  damageId    Int
+  volunteerId Int
+  Damage      Damage    @relation(fields: [damageId], references: [DamageID], onDelete: Cascade, onUpdate: NoAction, map: "fk_damage")
+  Volunteer   Volunteer @relation(fields: [volunteerId], references: [volId], onDelete: Cascade, onUpdate: NoAction, map: "fk_volunteer")
 }

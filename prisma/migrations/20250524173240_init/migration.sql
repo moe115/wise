@@ -40,20 +40,6 @@ CREATE TABLE "NGO" (
     CONSTRAINT "NGO_pkey" PRIMARY KEY ("NGOId")
 );
 
--- CreateTable
-CREATE TABLE "Crisis" (
-    "CrisisId" SERIAL NOT NULL,
-    "Crisisname" TEXT NOT NULL,
-    "area" TEXT NOT NULL,
-    "CrisisDesc" TEXT NOT NULL,
-    "CrisisStart" TIMESTAMP(3),
-    "CrisisEnd" TIMESTAMP(3),
-    "CrisisCountry" TEXT,
-    "TypeC" TEXT,
-
-    CONSTRAINT "Crisis_pkey" PRIMARY KEY ("CrisisId")
-);
-
 -- CreateIndex
 CREATE UNIQUE INDEX "User_id_key" ON "User"("id");
 

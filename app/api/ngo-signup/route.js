@@ -38,7 +38,8 @@ export async function POST(request) {
             ngoName: ngo.ngoName,
             ngovolId: newVolunteer.volId
         });
-        // Create the ngo entry using the volunteer's ID
+        // Create the ngo entry using the volunteer's ID    v
+
         const newNgo = await prisma.nGO.create({
             data: {
                 ngoName: ngo.ngoName,
