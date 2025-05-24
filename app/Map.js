@@ -188,6 +188,17 @@ const Map = ({ crises, typeColors }) => {
     router.push(`/add-testimony?${queryParams.toString()}`);
   };
 
+  // Handle navigation to testimonies page
+  const handleSeeTestimonies = (damage) => {
+    // Navigate to testimonies page with damage data
+    const queryParams = new URLSearchParams({
+      damageId: damage.id,
+      damageData: JSON.stringify(damage)
+    });
+    
+    router.push(`/testimonies?${queryParams.toString()}`);
+  };
+
   // Format currency
   const formatCurrency = (amount) => {
     if (!amount) return 'Not specified';
@@ -383,21 +394,34 @@ const Map = ({ crises, typeColors }) => {
                     <p>Lng: {damage.coordinates.longitude.toFixed(6)}</p>
                   </div>
 
-                  <div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px' }}>
                     <button 
                       style={{
                         backgroundColor: '#8B5CF6',
                         color: 'white',
-                        padding: '6px 12px',
+                        padding: '6px 8px',
                         borderRadius: '4px',
                         border: 'none',
-                        fontSize: '12px',
-                        cursor: 'pointer',
-                        width: '100%'
+                        fontSize: '11px',
+                        cursor: 'pointer'
                       }}
                       onClick={() => handleAddTestimony(damage)}
                     >
                       Add Testimony
+                    </button>
+                    <button 
+                      style={{
+                        backgroundColor: '#06B6D4',
+                        color: 'white',
+                        padding: '6px 8px',
+                        borderRadius: '4px',
+                        border: 'none',
+                        fontSize: '11px',
+                        cursor: 'pointer'
+                      }}
+                      onClick={() => handleSeeTestimonies(damage)}
+                    >
+                      See Testimonies
                     </button>
                   </div>
                 </div>
