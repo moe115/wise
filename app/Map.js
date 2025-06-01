@@ -188,6 +188,21 @@ const Map = ({ crises, typeColors }) => {
     router.push(`/add-testimony?${queryParams.toString()}`);
   };
 
+
+
+    const handleAddService = (damage) => {
+    // Navigate to add-testimony page with damage data
+    const queryParams = new URLSearchParams({
+      damageId: damage.id,
+      damageData: JSON.stringify(damage)
+    });
+    
+    router.push(`/add-Service?${queryParams.toString()}`);
+  };
+
+
+
+
   // Handle navigation to testimonies page
   const handleSeeTestimonies = (damage) => {
     // Navigate to testimonies page with damage data
@@ -197,6 +212,16 @@ const Map = ({ crises, typeColors }) => {
     });
     
     router.push(`/testimonies?${queryParams.toString()}`);
+  };
+
+   const handleSeeServices = (damage) => {
+    // Navigate to testimonies page with damage data
+    const queryParams = new URLSearchParams({
+      damageId: damage.id,
+      damageData: JSON.stringify(damage)
+    });
+    
+    router.push(`/Services?${queryParams.toString()}`);
   };
 
   // Format currency
@@ -316,6 +341,7 @@ const Map = ({ crises, typeColors }) => {
                         >
                           Add Damage
                         </button>
+                        
                       </div>
                     </div>
                   </Popup>
@@ -393,9 +419,9 @@ const Map = ({ crises, typeColors }) => {
                     <p>Lat: {damage.coordinates.latitude.toFixed(6)}</p>
                     <p>Lng: {damage.coordinates.longitude.toFixed(6)}</p>
                   </div>
-
+ 
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px' }}>
-                    <button 
+                     <button 
                       style={{
                         backgroundColor: '#8B5CF6',
                         color: 'white',
@@ -407,7 +433,22 @@ const Map = ({ crises, typeColors }) => {
                       }}
                       onClick={() => handleAddTestimony(damage)}
                     >
-                      Add Testimony
+                         Add Testimony
+                    </button>
+                    <button 
+                      style={{
+                        backgroundColor: '#8B5CF6',
+                        color: 'white',
+                        padding: '6px 8px',
+                        borderRadius: '4px',
+                        border: 'none',
+                        fontSize: '11px',
+                        cursor: 'pointer'
+                      }}
+                      onClick={() => handleAddService(damage)}
+                    >
+                      Add Service
+                   
                     </button>
                     <button 
                       style={{
@@ -422,6 +463,20 @@ const Map = ({ crises, typeColors }) => {
                       onClick={() => handleSeeTestimonies(damage)}
                     >
                       See Testimonies
+                    </button>
+                      <button 
+                      style={{
+                        backgroundColor: '#06B6D4',
+                        color: 'white',
+                        padding: '6px 8px',
+                        borderRadius: '4px',
+                        border: 'none',
+                        fontSize: '11px',
+                        cursor: 'pointer'
+                      }}
+                      onClick={() => handleSeeServices(damage)}
+                    >
+                      See Services
                     </button>
                   </div>
                 </div>

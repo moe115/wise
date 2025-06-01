@@ -78,6 +78,7 @@ model Damage {
   Radius               Float?
   City                 String?
   Crisis               Crisis?                  @relation(fields: [CrisisID], references: [CrisisId], onDelete: Cascade, onUpdate: NoAction)
+  SERVICE              SERVICE[]
   TESTIMONY            TESTIMONY[]
 }
 
@@ -90,4 +91,18 @@ model TESTIMONY {
   volunteerId Int
   Damage      Damage    @relation(fields: [damageId], references: [DamageID], onDelete: Cascade, onUpdate: NoAction, map: "fk_damage")
   Volunteer   Volunteer @relation(fields: [volunteerId], references: [volId], onDelete: Cascade, onUpdate: NoAction, map: "fk_volunteer")
+}
+
+model SERVICE {
+  ServiceID          Int       @id @default(autoincrement())
+  CategoryS          String?   @db.VarChar(50)
+  DescriptionS       String?   @db.VarChar(1000)
+  StatusS            String?   @db.VarChar(50)
+  CostEstimateS      Decimal?  @db.Decimal(15, 2)
+  CompletionDateS    DateTime? @db.Date
+  ValidityStartS     DateTime? @db.Date
+  ValidityEndS       DateTime? @db.Date
+  EstimatedDurationS String?   @db.VarChar(50)
+  DamageID           Int
+  Damage             Damage    @relation(fields: [DamageID], references: [DamageID], onDelete: Cascade, onUpdate: NoAction, map: "fk_damage_service")
 }

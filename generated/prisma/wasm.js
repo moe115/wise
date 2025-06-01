@@ -189,6 +189,19 @@ exports.Prisma.TESTIMONYScalarFieldEnum = {
   volunteerId: 'volunteerId'
 };
 
+exports.Prisma.SERVICEScalarFieldEnum = {
+  ServiceID: 'ServiceID',
+  CategoryS: 'CategoryS',
+  DescriptionS: 'DescriptionS',
+  StatusS: 'StatusS',
+  CostEstimateS: 'CostEstimateS',
+  CompletionDateS: 'CompletionDateS',
+  ValidityStartS: 'ValidityStartS',
+  ValidityEndS: 'ValidityEndS',
+  EstimatedDurationS: 'EstimatedDurationS',
+  DamageID: 'DamageID'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -213,7 +226,8 @@ exports.Prisma.ModelName = {
   spatial_ref_sys: 'spatial_ref_sys',
   Crisis: 'Crisis',
   Damage: 'Damage',
-  TESTIMONY: 'TESTIMONY'
+  TESTIMONY: 'TESTIMONY',
+  SERVICE: 'SERVICE'
 };
 
 /**

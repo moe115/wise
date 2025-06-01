@@ -13,8 +13,8 @@ export async function POST(req) {
             damageId,
             volunteerId
         } = await req.json();
-        
-        console.log("Testimony data received:", { 
+
+        console.log("Testimony data received:", {
             contentT,
             mediaURL,
             damageId,
@@ -25,11 +25,11 @@ export async function POST(req) {
         if (!contentT) {
             throw new Error('contentT (testimony content) is required');
         }
-        
+
         if (!damageId) {
             throw new Error('damageId is required');
         }
-        
+
         if (!volunteerId) {
             throw new Error('volunteerId is required');
         }
@@ -42,7 +42,7 @@ export async function POST(req) {
         // Validate IDs are valid numbers
         const parsedDamageId = parseInt(damageId);
         const parsedVolunteerId = parseInt(volunteerId);
-        
+
         if (isNaN(parsedDamageId) || isNaN(parsedVolunteerId)) {
             throw new Error('Invalid damageId or volunteerId - must be valid numbers');
         }
@@ -64,7 +64,7 @@ export async function POST(req) {
             )
         `;
 
-        return new Response(JSON.stringify({ 
+        return new Response(JSON.stringify({
             message: 'Testimony added successfully',
             data: {
                 contentT,
@@ -79,10 +79,10 @@ export async function POST(req) {
 
     } catch (error) {
         console.error('Insert error:', error);
-        
+
         // Return more specific error information for debugging
-        return new Response(JSON.stringify({ 
-            error: 'Failed to add testimony', 
+        return new Response(JSON.stringify({
+            error: 'Failed to add testimony',
             details: error.message,
             stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
         }), {

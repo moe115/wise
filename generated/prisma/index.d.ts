@@ -53,6 +53,11 @@ export type Damage = $Result.DefaultSelection<Prisma.$DamagePayload>
  * 
  */
 export type TESTIMONY = $Result.DefaultSelection<Prisma.$TESTIMONYPayload>
+/**
+ * Model SERVICE
+ * 
+ */
+export type SERVICE = $Result.DefaultSelection<Prisma.$SERVICEPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -258,6 +263,16 @@ export class PrismaClient<
     * ```
     */
   get tESTIMONY(): Prisma.TESTIMONYDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.sERVICE`: Exposes CRUD operations for the **SERVICE** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SERVICES
+    * const sERVICES = await prisma.sERVICE.findMany()
+    * ```
+    */
+  get sERVICE(): Prisma.SERVICEDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -705,7 +720,8 @@ export namespace Prisma {
     spatial_ref_sys: 'spatial_ref_sys',
     Crisis: 'Crisis',
     Damage: 'Damage',
-    TESTIMONY: 'TESTIMONY'
+    TESTIMONY: 'TESTIMONY',
+    SERVICE: 'SERVICE'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -724,7 +740,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "volunteer" | "citizen" | "nGO" | "spatial_ref_sys" | "crisis" | "damage" | "tESTIMONY"
+      modelProps: "user" | "volunteer" | "citizen" | "nGO" | "spatial_ref_sys" | "crisis" | "damage" | "tESTIMONY" | "sERVICE"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1320,6 +1336,80 @@ export namespace Prisma {
           }
         }
       }
+      SERVICE: {
+        payload: Prisma.$SERVICEPayload<ExtArgs>
+        fields: Prisma.SERVICEFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SERVICEFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SERVICEPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SERVICEFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SERVICEPayload>
+          }
+          findFirst: {
+            args: Prisma.SERVICEFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SERVICEPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SERVICEFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SERVICEPayload>
+          }
+          findMany: {
+            args: Prisma.SERVICEFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SERVICEPayload>[]
+          }
+          create: {
+            args: Prisma.SERVICECreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SERVICEPayload>
+          }
+          createMany: {
+            args: Prisma.SERVICECreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SERVICECreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SERVICEPayload>[]
+          }
+          delete: {
+            args: Prisma.SERVICEDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SERVICEPayload>
+          }
+          update: {
+            args: Prisma.SERVICEUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SERVICEPayload>
+          }
+          deleteMany: {
+            args: Prisma.SERVICEDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SERVICEUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SERVICEUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SERVICEPayload>[]
+          }
+          upsert: {
+            args: Prisma.SERVICEUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SERVICEPayload>
+          }
+          aggregate: {
+            args: Prisma.SERVICEAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSERVICE>
+          }
+          groupBy: {
+            args: Prisma.SERVICEGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SERVICEGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SERVICECountArgs<ExtArgs>
+            result: $Utils.Optional<SERVICECountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1412,6 +1502,7 @@ export namespace Prisma {
     crisis?: CrisisOmit
     damage?: DamageOmit
     tESTIMONY?: TESTIMONYOmit
+    sERVICE?: SERVICEOmit
   }
 
   /* Types for Logging */
@@ -1568,10 +1659,12 @@ export namespace Prisma {
    */
 
   export type DamageCountOutputType = {
+    SERVICE: number
     TESTIMONY: number
   }
 
   export type DamageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    SERVICE?: boolean | DamageCountOutputTypeCountSERVICEArgs
     TESTIMONY?: boolean | DamageCountOutputTypeCountTESTIMONYArgs
   }
 
@@ -1584,6 +1677,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the DamageCountOutputType
      */
     select?: DamageCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DamageCountOutputType without action
+   */
+  export type DamageCountOutputTypeCountSERVICEArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SERVICEWhereInput
   }
 
   /**
@@ -8443,6 +8543,7 @@ export namespace Prisma {
     Radius?: boolean
     City?: boolean
     Crisis?: boolean | Damage$CrisisArgs<ExtArgs>
+    SERVICE?: boolean | Damage$SERVICEArgs<ExtArgs>
     TESTIMONY?: boolean | Damage$TESTIMONYArgs<ExtArgs>
     _count?: boolean | DamageCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["damage"]>
@@ -8488,6 +8589,7 @@ export namespace Prisma {
   export type DamageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"DamageID" | "CategoryD" | "StartDateD" | "EndDateD" | "FinancialEstimationD" | "CrisisID" | "Description" | "Radius" | "City", ExtArgs["result"]["damage"]>
   export type DamageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Crisis?: boolean | Damage$CrisisArgs<ExtArgs>
+    SERVICE?: boolean | Damage$SERVICEArgs<ExtArgs>
     TESTIMONY?: boolean | Damage$TESTIMONYArgs<ExtArgs>
     _count?: boolean | DamageCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -8502,6 +8604,7 @@ export namespace Prisma {
     name: "Damage"
     objects: {
       Crisis: Prisma.$CrisisPayload<ExtArgs> | null
+      SERVICE: Prisma.$SERVICEPayload<ExtArgs>[]
       TESTIMONY: Prisma.$TESTIMONYPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -8909,6 +9012,7 @@ export namespace Prisma {
   export interface Prisma__DamageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     Crisis<T extends Damage$CrisisArgs<ExtArgs> = {}>(args?: Subset<T, Damage$CrisisArgs<ExtArgs>>): Prisma__CrisisClient<$Result.GetResult<Prisma.$CrisisPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    SERVICE<T extends Damage$SERVICEArgs<ExtArgs> = {}>(args?: Subset<T, Damage$SERVICEArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SERVICEPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     TESTIMONY<T extends Damage$TESTIMONYArgs<ExtArgs> = {}>(args?: Subset<T, Damage$TESTIMONYArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TESTIMONYPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -9360,6 +9464,30 @@ export namespace Prisma {
      */
     include?: CrisisInclude<ExtArgs> | null
     where?: CrisisWhereInput
+  }
+
+  /**
+   * Damage.SERVICE
+   */
+  export type Damage$SERVICEArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SERVICE
+     */
+    select?: SERVICESelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SERVICE
+     */
+    omit?: SERVICEOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SERVICEInclude<ExtArgs> | null
+    where?: SERVICEWhereInput
+    orderBy?: SERVICEOrderByWithRelationInput | SERVICEOrderByWithRelationInput[]
+    cursor?: SERVICEWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SERVICEScalarFieldEnum | SERVICEScalarFieldEnum[]
   }
 
   /**
@@ -10527,6 +10655,1171 @@ export namespace Prisma {
 
 
   /**
+   * Model SERVICE
+   */
+
+  export type AggregateSERVICE = {
+    _count: SERVICECountAggregateOutputType | null
+    _avg: SERVICEAvgAggregateOutputType | null
+    _sum: SERVICESumAggregateOutputType | null
+    _min: SERVICEMinAggregateOutputType | null
+    _max: SERVICEMaxAggregateOutputType | null
+  }
+
+  export type SERVICEAvgAggregateOutputType = {
+    ServiceID: number | null
+    CostEstimateS: Decimal | null
+    DamageID: number | null
+  }
+
+  export type SERVICESumAggregateOutputType = {
+    ServiceID: number | null
+    CostEstimateS: Decimal | null
+    DamageID: number | null
+  }
+
+  export type SERVICEMinAggregateOutputType = {
+    ServiceID: number | null
+    CategoryS: string | null
+    DescriptionS: string | null
+    StatusS: string | null
+    CostEstimateS: Decimal | null
+    CompletionDateS: Date | null
+    ValidityStartS: Date | null
+    ValidityEndS: Date | null
+    EstimatedDurationS: string | null
+    DamageID: number | null
+  }
+
+  export type SERVICEMaxAggregateOutputType = {
+    ServiceID: number | null
+    CategoryS: string | null
+    DescriptionS: string | null
+    StatusS: string | null
+    CostEstimateS: Decimal | null
+    CompletionDateS: Date | null
+    ValidityStartS: Date | null
+    ValidityEndS: Date | null
+    EstimatedDurationS: string | null
+    DamageID: number | null
+  }
+
+  export type SERVICECountAggregateOutputType = {
+    ServiceID: number
+    CategoryS: number
+    DescriptionS: number
+    StatusS: number
+    CostEstimateS: number
+    CompletionDateS: number
+    ValidityStartS: number
+    ValidityEndS: number
+    EstimatedDurationS: number
+    DamageID: number
+    _all: number
+  }
+
+
+  export type SERVICEAvgAggregateInputType = {
+    ServiceID?: true
+    CostEstimateS?: true
+    DamageID?: true
+  }
+
+  export type SERVICESumAggregateInputType = {
+    ServiceID?: true
+    CostEstimateS?: true
+    DamageID?: true
+  }
+
+  export type SERVICEMinAggregateInputType = {
+    ServiceID?: true
+    CategoryS?: true
+    DescriptionS?: true
+    StatusS?: true
+    CostEstimateS?: true
+    CompletionDateS?: true
+    ValidityStartS?: true
+    ValidityEndS?: true
+    EstimatedDurationS?: true
+    DamageID?: true
+  }
+
+  export type SERVICEMaxAggregateInputType = {
+    ServiceID?: true
+    CategoryS?: true
+    DescriptionS?: true
+    StatusS?: true
+    CostEstimateS?: true
+    CompletionDateS?: true
+    ValidityStartS?: true
+    ValidityEndS?: true
+    EstimatedDurationS?: true
+    DamageID?: true
+  }
+
+  export type SERVICECountAggregateInputType = {
+    ServiceID?: true
+    CategoryS?: true
+    DescriptionS?: true
+    StatusS?: true
+    CostEstimateS?: true
+    CompletionDateS?: true
+    ValidityStartS?: true
+    ValidityEndS?: true
+    EstimatedDurationS?: true
+    DamageID?: true
+    _all?: true
+  }
+
+  export type SERVICEAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SERVICE to aggregate.
+     */
+    where?: SERVICEWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SERVICES to fetch.
+     */
+    orderBy?: SERVICEOrderByWithRelationInput | SERVICEOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SERVICEWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SERVICES from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SERVICES.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SERVICES
+    **/
+    _count?: true | SERVICECountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SERVICEAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SERVICESumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SERVICEMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SERVICEMaxAggregateInputType
+  }
+
+  export type GetSERVICEAggregateType<T extends SERVICEAggregateArgs> = {
+        [P in keyof T & keyof AggregateSERVICE]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSERVICE[P]>
+      : GetScalarType<T[P], AggregateSERVICE[P]>
+  }
+
+
+
+
+  export type SERVICEGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SERVICEWhereInput
+    orderBy?: SERVICEOrderByWithAggregationInput | SERVICEOrderByWithAggregationInput[]
+    by: SERVICEScalarFieldEnum[] | SERVICEScalarFieldEnum
+    having?: SERVICEScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SERVICECountAggregateInputType | true
+    _avg?: SERVICEAvgAggregateInputType
+    _sum?: SERVICESumAggregateInputType
+    _min?: SERVICEMinAggregateInputType
+    _max?: SERVICEMaxAggregateInputType
+  }
+
+  export type SERVICEGroupByOutputType = {
+    ServiceID: number
+    CategoryS: string | null
+    DescriptionS: string | null
+    StatusS: string | null
+    CostEstimateS: Decimal | null
+    CompletionDateS: Date | null
+    ValidityStartS: Date | null
+    ValidityEndS: Date | null
+    EstimatedDurationS: string | null
+    DamageID: number
+    _count: SERVICECountAggregateOutputType | null
+    _avg: SERVICEAvgAggregateOutputType | null
+    _sum: SERVICESumAggregateOutputType | null
+    _min: SERVICEMinAggregateOutputType | null
+    _max: SERVICEMaxAggregateOutputType | null
+  }
+
+  type GetSERVICEGroupByPayload<T extends SERVICEGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SERVICEGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SERVICEGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SERVICEGroupByOutputType[P]>
+            : GetScalarType<T[P], SERVICEGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SERVICESelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    ServiceID?: boolean
+    CategoryS?: boolean
+    DescriptionS?: boolean
+    StatusS?: boolean
+    CostEstimateS?: boolean
+    CompletionDateS?: boolean
+    ValidityStartS?: boolean
+    ValidityEndS?: boolean
+    EstimatedDurationS?: boolean
+    DamageID?: boolean
+    Damage?: boolean | DamageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sERVICE"]>
+
+  export type SERVICESelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    ServiceID?: boolean
+    CategoryS?: boolean
+    DescriptionS?: boolean
+    StatusS?: boolean
+    CostEstimateS?: boolean
+    CompletionDateS?: boolean
+    ValidityStartS?: boolean
+    ValidityEndS?: boolean
+    EstimatedDurationS?: boolean
+    DamageID?: boolean
+    Damage?: boolean | DamageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sERVICE"]>
+
+  export type SERVICESelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    ServiceID?: boolean
+    CategoryS?: boolean
+    DescriptionS?: boolean
+    StatusS?: boolean
+    CostEstimateS?: boolean
+    CompletionDateS?: boolean
+    ValidityStartS?: boolean
+    ValidityEndS?: boolean
+    EstimatedDurationS?: boolean
+    DamageID?: boolean
+    Damage?: boolean | DamageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sERVICE"]>
+
+  export type SERVICESelectScalar = {
+    ServiceID?: boolean
+    CategoryS?: boolean
+    DescriptionS?: boolean
+    StatusS?: boolean
+    CostEstimateS?: boolean
+    CompletionDateS?: boolean
+    ValidityStartS?: boolean
+    ValidityEndS?: boolean
+    EstimatedDurationS?: boolean
+    DamageID?: boolean
+  }
+
+  export type SERVICEOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"ServiceID" | "CategoryS" | "DescriptionS" | "StatusS" | "CostEstimateS" | "CompletionDateS" | "ValidityStartS" | "ValidityEndS" | "EstimatedDurationS" | "DamageID", ExtArgs["result"]["sERVICE"]>
+  export type SERVICEInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Damage?: boolean | DamageDefaultArgs<ExtArgs>
+  }
+  export type SERVICEIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Damage?: boolean | DamageDefaultArgs<ExtArgs>
+  }
+  export type SERVICEIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Damage?: boolean | DamageDefaultArgs<ExtArgs>
+  }
+
+  export type $SERVICEPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SERVICE"
+    objects: {
+      Damage: Prisma.$DamagePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      ServiceID: number
+      CategoryS: string | null
+      DescriptionS: string | null
+      StatusS: string | null
+      CostEstimateS: Prisma.Decimal | null
+      CompletionDateS: Date | null
+      ValidityStartS: Date | null
+      ValidityEndS: Date | null
+      EstimatedDurationS: string | null
+      DamageID: number
+    }, ExtArgs["result"]["sERVICE"]>
+    composites: {}
+  }
+
+  type SERVICEGetPayload<S extends boolean | null | undefined | SERVICEDefaultArgs> = $Result.GetResult<Prisma.$SERVICEPayload, S>
+
+  type SERVICECountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SERVICEFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SERVICECountAggregateInputType | true
+    }
+
+  export interface SERVICEDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SERVICE'], meta: { name: 'SERVICE' } }
+    /**
+     * Find zero or one SERVICE that matches the filter.
+     * @param {SERVICEFindUniqueArgs} args - Arguments to find a SERVICE
+     * @example
+     * // Get one SERVICE
+     * const sERVICE = await prisma.sERVICE.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SERVICEFindUniqueArgs>(args: SelectSubset<T, SERVICEFindUniqueArgs<ExtArgs>>): Prisma__SERVICEClient<$Result.GetResult<Prisma.$SERVICEPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SERVICE that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SERVICEFindUniqueOrThrowArgs} args - Arguments to find a SERVICE
+     * @example
+     * // Get one SERVICE
+     * const sERVICE = await prisma.sERVICE.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SERVICEFindUniqueOrThrowArgs>(args: SelectSubset<T, SERVICEFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SERVICEClient<$Result.GetResult<Prisma.$SERVICEPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SERVICE that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SERVICEFindFirstArgs} args - Arguments to find a SERVICE
+     * @example
+     * // Get one SERVICE
+     * const sERVICE = await prisma.sERVICE.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SERVICEFindFirstArgs>(args?: SelectSubset<T, SERVICEFindFirstArgs<ExtArgs>>): Prisma__SERVICEClient<$Result.GetResult<Prisma.$SERVICEPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SERVICE that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SERVICEFindFirstOrThrowArgs} args - Arguments to find a SERVICE
+     * @example
+     * // Get one SERVICE
+     * const sERVICE = await prisma.sERVICE.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SERVICEFindFirstOrThrowArgs>(args?: SelectSubset<T, SERVICEFindFirstOrThrowArgs<ExtArgs>>): Prisma__SERVICEClient<$Result.GetResult<Prisma.$SERVICEPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SERVICES that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SERVICEFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SERVICES
+     * const sERVICES = await prisma.sERVICE.findMany()
+     * 
+     * // Get first 10 SERVICES
+     * const sERVICES = await prisma.sERVICE.findMany({ take: 10 })
+     * 
+     * // Only select the `ServiceID`
+     * const sERVICEWithServiceIDOnly = await prisma.sERVICE.findMany({ select: { ServiceID: true } })
+     * 
+     */
+    findMany<T extends SERVICEFindManyArgs>(args?: SelectSubset<T, SERVICEFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SERVICEPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SERVICE.
+     * @param {SERVICECreateArgs} args - Arguments to create a SERVICE.
+     * @example
+     * // Create one SERVICE
+     * const SERVICE = await prisma.sERVICE.create({
+     *   data: {
+     *     // ... data to create a SERVICE
+     *   }
+     * })
+     * 
+     */
+    create<T extends SERVICECreateArgs>(args: SelectSubset<T, SERVICECreateArgs<ExtArgs>>): Prisma__SERVICEClient<$Result.GetResult<Prisma.$SERVICEPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SERVICES.
+     * @param {SERVICECreateManyArgs} args - Arguments to create many SERVICES.
+     * @example
+     * // Create many SERVICES
+     * const sERVICE = await prisma.sERVICE.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SERVICECreateManyArgs>(args?: SelectSubset<T, SERVICECreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SERVICES and returns the data saved in the database.
+     * @param {SERVICECreateManyAndReturnArgs} args - Arguments to create many SERVICES.
+     * @example
+     * // Create many SERVICES
+     * const sERVICE = await prisma.sERVICE.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SERVICES and only return the `ServiceID`
+     * const sERVICEWithServiceIDOnly = await prisma.sERVICE.createManyAndReturn({
+     *   select: { ServiceID: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SERVICECreateManyAndReturnArgs>(args?: SelectSubset<T, SERVICECreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SERVICEPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SERVICE.
+     * @param {SERVICEDeleteArgs} args - Arguments to delete one SERVICE.
+     * @example
+     * // Delete one SERVICE
+     * const SERVICE = await prisma.sERVICE.delete({
+     *   where: {
+     *     // ... filter to delete one SERVICE
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SERVICEDeleteArgs>(args: SelectSubset<T, SERVICEDeleteArgs<ExtArgs>>): Prisma__SERVICEClient<$Result.GetResult<Prisma.$SERVICEPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SERVICE.
+     * @param {SERVICEUpdateArgs} args - Arguments to update one SERVICE.
+     * @example
+     * // Update one SERVICE
+     * const sERVICE = await prisma.sERVICE.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SERVICEUpdateArgs>(args: SelectSubset<T, SERVICEUpdateArgs<ExtArgs>>): Prisma__SERVICEClient<$Result.GetResult<Prisma.$SERVICEPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SERVICES.
+     * @param {SERVICEDeleteManyArgs} args - Arguments to filter SERVICES to delete.
+     * @example
+     * // Delete a few SERVICES
+     * const { count } = await prisma.sERVICE.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SERVICEDeleteManyArgs>(args?: SelectSubset<T, SERVICEDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SERVICES.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SERVICEUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SERVICES
+     * const sERVICE = await prisma.sERVICE.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SERVICEUpdateManyArgs>(args: SelectSubset<T, SERVICEUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SERVICES and returns the data updated in the database.
+     * @param {SERVICEUpdateManyAndReturnArgs} args - Arguments to update many SERVICES.
+     * @example
+     * // Update many SERVICES
+     * const sERVICE = await prisma.sERVICE.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SERVICES and only return the `ServiceID`
+     * const sERVICEWithServiceIDOnly = await prisma.sERVICE.updateManyAndReturn({
+     *   select: { ServiceID: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SERVICEUpdateManyAndReturnArgs>(args: SelectSubset<T, SERVICEUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SERVICEPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SERVICE.
+     * @param {SERVICEUpsertArgs} args - Arguments to update or create a SERVICE.
+     * @example
+     * // Update or create a SERVICE
+     * const sERVICE = await prisma.sERVICE.upsert({
+     *   create: {
+     *     // ... data to create a SERVICE
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SERVICE we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SERVICEUpsertArgs>(args: SelectSubset<T, SERVICEUpsertArgs<ExtArgs>>): Prisma__SERVICEClient<$Result.GetResult<Prisma.$SERVICEPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SERVICES.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SERVICECountArgs} args - Arguments to filter SERVICES to count.
+     * @example
+     * // Count the number of SERVICES
+     * const count = await prisma.sERVICE.count({
+     *   where: {
+     *     // ... the filter for the SERVICES we want to count
+     *   }
+     * })
+    **/
+    count<T extends SERVICECountArgs>(
+      args?: Subset<T, SERVICECountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SERVICECountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SERVICE.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SERVICEAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SERVICEAggregateArgs>(args: Subset<T, SERVICEAggregateArgs>): Prisma.PrismaPromise<GetSERVICEAggregateType<T>>
+
+    /**
+     * Group by SERVICE.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SERVICEGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SERVICEGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SERVICEGroupByArgs['orderBy'] }
+        : { orderBy?: SERVICEGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SERVICEGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSERVICEGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SERVICE model
+   */
+  readonly fields: SERVICEFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SERVICE.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SERVICEClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    Damage<T extends DamageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DamageDefaultArgs<ExtArgs>>): Prisma__DamageClient<$Result.GetResult<Prisma.$DamagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SERVICE model
+   */
+  interface SERVICEFieldRefs {
+    readonly ServiceID: FieldRef<"SERVICE", 'Int'>
+    readonly CategoryS: FieldRef<"SERVICE", 'String'>
+    readonly DescriptionS: FieldRef<"SERVICE", 'String'>
+    readonly StatusS: FieldRef<"SERVICE", 'String'>
+    readonly CostEstimateS: FieldRef<"SERVICE", 'Decimal'>
+    readonly CompletionDateS: FieldRef<"SERVICE", 'DateTime'>
+    readonly ValidityStartS: FieldRef<"SERVICE", 'DateTime'>
+    readonly ValidityEndS: FieldRef<"SERVICE", 'DateTime'>
+    readonly EstimatedDurationS: FieldRef<"SERVICE", 'String'>
+    readonly DamageID: FieldRef<"SERVICE", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SERVICE findUnique
+   */
+  export type SERVICEFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SERVICE
+     */
+    select?: SERVICESelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SERVICE
+     */
+    omit?: SERVICEOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SERVICEInclude<ExtArgs> | null
+    /**
+     * Filter, which SERVICE to fetch.
+     */
+    where: SERVICEWhereUniqueInput
+  }
+
+  /**
+   * SERVICE findUniqueOrThrow
+   */
+  export type SERVICEFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SERVICE
+     */
+    select?: SERVICESelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SERVICE
+     */
+    omit?: SERVICEOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SERVICEInclude<ExtArgs> | null
+    /**
+     * Filter, which SERVICE to fetch.
+     */
+    where: SERVICEWhereUniqueInput
+  }
+
+  /**
+   * SERVICE findFirst
+   */
+  export type SERVICEFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SERVICE
+     */
+    select?: SERVICESelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SERVICE
+     */
+    omit?: SERVICEOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SERVICEInclude<ExtArgs> | null
+    /**
+     * Filter, which SERVICE to fetch.
+     */
+    where?: SERVICEWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SERVICES to fetch.
+     */
+    orderBy?: SERVICEOrderByWithRelationInput | SERVICEOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SERVICES.
+     */
+    cursor?: SERVICEWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SERVICES from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SERVICES.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SERVICES.
+     */
+    distinct?: SERVICEScalarFieldEnum | SERVICEScalarFieldEnum[]
+  }
+
+  /**
+   * SERVICE findFirstOrThrow
+   */
+  export type SERVICEFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SERVICE
+     */
+    select?: SERVICESelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SERVICE
+     */
+    omit?: SERVICEOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SERVICEInclude<ExtArgs> | null
+    /**
+     * Filter, which SERVICE to fetch.
+     */
+    where?: SERVICEWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SERVICES to fetch.
+     */
+    orderBy?: SERVICEOrderByWithRelationInput | SERVICEOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SERVICES.
+     */
+    cursor?: SERVICEWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SERVICES from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SERVICES.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SERVICES.
+     */
+    distinct?: SERVICEScalarFieldEnum | SERVICEScalarFieldEnum[]
+  }
+
+  /**
+   * SERVICE findMany
+   */
+  export type SERVICEFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SERVICE
+     */
+    select?: SERVICESelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SERVICE
+     */
+    omit?: SERVICEOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SERVICEInclude<ExtArgs> | null
+    /**
+     * Filter, which SERVICES to fetch.
+     */
+    where?: SERVICEWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SERVICES to fetch.
+     */
+    orderBy?: SERVICEOrderByWithRelationInput | SERVICEOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SERVICES.
+     */
+    cursor?: SERVICEWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SERVICES from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SERVICES.
+     */
+    skip?: number
+    distinct?: SERVICEScalarFieldEnum | SERVICEScalarFieldEnum[]
+  }
+
+  /**
+   * SERVICE create
+   */
+  export type SERVICECreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SERVICE
+     */
+    select?: SERVICESelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SERVICE
+     */
+    omit?: SERVICEOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SERVICEInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SERVICE.
+     */
+    data: XOR<SERVICECreateInput, SERVICEUncheckedCreateInput>
+  }
+
+  /**
+   * SERVICE createMany
+   */
+  export type SERVICECreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SERVICES.
+     */
+    data: SERVICECreateManyInput | SERVICECreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SERVICE createManyAndReturn
+   */
+  export type SERVICECreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SERVICE
+     */
+    select?: SERVICESelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SERVICE
+     */
+    omit?: SERVICEOmit<ExtArgs> | null
+    /**
+     * The data used to create many SERVICES.
+     */
+    data: SERVICECreateManyInput | SERVICECreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SERVICEIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SERVICE update
+   */
+  export type SERVICEUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SERVICE
+     */
+    select?: SERVICESelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SERVICE
+     */
+    omit?: SERVICEOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SERVICEInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SERVICE.
+     */
+    data: XOR<SERVICEUpdateInput, SERVICEUncheckedUpdateInput>
+    /**
+     * Choose, which SERVICE to update.
+     */
+    where: SERVICEWhereUniqueInput
+  }
+
+  /**
+   * SERVICE updateMany
+   */
+  export type SERVICEUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SERVICES.
+     */
+    data: XOR<SERVICEUpdateManyMutationInput, SERVICEUncheckedUpdateManyInput>
+    /**
+     * Filter which SERVICES to update
+     */
+    where?: SERVICEWhereInput
+    /**
+     * Limit how many SERVICES to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SERVICE updateManyAndReturn
+   */
+  export type SERVICEUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SERVICE
+     */
+    select?: SERVICESelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SERVICE
+     */
+    omit?: SERVICEOmit<ExtArgs> | null
+    /**
+     * The data used to update SERVICES.
+     */
+    data: XOR<SERVICEUpdateManyMutationInput, SERVICEUncheckedUpdateManyInput>
+    /**
+     * Filter which SERVICES to update
+     */
+    where?: SERVICEWhereInput
+    /**
+     * Limit how many SERVICES to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SERVICEIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SERVICE upsert
+   */
+  export type SERVICEUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SERVICE
+     */
+    select?: SERVICESelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SERVICE
+     */
+    omit?: SERVICEOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SERVICEInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SERVICE to update in case it exists.
+     */
+    where: SERVICEWhereUniqueInput
+    /**
+     * In case the SERVICE found by the `where` argument doesn't exist, create a new SERVICE with this data.
+     */
+    create: XOR<SERVICECreateInput, SERVICEUncheckedCreateInput>
+    /**
+     * In case the SERVICE was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SERVICEUpdateInput, SERVICEUncheckedUpdateInput>
+  }
+
+  /**
+   * SERVICE delete
+   */
+  export type SERVICEDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SERVICE
+     */
+    select?: SERVICESelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SERVICE
+     */
+    omit?: SERVICEOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SERVICEInclude<ExtArgs> | null
+    /**
+     * Filter which SERVICE to delete.
+     */
+    where: SERVICEWhereUniqueInput
+  }
+
+  /**
+   * SERVICE deleteMany
+   */
+  export type SERVICEDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SERVICES to delete
+     */
+    where?: SERVICEWhereInput
+    /**
+     * Limit how many SERVICES to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SERVICE without action
+   */
+  export type SERVICEDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SERVICE
+     */
+    select?: SERVICESelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SERVICE
+     */
+    omit?: SERVICEOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SERVICEInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -10631,6 +11924,22 @@ export namespace Prisma {
   };
 
   export type TESTIMONYScalarFieldEnum = (typeof TESTIMONYScalarFieldEnum)[keyof typeof TESTIMONYScalarFieldEnum]
+
+
+  export const SERVICEScalarFieldEnum: {
+    ServiceID: 'ServiceID',
+    CategoryS: 'CategoryS',
+    DescriptionS: 'DescriptionS',
+    StatusS: 'StatusS',
+    CostEstimateS: 'CostEstimateS',
+    CompletionDateS: 'CompletionDateS',
+    ValidityStartS: 'ValidityStartS',
+    ValidityEndS: 'ValidityEndS',
+    EstimatedDurationS: 'EstimatedDurationS',
+    DamageID: 'DamageID'
+  };
+
+  export type SERVICEScalarFieldEnum = (typeof SERVICEScalarFieldEnum)[keyof typeof SERVICEScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -11097,6 +12406,7 @@ export namespace Prisma {
     Radius?: FloatNullableFilter<"Damage"> | number | null
     City?: StringNullableFilter<"Damage"> | string | null
     Crisis?: XOR<CrisisNullableScalarRelationFilter, CrisisWhereInput> | null
+    SERVICE?: SERVICEListRelationFilter
     TESTIMONY?: TESTIMONYListRelationFilter
   }
 
@@ -11111,6 +12421,7 @@ export namespace Prisma {
     Radius?: SortOrderInput | SortOrder
     City?: SortOrderInput | SortOrder
     Crisis?: CrisisOrderByWithRelationInput
+    SERVICE?: SERVICEOrderByRelationAggregateInput
     TESTIMONY?: TESTIMONYOrderByRelationAggregateInput
   }
 
@@ -11128,6 +12439,7 @@ export namespace Prisma {
     Radius?: FloatNullableFilter<"Damage"> | number | null
     City?: StringNullableFilter<"Damage"> | string | null
     Crisis?: XOR<CrisisNullableScalarRelationFilter, CrisisWhereInput> | null
+    SERVICE?: SERVICEListRelationFilter
     TESTIMONY?: TESTIMONYListRelationFilter
   }, "DamageID">
 
@@ -11226,6 +12538,88 @@ export namespace Prisma {
     mediaURL?: StringNullableWithAggregatesFilter<"TESTIMONY"> | string | null
     damageId?: IntWithAggregatesFilter<"TESTIMONY"> | number
     volunteerId?: IntWithAggregatesFilter<"TESTIMONY"> | number
+  }
+
+  export type SERVICEWhereInput = {
+    AND?: SERVICEWhereInput | SERVICEWhereInput[]
+    OR?: SERVICEWhereInput[]
+    NOT?: SERVICEWhereInput | SERVICEWhereInput[]
+    ServiceID?: IntFilter<"SERVICE"> | number
+    CategoryS?: StringNullableFilter<"SERVICE"> | string | null
+    DescriptionS?: StringNullableFilter<"SERVICE"> | string | null
+    StatusS?: StringNullableFilter<"SERVICE"> | string | null
+    CostEstimateS?: DecimalNullableFilter<"SERVICE"> | Decimal | DecimalJsLike | number | string | null
+    CompletionDateS?: DateTimeNullableFilter<"SERVICE"> | Date | string | null
+    ValidityStartS?: DateTimeNullableFilter<"SERVICE"> | Date | string | null
+    ValidityEndS?: DateTimeNullableFilter<"SERVICE"> | Date | string | null
+    EstimatedDurationS?: StringNullableFilter<"SERVICE"> | string | null
+    DamageID?: IntFilter<"SERVICE"> | number
+    Damage?: XOR<DamageScalarRelationFilter, DamageWhereInput>
+  }
+
+  export type SERVICEOrderByWithRelationInput = {
+    ServiceID?: SortOrder
+    CategoryS?: SortOrderInput | SortOrder
+    DescriptionS?: SortOrderInput | SortOrder
+    StatusS?: SortOrderInput | SortOrder
+    CostEstimateS?: SortOrderInput | SortOrder
+    CompletionDateS?: SortOrderInput | SortOrder
+    ValidityStartS?: SortOrderInput | SortOrder
+    ValidityEndS?: SortOrderInput | SortOrder
+    EstimatedDurationS?: SortOrderInput | SortOrder
+    DamageID?: SortOrder
+    Damage?: DamageOrderByWithRelationInput
+  }
+
+  export type SERVICEWhereUniqueInput = Prisma.AtLeast<{
+    ServiceID?: number
+    AND?: SERVICEWhereInput | SERVICEWhereInput[]
+    OR?: SERVICEWhereInput[]
+    NOT?: SERVICEWhereInput | SERVICEWhereInput[]
+    CategoryS?: StringNullableFilter<"SERVICE"> | string | null
+    DescriptionS?: StringNullableFilter<"SERVICE"> | string | null
+    StatusS?: StringNullableFilter<"SERVICE"> | string | null
+    CostEstimateS?: DecimalNullableFilter<"SERVICE"> | Decimal | DecimalJsLike | number | string | null
+    CompletionDateS?: DateTimeNullableFilter<"SERVICE"> | Date | string | null
+    ValidityStartS?: DateTimeNullableFilter<"SERVICE"> | Date | string | null
+    ValidityEndS?: DateTimeNullableFilter<"SERVICE"> | Date | string | null
+    EstimatedDurationS?: StringNullableFilter<"SERVICE"> | string | null
+    DamageID?: IntFilter<"SERVICE"> | number
+    Damage?: XOR<DamageScalarRelationFilter, DamageWhereInput>
+  }, "ServiceID">
+
+  export type SERVICEOrderByWithAggregationInput = {
+    ServiceID?: SortOrder
+    CategoryS?: SortOrderInput | SortOrder
+    DescriptionS?: SortOrderInput | SortOrder
+    StatusS?: SortOrderInput | SortOrder
+    CostEstimateS?: SortOrderInput | SortOrder
+    CompletionDateS?: SortOrderInput | SortOrder
+    ValidityStartS?: SortOrderInput | SortOrder
+    ValidityEndS?: SortOrderInput | SortOrder
+    EstimatedDurationS?: SortOrderInput | SortOrder
+    DamageID?: SortOrder
+    _count?: SERVICECountOrderByAggregateInput
+    _avg?: SERVICEAvgOrderByAggregateInput
+    _max?: SERVICEMaxOrderByAggregateInput
+    _min?: SERVICEMinOrderByAggregateInput
+    _sum?: SERVICESumOrderByAggregateInput
+  }
+
+  export type SERVICEScalarWhereWithAggregatesInput = {
+    AND?: SERVICEScalarWhereWithAggregatesInput | SERVICEScalarWhereWithAggregatesInput[]
+    OR?: SERVICEScalarWhereWithAggregatesInput[]
+    NOT?: SERVICEScalarWhereWithAggregatesInput | SERVICEScalarWhereWithAggregatesInput[]
+    ServiceID?: IntWithAggregatesFilter<"SERVICE"> | number
+    CategoryS?: StringNullableWithAggregatesFilter<"SERVICE"> | string | null
+    DescriptionS?: StringNullableWithAggregatesFilter<"SERVICE"> | string | null
+    StatusS?: StringNullableWithAggregatesFilter<"SERVICE"> | string | null
+    CostEstimateS?: DecimalNullableWithAggregatesFilter<"SERVICE"> | Decimal | DecimalJsLike | number | string | null
+    CompletionDateS?: DateTimeNullableWithAggregatesFilter<"SERVICE"> | Date | string | null
+    ValidityStartS?: DateTimeNullableWithAggregatesFilter<"SERVICE"> | Date | string | null
+    ValidityEndS?: DateTimeNullableWithAggregatesFilter<"SERVICE"> | Date | string | null
+    EstimatedDurationS?: StringNullableWithAggregatesFilter<"SERVICE"> | string | null
+    DamageID?: IntWithAggregatesFilter<"SERVICE"> | number
   }
 
   export type UserCreateInput = {
@@ -11575,6 +12969,7 @@ export namespace Prisma {
     Radius?: number | null
     City?: string | null
     Crisis?: CrisisCreateNestedOneWithoutDamageInput
+    SERVICE?: SERVICECreateNestedManyWithoutDamageInput
     TESTIMONY?: TESTIMONYCreateNestedManyWithoutDamageInput
   }
 
@@ -11588,6 +12983,7 @@ export namespace Prisma {
     Description?: string | null
     Radius?: number | null
     City?: string | null
+    SERVICE?: SERVICEUncheckedCreateNestedManyWithoutDamageInput
     TESTIMONY?: TESTIMONYUncheckedCreateNestedManyWithoutDamageInput
   }
 
@@ -11600,6 +12996,7 @@ export namespace Prisma {
     Radius?: NullableFloatFieldUpdateOperationsInput | number | null
     City?: NullableStringFieldUpdateOperationsInput | string | null
     Crisis?: CrisisUpdateOneWithoutDamageNestedInput
+    SERVICE?: SERVICEUpdateManyWithoutDamageNestedInput
     TESTIMONY?: TESTIMONYUpdateManyWithoutDamageNestedInput
   }
 
@@ -11613,6 +13010,7 @@ export namespace Prisma {
     Description?: NullableStringFieldUpdateOperationsInput | string | null
     Radius?: NullableFloatFieldUpdateOperationsInput | number | null
     City?: NullableStringFieldUpdateOperationsInput | string | null
+    SERVICE?: SERVICEUncheckedUpdateManyWithoutDamageNestedInput
     TESTIMONY?: TESTIMONYUncheckedUpdateManyWithoutDamageNestedInput
   }
 
@@ -11706,6 +13104,93 @@ export namespace Prisma {
     mediaURL?: NullableStringFieldUpdateOperationsInput | string | null
     damageId?: IntFieldUpdateOperationsInput | number
     volunteerId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SERVICECreateInput = {
+    CategoryS?: string | null
+    DescriptionS?: string | null
+    StatusS?: string | null
+    CostEstimateS?: Decimal | DecimalJsLike | number | string | null
+    CompletionDateS?: Date | string | null
+    ValidityStartS?: Date | string | null
+    ValidityEndS?: Date | string | null
+    EstimatedDurationS?: string | null
+    Damage: DamageCreateNestedOneWithoutSERVICEInput
+  }
+
+  export type SERVICEUncheckedCreateInput = {
+    ServiceID?: number
+    CategoryS?: string | null
+    DescriptionS?: string | null
+    StatusS?: string | null
+    CostEstimateS?: Decimal | DecimalJsLike | number | string | null
+    CompletionDateS?: Date | string | null
+    ValidityStartS?: Date | string | null
+    ValidityEndS?: Date | string | null
+    EstimatedDurationS?: string | null
+    DamageID: number
+  }
+
+  export type SERVICEUpdateInput = {
+    CategoryS?: NullableStringFieldUpdateOperationsInput | string | null
+    DescriptionS?: NullableStringFieldUpdateOperationsInput | string | null
+    StatusS?: NullableStringFieldUpdateOperationsInput | string | null
+    CostEstimateS?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    CompletionDateS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ValidityStartS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ValidityEndS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    EstimatedDurationS?: NullableStringFieldUpdateOperationsInput | string | null
+    Damage?: DamageUpdateOneRequiredWithoutSERVICENestedInput
+  }
+
+  export type SERVICEUncheckedUpdateInput = {
+    ServiceID?: IntFieldUpdateOperationsInput | number
+    CategoryS?: NullableStringFieldUpdateOperationsInput | string | null
+    DescriptionS?: NullableStringFieldUpdateOperationsInput | string | null
+    StatusS?: NullableStringFieldUpdateOperationsInput | string | null
+    CostEstimateS?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    CompletionDateS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ValidityStartS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ValidityEndS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    EstimatedDurationS?: NullableStringFieldUpdateOperationsInput | string | null
+    DamageID?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SERVICECreateManyInput = {
+    ServiceID?: number
+    CategoryS?: string | null
+    DescriptionS?: string | null
+    StatusS?: string | null
+    CostEstimateS?: Decimal | DecimalJsLike | number | string | null
+    CompletionDateS?: Date | string | null
+    ValidityStartS?: Date | string | null
+    ValidityEndS?: Date | string | null
+    EstimatedDurationS?: string | null
+    DamageID: number
+  }
+
+  export type SERVICEUpdateManyMutationInput = {
+    CategoryS?: NullableStringFieldUpdateOperationsInput | string | null
+    DescriptionS?: NullableStringFieldUpdateOperationsInput | string | null
+    StatusS?: NullableStringFieldUpdateOperationsInput | string | null
+    CostEstimateS?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    CompletionDateS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ValidityStartS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ValidityEndS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    EstimatedDurationS?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SERVICEUncheckedUpdateManyInput = {
+    ServiceID?: IntFieldUpdateOperationsInput | number
+    CategoryS?: NullableStringFieldUpdateOperationsInput | string | null
+    DescriptionS?: NullableStringFieldUpdateOperationsInput | string | null
+    StatusS?: NullableStringFieldUpdateOperationsInput | string | null
+    CostEstimateS?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    CompletionDateS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ValidityStartS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ValidityEndS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    EstimatedDurationS?: NullableStringFieldUpdateOperationsInput | string | null
+    DamageID?: IntFieldUpdateOperationsInput | number
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -12184,6 +13669,16 @@ export namespace Prisma {
     isNot?: CrisisWhereInput | null
   }
 
+  export type SERVICEListRelationFilter = {
+    every?: SERVICEWhereInput
+    some?: SERVICEWhereInput
+    none?: SERVICEWhereInput
+  }
+
+  export type SERVICEOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type DamageCountOrderByAggregateInput = {
     DamageID?: SortOrder
     CategoryD?: SortOrder
@@ -12308,6 +13803,57 @@ export namespace Prisma {
     testimonyId?: SortOrder
     damageId?: SortOrder
     volunteerId?: SortOrder
+  }
+
+  export type SERVICECountOrderByAggregateInput = {
+    ServiceID?: SortOrder
+    CategoryS?: SortOrder
+    DescriptionS?: SortOrder
+    StatusS?: SortOrder
+    CostEstimateS?: SortOrder
+    CompletionDateS?: SortOrder
+    ValidityStartS?: SortOrder
+    ValidityEndS?: SortOrder
+    EstimatedDurationS?: SortOrder
+    DamageID?: SortOrder
+  }
+
+  export type SERVICEAvgOrderByAggregateInput = {
+    ServiceID?: SortOrder
+    CostEstimateS?: SortOrder
+    DamageID?: SortOrder
+  }
+
+  export type SERVICEMaxOrderByAggregateInput = {
+    ServiceID?: SortOrder
+    CategoryS?: SortOrder
+    DescriptionS?: SortOrder
+    StatusS?: SortOrder
+    CostEstimateS?: SortOrder
+    CompletionDateS?: SortOrder
+    ValidityStartS?: SortOrder
+    ValidityEndS?: SortOrder
+    EstimatedDurationS?: SortOrder
+    DamageID?: SortOrder
+  }
+
+  export type SERVICEMinOrderByAggregateInput = {
+    ServiceID?: SortOrder
+    CategoryS?: SortOrder
+    DescriptionS?: SortOrder
+    StatusS?: SortOrder
+    CostEstimateS?: SortOrder
+    CompletionDateS?: SortOrder
+    ValidityStartS?: SortOrder
+    ValidityEndS?: SortOrder
+    EstimatedDurationS?: SortOrder
+    DamageID?: SortOrder
+  }
+
+  export type SERVICESumOrderByAggregateInput = {
+    ServiceID?: SortOrder
+    CostEstimateS?: SortOrder
+    DamageID?: SortOrder
   }
 
   export type VolunteerCreateNestedOneWithoutUSERInput = {
@@ -12578,11 +14124,25 @@ export namespace Prisma {
     connect?: CrisisWhereUniqueInput
   }
 
+  export type SERVICECreateNestedManyWithoutDamageInput = {
+    create?: XOR<SERVICECreateWithoutDamageInput, SERVICEUncheckedCreateWithoutDamageInput> | SERVICECreateWithoutDamageInput[] | SERVICEUncheckedCreateWithoutDamageInput[]
+    connectOrCreate?: SERVICECreateOrConnectWithoutDamageInput | SERVICECreateOrConnectWithoutDamageInput[]
+    createMany?: SERVICECreateManyDamageInputEnvelope
+    connect?: SERVICEWhereUniqueInput | SERVICEWhereUniqueInput[]
+  }
+
   export type TESTIMONYCreateNestedManyWithoutDamageInput = {
     create?: XOR<TESTIMONYCreateWithoutDamageInput, TESTIMONYUncheckedCreateWithoutDamageInput> | TESTIMONYCreateWithoutDamageInput[] | TESTIMONYUncheckedCreateWithoutDamageInput[]
     connectOrCreate?: TESTIMONYCreateOrConnectWithoutDamageInput | TESTIMONYCreateOrConnectWithoutDamageInput[]
     createMany?: TESTIMONYCreateManyDamageInputEnvelope
     connect?: TESTIMONYWhereUniqueInput | TESTIMONYWhereUniqueInput[]
+  }
+
+  export type SERVICEUncheckedCreateNestedManyWithoutDamageInput = {
+    create?: XOR<SERVICECreateWithoutDamageInput, SERVICEUncheckedCreateWithoutDamageInput> | SERVICECreateWithoutDamageInput[] | SERVICEUncheckedCreateWithoutDamageInput[]
+    connectOrCreate?: SERVICECreateOrConnectWithoutDamageInput | SERVICECreateOrConnectWithoutDamageInput[]
+    createMany?: SERVICECreateManyDamageInputEnvelope
+    connect?: SERVICEWhereUniqueInput | SERVICEWhereUniqueInput[]
   }
 
   export type TESTIMONYUncheckedCreateNestedManyWithoutDamageInput = {
@@ -12618,6 +14178,20 @@ export namespace Prisma {
     update?: XOR<XOR<CrisisUpdateToOneWithWhereWithoutDamageInput, CrisisUpdateWithoutDamageInput>, CrisisUncheckedUpdateWithoutDamageInput>
   }
 
+  export type SERVICEUpdateManyWithoutDamageNestedInput = {
+    create?: XOR<SERVICECreateWithoutDamageInput, SERVICEUncheckedCreateWithoutDamageInput> | SERVICECreateWithoutDamageInput[] | SERVICEUncheckedCreateWithoutDamageInput[]
+    connectOrCreate?: SERVICECreateOrConnectWithoutDamageInput | SERVICECreateOrConnectWithoutDamageInput[]
+    upsert?: SERVICEUpsertWithWhereUniqueWithoutDamageInput | SERVICEUpsertWithWhereUniqueWithoutDamageInput[]
+    createMany?: SERVICECreateManyDamageInputEnvelope
+    set?: SERVICEWhereUniqueInput | SERVICEWhereUniqueInput[]
+    disconnect?: SERVICEWhereUniqueInput | SERVICEWhereUniqueInput[]
+    delete?: SERVICEWhereUniqueInput | SERVICEWhereUniqueInput[]
+    connect?: SERVICEWhereUniqueInput | SERVICEWhereUniqueInput[]
+    update?: SERVICEUpdateWithWhereUniqueWithoutDamageInput | SERVICEUpdateWithWhereUniqueWithoutDamageInput[]
+    updateMany?: SERVICEUpdateManyWithWhereWithoutDamageInput | SERVICEUpdateManyWithWhereWithoutDamageInput[]
+    deleteMany?: SERVICEScalarWhereInput | SERVICEScalarWhereInput[]
+  }
+
   export type TESTIMONYUpdateManyWithoutDamageNestedInput = {
     create?: XOR<TESTIMONYCreateWithoutDamageInput, TESTIMONYUncheckedCreateWithoutDamageInput> | TESTIMONYCreateWithoutDamageInput[] | TESTIMONYUncheckedCreateWithoutDamageInput[]
     connectOrCreate?: TESTIMONYCreateOrConnectWithoutDamageInput | TESTIMONYCreateOrConnectWithoutDamageInput[]
@@ -12630,6 +14204,20 @@ export namespace Prisma {
     update?: TESTIMONYUpdateWithWhereUniqueWithoutDamageInput | TESTIMONYUpdateWithWhereUniqueWithoutDamageInput[]
     updateMany?: TESTIMONYUpdateManyWithWhereWithoutDamageInput | TESTIMONYUpdateManyWithWhereWithoutDamageInput[]
     deleteMany?: TESTIMONYScalarWhereInput | TESTIMONYScalarWhereInput[]
+  }
+
+  export type SERVICEUncheckedUpdateManyWithoutDamageNestedInput = {
+    create?: XOR<SERVICECreateWithoutDamageInput, SERVICEUncheckedCreateWithoutDamageInput> | SERVICECreateWithoutDamageInput[] | SERVICEUncheckedCreateWithoutDamageInput[]
+    connectOrCreate?: SERVICECreateOrConnectWithoutDamageInput | SERVICECreateOrConnectWithoutDamageInput[]
+    upsert?: SERVICEUpsertWithWhereUniqueWithoutDamageInput | SERVICEUpsertWithWhereUniqueWithoutDamageInput[]
+    createMany?: SERVICECreateManyDamageInputEnvelope
+    set?: SERVICEWhereUniqueInput | SERVICEWhereUniqueInput[]
+    disconnect?: SERVICEWhereUniqueInput | SERVICEWhereUniqueInput[]
+    delete?: SERVICEWhereUniqueInput | SERVICEWhereUniqueInput[]
+    connect?: SERVICEWhereUniqueInput | SERVICEWhereUniqueInput[]
+    update?: SERVICEUpdateWithWhereUniqueWithoutDamageInput | SERVICEUpdateWithWhereUniqueWithoutDamageInput[]
+    updateMany?: SERVICEUpdateManyWithWhereWithoutDamageInput | SERVICEUpdateManyWithWhereWithoutDamageInput[]
+    deleteMany?: SERVICEScalarWhereInput | SERVICEScalarWhereInput[]
   }
 
   export type TESTIMONYUncheckedUpdateManyWithoutDamageNestedInput = {
@@ -12672,6 +14260,20 @@ export namespace Prisma {
     upsert?: VolunteerUpsertWithoutTESTIMONYInput
     connect?: VolunteerWhereUniqueInput
     update?: XOR<XOR<VolunteerUpdateToOneWithWhereWithoutTESTIMONYInput, VolunteerUpdateWithoutTESTIMONYInput>, VolunteerUncheckedUpdateWithoutTESTIMONYInput>
+  }
+
+  export type DamageCreateNestedOneWithoutSERVICEInput = {
+    create?: XOR<DamageCreateWithoutSERVICEInput, DamageUncheckedCreateWithoutSERVICEInput>
+    connectOrCreate?: DamageCreateOrConnectWithoutSERVICEInput
+    connect?: DamageWhereUniqueInput
+  }
+
+  export type DamageUpdateOneRequiredWithoutSERVICENestedInput = {
+    create?: XOR<DamageCreateWithoutSERVICEInput, DamageUncheckedCreateWithoutSERVICEInput>
+    connectOrCreate?: DamageCreateOrConnectWithoutSERVICEInput
+    upsert?: DamageUpsertWithoutSERVICEInput
+    connect?: DamageWhereUniqueInput
+    update?: XOR<XOR<DamageUpdateToOneWithWhereWithoutSERVICEInput, DamageUpdateWithoutSERVICEInput>, DamageUncheckedUpdateWithoutSERVICEInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -13293,6 +14895,7 @@ export namespace Prisma {
     Description?: string | null
     Radius?: number | null
     City?: string | null
+    SERVICE?: SERVICECreateNestedManyWithoutDamageInput
     TESTIMONY?: TESTIMONYCreateNestedManyWithoutDamageInput
   }
 
@@ -13305,6 +14908,7 @@ export namespace Prisma {
     Description?: string | null
     Radius?: number | null
     City?: string | null
+    SERVICE?: SERVICEUncheckedCreateNestedManyWithoutDamageInput
     TESTIMONY?: TESTIMONYUncheckedCreateNestedManyWithoutDamageInput
   }
 
@@ -13373,6 +14977,39 @@ export namespace Prisma {
     create: XOR<CrisisCreateWithoutDamageInput, CrisisUncheckedCreateWithoutDamageInput>
   }
 
+  export type SERVICECreateWithoutDamageInput = {
+    CategoryS?: string | null
+    DescriptionS?: string | null
+    StatusS?: string | null
+    CostEstimateS?: Decimal | DecimalJsLike | number | string | null
+    CompletionDateS?: Date | string | null
+    ValidityStartS?: Date | string | null
+    ValidityEndS?: Date | string | null
+    EstimatedDurationS?: string | null
+  }
+
+  export type SERVICEUncheckedCreateWithoutDamageInput = {
+    ServiceID?: number
+    CategoryS?: string | null
+    DescriptionS?: string | null
+    StatusS?: string | null
+    CostEstimateS?: Decimal | DecimalJsLike | number | string | null
+    CompletionDateS?: Date | string | null
+    ValidityStartS?: Date | string | null
+    ValidityEndS?: Date | string | null
+    EstimatedDurationS?: string | null
+  }
+
+  export type SERVICECreateOrConnectWithoutDamageInput = {
+    where: SERVICEWhereUniqueInput
+    create: XOR<SERVICECreateWithoutDamageInput, SERVICEUncheckedCreateWithoutDamageInput>
+  }
+
+  export type SERVICECreateManyDamageInputEnvelope = {
+    data: SERVICECreateManyDamageInput | SERVICECreateManyDamageInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TESTIMONYCreateWithoutDamageInput = {
     contentT: string
     dateT?: Date | string | null
@@ -13428,6 +15065,38 @@ export namespace Prisma {
     TypeC?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type SERVICEUpsertWithWhereUniqueWithoutDamageInput = {
+    where: SERVICEWhereUniqueInput
+    update: XOR<SERVICEUpdateWithoutDamageInput, SERVICEUncheckedUpdateWithoutDamageInput>
+    create: XOR<SERVICECreateWithoutDamageInput, SERVICEUncheckedCreateWithoutDamageInput>
+  }
+
+  export type SERVICEUpdateWithWhereUniqueWithoutDamageInput = {
+    where: SERVICEWhereUniqueInput
+    data: XOR<SERVICEUpdateWithoutDamageInput, SERVICEUncheckedUpdateWithoutDamageInput>
+  }
+
+  export type SERVICEUpdateManyWithWhereWithoutDamageInput = {
+    where: SERVICEScalarWhereInput
+    data: XOR<SERVICEUpdateManyMutationInput, SERVICEUncheckedUpdateManyWithoutDamageInput>
+  }
+
+  export type SERVICEScalarWhereInput = {
+    AND?: SERVICEScalarWhereInput | SERVICEScalarWhereInput[]
+    OR?: SERVICEScalarWhereInput[]
+    NOT?: SERVICEScalarWhereInput | SERVICEScalarWhereInput[]
+    ServiceID?: IntFilter<"SERVICE"> | number
+    CategoryS?: StringNullableFilter<"SERVICE"> | string | null
+    DescriptionS?: StringNullableFilter<"SERVICE"> | string | null
+    StatusS?: StringNullableFilter<"SERVICE"> | string | null
+    CostEstimateS?: DecimalNullableFilter<"SERVICE"> | Decimal | DecimalJsLike | number | string | null
+    CompletionDateS?: DateTimeNullableFilter<"SERVICE"> | Date | string | null
+    ValidityStartS?: DateTimeNullableFilter<"SERVICE"> | Date | string | null
+    ValidityEndS?: DateTimeNullableFilter<"SERVICE"> | Date | string | null
+    EstimatedDurationS?: StringNullableFilter<"SERVICE"> | string | null
+    DamageID?: IntFilter<"SERVICE"> | number
+  }
+
   export type TESTIMONYUpsertWithWhereUniqueWithoutDamageInput = {
     where: TESTIMONYWhereUniqueInput
     update: XOR<TESTIMONYUpdateWithoutDamageInput, TESTIMONYUncheckedUpdateWithoutDamageInput>
@@ -13453,6 +15122,7 @@ export namespace Prisma {
     Radius?: number | null
     City?: string | null
     Crisis?: CrisisCreateNestedOneWithoutDamageInput
+    SERVICE?: SERVICECreateNestedManyWithoutDamageInput
   }
 
   export type DamageUncheckedCreateWithoutTESTIMONYInput = {
@@ -13465,6 +15135,7 @@ export namespace Prisma {
     Description?: string | null
     Radius?: number | null
     City?: string | null
+    SERVICE?: SERVICEUncheckedCreateNestedManyWithoutDamageInput
   }
 
   export type DamageCreateOrConnectWithoutTESTIMONYInput = {
@@ -13520,6 +15191,7 @@ export namespace Prisma {
     Radius?: NullableFloatFieldUpdateOperationsInput | number | null
     City?: NullableStringFieldUpdateOperationsInput | string | null
     Crisis?: CrisisUpdateOneWithoutDamageNestedInput
+    SERVICE?: SERVICEUpdateManyWithoutDamageNestedInput
   }
 
   export type DamageUncheckedUpdateWithoutTESTIMONYInput = {
@@ -13532,6 +15204,7 @@ export namespace Prisma {
     Description?: NullableStringFieldUpdateOperationsInput | string | null
     Radius?: NullableFloatFieldUpdateOperationsInput | number | null
     City?: NullableStringFieldUpdateOperationsInput | string | null
+    SERVICE?: SERVICEUncheckedUpdateManyWithoutDamageNestedInput
   }
 
   export type VolunteerUpsertWithoutTESTIMONYInput = {
@@ -13566,6 +15239,72 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     Citizen?: CitizenUncheckedUpdateOneWithoutVOLNestedInput
     ngo?: NGOUncheckedUpdateOneWithoutVOLLNestedInput
+  }
+
+  export type DamageCreateWithoutSERVICEInput = {
+    CategoryD: string
+    StartDateD?: Date | string | null
+    EndDateD?: Date | string | null
+    FinancialEstimationD?: Decimal | DecimalJsLike | number | string | null
+    Description?: string | null
+    Radius?: number | null
+    City?: string | null
+    Crisis?: CrisisCreateNestedOneWithoutDamageInput
+    TESTIMONY?: TESTIMONYCreateNestedManyWithoutDamageInput
+  }
+
+  export type DamageUncheckedCreateWithoutSERVICEInput = {
+    DamageID?: number
+    CategoryD: string
+    StartDateD?: Date | string | null
+    EndDateD?: Date | string | null
+    FinancialEstimationD?: Decimal | DecimalJsLike | number | string | null
+    CrisisID?: number | null
+    Description?: string | null
+    Radius?: number | null
+    City?: string | null
+    TESTIMONY?: TESTIMONYUncheckedCreateNestedManyWithoutDamageInput
+  }
+
+  export type DamageCreateOrConnectWithoutSERVICEInput = {
+    where: DamageWhereUniqueInput
+    create: XOR<DamageCreateWithoutSERVICEInput, DamageUncheckedCreateWithoutSERVICEInput>
+  }
+
+  export type DamageUpsertWithoutSERVICEInput = {
+    update: XOR<DamageUpdateWithoutSERVICEInput, DamageUncheckedUpdateWithoutSERVICEInput>
+    create: XOR<DamageCreateWithoutSERVICEInput, DamageUncheckedCreateWithoutSERVICEInput>
+    where?: DamageWhereInput
+  }
+
+  export type DamageUpdateToOneWithWhereWithoutSERVICEInput = {
+    where?: DamageWhereInput
+    data: XOR<DamageUpdateWithoutSERVICEInput, DamageUncheckedUpdateWithoutSERVICEInput>
+  }
+
+  export type DamageUpdateWithoutSERVICEInput = {
+    CategoryD?: StringFieldUpdateOperationsInput | string
+    StartDateD?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    EndDateD?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    FinancialEstimationD?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    Description?: NullableStringFieldUpdateOperationsInput | string | null
+    Radius?: NullableFloatFieldUpdateOperationsInput | number | null
+    City?: NullableStringFieldUpdateOperationsInput | string | null
+    Crisis?: CrisisUpdateOneWithoutDamageNestedInput
+    TESTIMONY?: TESTIMONYUpdateManyWithoutDamageNestedInput
+  }
+
+  export type DamageUncheckedUpdateWithoutSERVICEInput = {
+    DamageID?: IntFieldUpdateOperationsInput | number
+    CategoryD?: StringFieldUpdateOperationsInput | string
+    StartDateD?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    EndDateD?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    FinancialEstimationD?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    CrisisID?: NullableIntFieldUpdateOperationsInput | number | null
+    Description?: NullableStringFieldUpdateOperationsInput | string | null
+    Radius?: NullableFloatFieldUpdateOperationsInput | number | null
+    City?: NullableStringFieldUpdateOperationsInput | string | null
+    TESTIMONY?: TESTIMONYUncheckedUpdateManyWithoutDamageNestedInput
   }
 
   export type TESTIMONYCreateManyVolunteerInput = {
@@ -13618,6 +15357,7 @@ export namespace Prisma {
     Description?: NullableStringFieldUpdateOperationsInput | string | null
     Radius?: NullableFloatFieldUpdateOperationsInput | number | null
     City?: NullableStringFieldUpdateOperationsInput | string | null
+    SERVICE?: SERVICEUpdateManyWithoutDamageNestedInput
     TESTIMONY?: TESTIMONYUpdateManyWithoutDamageNestedInput
   }
 
@@ -13630,6 +15370,7 @@ export namespace Prisma {
     Description?: NullableStringFieldUpdateOperationsInput | string | null
     Radius?: NullableFloatFieldUpdateOperationsInput | number | null
     City?: NullableStringFieldUpdateOperationsInput | string | null
+    SERVICE?: SERVICEUncheckedUpdateManyWithoutDamageNestedInput
     TESTIMONY?: TESTIMONYUncheckedUpdateManyWithoutDamageNestedInput
   }
 
@@ -13644,12 +15385,59 @@ export namespace Prisma {
     City?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type SERVICECreateManyDamageInput = {
+    ServiceID?: number
+    CategoryS?: string | null
+    DescriptionS?: string | null
+    StatusS?: string | null
+    CostEstimateS?: Decimal | DecimalJsLike | number | string | null
+    CompletionDateS?: Date | string | null
+    ValidityStartS?: Date | string | null
+    ValidityEndS?: Date | string | null
+    EstimatedDurationS?: string | null
+  }
+
   export type TESTIMONYCreateManyDamageInput = {
     testimonyId?: number
     contentT: string
     dateT?: Date | string | null
     mediaURL?: string | null
     volunteerId: number
+  }
+
+  export type SERVICEUpdateWithoutDamageInput = {
+    CategoryS?: NullableStringFieldUpdateOperationsInput | string | null
+    DescriptionS?: NullableStringFieldUpdateOperationsInput | string | null
+    StatusS?: NullableStringFieldUpdateOperationsInput | string | null
+    CostEstimateS?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    CompletionDateS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ValidityStartS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ValidityEndS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    EstimatedDurationS?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SERVICEUncheckedUpdateWithoutDamageInput = {
+    ServiceID?: IntFieldUpdateOperationsInput | number
+    CategoryS?: NullableStringFieldUpdateOperationsInput | string | null
+    DescriptionS?: NullableStringFieldUpdateOperationsInput | string | null
+    StatusS?: NullableStringFieldUpdateOperationsInput | string | null
+    CostEstimateS?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    CompletionDateS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ValidityStartS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ValidityEndS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    EstimatedDurationS?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SERVICEUncheckedUpdateManyWithoutDamageInput = {
+    ServiceID?: IntFieldUpdateOperationsInput | number
+    CategoryS?: NullableStringFieldUpdateOperationsInput | string | null
+    DescriptionS?: NullableStringFieldUpdateOperationsInput | string | null
+    StatusS?: NullableStringFieldUpdateOperationsInput | string | null
+    CostEstimateS?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    CompletionDateS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ValidityStartS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ValidityEndS?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    EstimatedDurationS?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TESTIMONYUpdateWithoutDamageInput = {

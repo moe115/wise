@@ -19,8 +19,8 @@ export async function POST(req) {
             Radius,
             City
         } = await req.json();
-        
-        console.log("Damage data received:", { 
+
+        console.log("Damage data received:", {
             CategoryD,
             StartDateD,
             EndDateD,
@@ -37,7 +37,7 @@ export async function POST(req) {
         if (!CategoryD) {
             throw new Error('CategoryD (damage type) is required');
         }
-        
+
         if (!latitude || !longitude) {
             throw new Error('Latitude and longitude are required');
         }
@@ -45,7 +45,7 @@ export async function POST(req) {
         // Validate coordinates are valid numbers
         const lat = parseFloat(latitude);
         const lng = parseFloat(longitude);
-        
+
         if (isNaN(lat) || isNaN(lng)) {
             throw new Error('Invalid latitude or longitude values');
         }
@@ -54,7 +54,7 @@ export async function POST(req) {
         if (lat < -90 || lat > 90) {
             throw new Error('Latitude must be between -90 and 90');
         }
-        
+
         if (lng < -180 || lng > 180) {
             throw new Error('Longitude must be between -180 and 180');
         }
@@ -87,7 +87,7 @@ export async function POST(req) {
             )
         `;
 
-        return new Response(JSON.stringify({ 
+        return new Response(JSON.stringify({
             message: 'Damage reported successfully',
             data: {
                 CategoryD,
@@ -102,10 +102,10 @@ export async function POST(req) {
 
     } catch (error) {
         console.error('Insert error:', error);
-        
+
         // Return more specific error information for debugging
-        return new Response(JSON.stringify({ 
-            error: 'Failed to report damage', 
+        return new Response(JSON.stringify({
+            error: 'Failed to report damage',
             details: error.message,
             stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
         }), {
