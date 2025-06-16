@@ -202,6 +202,11 @@ exports.Prisma.SERVICEScalarFieldEnum = {
   DamageID: 'DamageID'
 };
 
+exports.Prisma.PROVIDESScalarFieldEnum = {
+  VolunteerID: 'VolunteerID',
+  ServiceID: 'ServiceID'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -227,7 +232,8 @@ exports.Prisma.ModelName = {
   Crisis: 'Crisis',
   Damage: 'Damage',
   TESTIMONY: 'TESTIMONY',
-  SERVICE: 'SERVICE'
+  SERVICE: 'SERVICE',
+  PROVIDES: 'PROVIDES'
 };
 
 /**

@@ -26,6 +26,7 @@ model Volunteer {
   userId          Int         @unique
   Citizen         Citizen?
   ngo             NGO?
+  PROVIDES        PROVIDES[]
   TESTIMONY       TESTIMONY[]
   USER            User        @relation(fields: [userId], references: [id])
 }
@@ -94,15 +95,25 @@ model TESTIMONY {
 }
 
 model SERVICE {
-  ServiceID          Int       @id @default(autoincrement())
-  CategoryS          String?   @db.VarChar(50)
-  DescriptionS       String?   @db.VarChar(1000)
-  StatusS            String?   @db.VarChar(50)
-  CostEstimateS      Decimal?  @db.Decimal(15, 2)
-  CompletionDateS    DateTime? @db.Date
-  ValidityStartS     DateTime? @db.Date
-  ValidityEndS       DateTime? @db.Date
-  EstimatedDurationS String?   @db.VarChar(50)
+  ServiceID          Int        @id @default(autoincrement())
+  CategoryS          String?    @db.VarChar(50)
+  DescriptionS       String?    @db.VarChar(1000)
+  StatusS            String?    @db.VarChar(50)
+  CostEstimateS      Decimal?   @db.Decimal(15, 2)
+  CompletionDateS    DateTime?  @db.Date
+  ValidityStartS     DateTime?  @db.Date
+  ValidityEndS       DateTime?  @db.Date
+  EstimatedDurationS String?    @db.VarChar(50)
   DamageID           Int
-  Damage             Damage    @relation(fields: [DamageID], references: [DamageID], onDelete: Cascade, onUpdate: NoAction, map: "fk_damage_service")
+  PROVIDES           PROVIDES[]
+  Damage             Damage     @relation(fields: [DamageID], references: [DamageID], onDelete: Cascade, onUpdate: NoAction, map: "fk_damage_service")
+}
+
+model PROVIDES {
+  VolunteerID Int
+  ServiceID   Int
+  SERVICE     SERVICE   @relation(fields: [ServiceID], references: [ServiceID], onDelete: Cascade, onUpdate: NoAction, map: "fk_provides_service")
+  Volunteer   Volunteer @relation(fields: [VolunteerID], references: [volId], onDelete: Cascade, onUpdate: NoAction, map: "fk_provides_volunteer")
+
+  @@id([VolunteerID, ServiceID])
 }

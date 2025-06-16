@@ -311,7 +311,7 @@ function AddServiceForm() {
           </select>
         </div>
 
-        <div>
+        {/* <div>
           <label htmlFor="costEstimateS" style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold' }}>
             Cost Estimate (Optional):
           </label>
@@ -331,7 +331,7 @@ function AddServiceForm() {
               fontSize: '14px'
             }}
           />
-        </div>
+        </div> */}
 
         <div>
           <label htmlFor="estimatedDurationS" style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold' }}>

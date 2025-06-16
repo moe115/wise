@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '/lib/firebase'; // Keep auth from Firebase
 
 function ServicesPage() {
   const searchParams = useSearchParams();
@@ -11,6 +13,102 @@ function ServicesPage() {
   const [damageData, setDamageData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
+  const [volunteerId, setVolunteerId] = useState(null);
+  const [enrollingServices, setEnrollingServices] = useState(new Set());
+   const [userRole, setUserRole] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
+  // Track authentication state
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserEmail(user.email);
+      } else {
+        setUserEmail(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Fetch volunteer ID when email is available
+  useEffect(() => {
+    const fetchVolunteerId = async () => {
+      if (!userEmail) return;
+
+      try {
+        const response = await fetch(`/api/get-volunteer?email=${encodeURIComponent(userEmail)}`);
+        const data = await response.json();
+
+        if (response.ok) {
+          setVolunteerId(data.volunteerId);
+        } else {
+          console.error('Error fetching volunteer:', data.error);
+        }
+      } catch (error) {
+        console.error('Error fetching volunteer:', error);
+      }
+    };
+
+    fetchVolunteerId();
+  }, [userEmail]);
+
+
+
+
+
+   useEffect(() => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          setUserEmail(user.email);
+        } else {
+          setUserEmail(null);
+          setUserRole(null);
+          setUserProfile(null);
+          setLoading(false);
+        }
+      });
+  
+      return () => unsubscribe();
+    }, []);
+// Fetch user role and profile when email is available
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      if (!userEmail) return;
+
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await fetch(`/api/get-user-role?email=${encodeURIComponent(userEmail)}`);
+        const data = await response.json();
+
+        if (response.ok) {
+          setUserRole(data.role);
+          setUserProfile(data);
+        } else {
+          setError(data.error || 'Failed to fetch user role');
+        }
+      } catch (err) {
+        console.error('Error fetching user role:', err);
+        setError('Error connecting to server. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserRole();
+  }, [userEmail]);
+
+  // Role-based permission checks
+  const isVolunteer = () => userRole === 'volunteer';
+  const isEmployee = () => userRole === 'employee';
+  const hasVolunteerProfile = () => userProfile?.volunteerProfile !== null;
+
+
+
+
+
 
   useEffect(() => {
     const damageId = searchParams.get('damageId');
@@ -49,6 +147,52 @@ function ServicesPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleEnrollService = async (serviceId) => {
+    console.log(serviceId)
+    if (!userEmail || !volunteerId) {
+      alert('Please log in as a volunteer to enroll in services.');
+      return;
+    }
+
+    setEnrollingServices(prev => new Set([...prev, serviceId]));
+
+    try {
+      const response = await fetch('/api/enroll-service', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          serviceId: serviceId,
+          volunteerId: volunteerId
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Refresh services to show updated enrollment
+        await fetchServices(damageData.id);
+        alert('Successfully enrolled in service!');
+      } else {
+        alert(data.message || 'Failed to enroll in service');
+      }
+    } catch (error) {
+      console.error('Error enrolling in service:', error);
+      alert('Error enrolling in service. Please try again.');
+    } finally {
+      setEnrollingServices(prev => {
+        const updated = new Set(prev);
+        updated.delete(serviceId);
+        return updated;
+      });
+    }
+  };
+
+  const isVolunteerEnrolled = (service) => {
+    return service.provides && service.provides.some(p => p.volunteerId === volunteerId);
   };
 
   const formatDamageCategory = (category) => {
@@ -111,7 +255,7 @@ function ServicesPage() {
       damageData: JSON.stringify(damageData)
     });
     
-    router.push(`/add-service?${queryParams.toString()}`);
+    router.push(`/add-Service?${queryParams.toString()}`);
   };
 
   if (loading) {
@@ -152,7 +296,7 @@ function ServicesPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <h1>Services for Damage #{damageData?.id}</h1>
         <div style={{ display: 'flex', gap: '10px' }}>
-          <button
+          {isEmployee() &&   <button
             onClick={handleAddService}
             style={{
               padding: '10px 20px',
@@ -164,7 +308,7 @@ function ServicesPage() {
             }}
           >
             Add Service
-          </button>
+          </button> }
           <button
             onClick={() => router.back()}
             style={{
@@ -180,6 +324,33 @@ function ServicesPage() {
           </button>
         </div>
       </div>
+
+      {/* Authentication Status */}
+      {userEmail && (
+        <div style={{ 
+          backgroundColor: '#EFF6FF', 
+          color: '#1E40AF',
+          padding: '12px', 
+          borderRadius: '6px', 
+          marginBottom: '20px',
+          fontSize: '14px'
+        }}>
+          Logged in as: {userEmail} {volunteerId && `(Volunteer ID: ${volunteerId})`}
+        </div>
+      )}
+
+      {!userEmail && (
+        <div style={{ 
+          backgroundColor: '#FEF3C7', 
+          color: '#92400E',
+          padding: '12px', 
+          borderRadius: '6px', 
+          marginBottom: '20px',
+          fontSize: '14px'
+        }}>
+          Please log in as a volunteer to enroll in services.
+        </div>
+      )}
 
       {/* Damage Information */}
       {damageData && (
@@ -219,7 +390,9 @@ function ServicesPage() {
           color: 'black'
         }}>
           <h3>No Services Yet</h3>
-          <p style={{ marginBottom: '20px' }}>Be the first to add a service for this damage.</p>
+         
+          
+         { isEmployee() &&  <div> <p style={{ marginBottom: '20px' }}>Be the first to add a service for this damage.</p> 
           <button
             onClick={handleAddService}
             style={{
@@ -233,7 +406,7 @@ function ServicesPage() {
             }}
           >
             Add First Service
-          </button>
+          </button>  </div> }
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -257,7 +430,7 @@ function ServicesPage() {
                 flexWrap: 'wrap',
                 gap: '12px'
               }}>
-                <div>
+                <div style={{ flex: 1 }}>
                   <h3 style={{ 
                     margin: '0 0 8px 0', 
                     color: '#1F2937',
@@ -284,21 +457,56 @@ function ServicesPage() {
                     </span>
                   </div>
                 </div>
-                {service.costEstimate && (
-                  <div style={{ textAlign: 'right' }}>
-                    <p style={{ 
-                      margin: 0, 
-                      fontSize: '18px', 
-                      fontWeight: 'bold', 
-                      color: '#059669' 
-                    }}>
-                      {formatCurrency(service.costEstimate)}
-                    </p>
-                    <p style={{ margin: 0, fontSize: '12px', color: '#6B7280' }}>
-                      Cost Estimate
-                    </p>
-                  </div>
-                )}
+                
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
+                  {service.costEstimate && (
+                    <div style={{ textAlign: 'right' }}>
+                      <p style={{ 
+                        margin: 0, 
+                        fontSize: '18px', 
+                        fontWeight: 'bold', 
+                        color: '#059669' 
+                      }}>
+                        {formatCurrency(service.costEstimate)}
+                      </p>
+                      <p style={{ margin: 0, fontSize: '12px', color: '#6B7280' }}>
+                        Cost Estimate
+                      </p>
+                    </div>
+                  )}
+                  
+                  {/* Enroll Button */}
+                  {userEmail && volunteerId && (
+                    <button
+                      onClick={() => handleEnrollService(service.id)}
+                      disabled={isVolunteerEnrolled(service) || enrollingServices.has(service.id)}
+                      style={{
+                        padding: '8px 16px',
+                        backgroundColor: isVolunteerEnrolled(service) 
+                          ? '#10B981' 
+                          : enrollingServices.has(service.id)
+                          ? '#9CA3AF'
+                          : '#3B82F6',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: isVolunteerEnrolled(service) || enrollingServices.has(service.id) 
+                          ? 'not-allowed' 
+                          : 'pointer',
+                        fontSize: '14px',
+                        fontWeight: 'bold',
+                        opacity: isVolunteerEnrolled(service) || enrollingServices.has(service.id) ? 0.7 : 1
+                      }}
+                    >
+                      {enrollingServices.has(service.id) 
+                        ? 'Enrolling...' 
+                        : isVolunteerEnrolled(service) 
+                        ? '✓ Enrolled' 
+                        : 'Enroll'
+                      }
+                    </button>
+                  )}
+                </div>
               </div>
 
               {/* Service Description */}
@@ -356,6 +564,21 @@ function ServicesPage() {
                 }}>
                   <strong>Related Crisis:</strong> {service.damage.crisis.name} 
                   {service.damage.crisis.country && ` (${service.damage.crisis.country})`}
+                </div>
+              )}
+
+              {/* Service Providers */}
+              {service.provides && service.provides.length > 0 && (
+                <div style={{ 
+                  marginTop: '12px',
+                  padding: '8px',
+                  backgroundColor: '#F0FDF4',
+                  borderRadius: '4px',
+                  fontSize: '12px',
+                  color: '#166534'
+                }}>
+                  <strong>Enrolled Volunteers:</strong> {service.provides.length} volunteer{service.provides.length !== 1 ? 's' : ''}
+                  {isVolunteerEnrolled(service) && <span style={{ fontWeight: 'bold' }}> (including you)</span>}
                 </div>
               )}
             </div>

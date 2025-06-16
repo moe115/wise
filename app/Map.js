@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polygon, Circle } from 'react-leaflet';
 import { useRouter } from 'next/navigation';
 import L from 'leaflet';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '/lib/firebase';
 
 // This component needs to be in a separate file to be dynamically imported
 const Map = ({ crises, typeColors }) => {
@@ -11,6 +13,73 @@ const Map = ({ crises, typeColors }) => {
   const [damages, setDamages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showDamages, setShowDamages] = useState(true);
+
+
+
+
+
+  const [userEmail, setUserEmail] = useState(null);
+  const [userRole, setUserRole] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
+   const [error, setError] = useState(null);
+
+  // Track authentication state
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserEmail(user.email);
+      } else {
+        setUserEmail(null);
+        setUserRole(null);
+        setUserProfile(null);
+        setLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Fetch user role and profile when email is available
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      if (!userEmail) return;
+
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await fetch(`/api/get-user-role?email=${encodeURIComponent(userEmail)}`);
+        const data = await response.json();
+
+        if (response.ok) {
+          setUserRole(data.role);
+          setUserProfile(data);
+        } else {
+          setError(data.error || 'Failed to fetch user role');
+        }
+      } catch (err) {
+        console.error('Error fetching user role:', err);
+        setError('Error connecting to server. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserRole();
+  }, [userEmail]);
+
+  // Role-based permission checks
+  const isVolunteer = () => userRole === 'volunteer';
+  const isEmployee = () => userRole === 'employee';
+  const hasVolunteerProfile = () => userProfile?.volunteerProfile !== null;
+ 
+
+
+
+
+
+
+
 
   // Set up Leaflet icons once the component mounts (client-side only)
   React.useEffect(() => {
@@ -248,6 +317,23 @@ const Map = ({ crises, typeColors }) => {
     };
     return categoryMap[category] || category;
   };
+ const renderEmployeeContent = () => (
+<button 
+                      style={{
+                        backgroundColor: '#8B5CF6',
+                        color: 'white',
+                        padding: '6px 8px',
+                        borderRadius: '4px',
+                        border: 'none',
+                        fontSize: '11px',
+                        cursor: 'pointer'
+                      }}
+                      onClick={() => handleAddService(damage)}
+                    >
+                      Add Service
+                   
+                    </button> 
+  );
 
   return (
     <div>
@@ -313,20 +399,7 @@ const Map = ({ crises, typeColors }) => {
                         <p style={{ marginBottom: '8px' }}><strong>Start:</strong> {new Date(crisis.startDate).toLocaleDateString()}</p>
                       )}
                       <div style={{ marginTop: '8px' }}>
-                        <button 
-                          style={{
-                            backgroundColor: '#3B82F6',
-                            color: 'white',
-                            padding: '4px 8px',
-                            borderRadius: '4px',
-                            border: 'none',
-                            fontSize: '12px',
-                            marginRight: '4px',
-                            cursor: 'pointer'
-                          }}
-                        >
-                          View Details
-                        </button>
+                        {isEmployee() &&  
                         <button 
                           style={{
                             backgroundColor: '#10B981',
@@ -341,6 +414,7 @@ const Map = ({ crises, typeColors }) => {
                         >
                           Add Damage
                         </button>
+        }
                         
                       </div>
                     </div>
@@ -354,7 +428,7 @@ const Map = ({ crises, typeColors }) => {
         {/* Render Damage Points */}
         {showDamages && damages.map(damage => (
           <React.Fragment key={`damage-${damage.id}`}>
-            {/* Damage marker */}
+            
             <Marker 
               position={[damage.coordinates.latitude, damage.coordinates.longitude]}
               icon={createDamageIcon(damage.category)}
@@ -421,7 +495,11 @@ const Map = ({ crises, typeColors }) => {
                   </div>
  
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px' }}>
-                     <button 
+
+                     {isVolunteer() && 
+                    
+                    
+<button 
                       style={{
                         backgroundColor: '#8B5CF6',
                         color: 'white',
@@ -434,8 +512,21 @@ const Map = ({ crises, typeColors }) => {
                       onClick={() => handleAddTestimony(damage)}
                     >
                          Add Testimony
-                    </button>
-                    <button 
+                    </button> 
+                    
+                    
+                    
+                    
+                    
+                    }
+
+ 
+                   
+                    {isEmployee() && 
+                  
+                  
+                   
+<button 
                       style={{
                         backgroundColor: '#8B5CF6',
                         color: 'white',
@@ -449,7 +540,12 @@ const Map = ({ crises, typeColors }) => {
                     >
                       Add Service
                    
-                    </button>
+                    </button> 
+ 
+
+                  
+                  }
+                
                     <button 
                       style={{
                         backgroundColor: '#06B6D4',
