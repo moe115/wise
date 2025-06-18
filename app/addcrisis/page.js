@@ -15,6 +15,7 @@ function CrisisReportForm() {
   const [position, setPosition] = useState(null);
   const [name, setName] = useState('');
   const [dateStart, setDateStart] = useState('');
+  const [dateEnd, setDateEnd] = useState('');
   const [description, setDescription] = useState('');
   const [country, setCountry] = useState('');
   const [crisisType, setCrisisType] = useState('');
@@ -75,7 +76,7 @@ function CrisisReportForm() {
         areaWKT: polygonWKT,
         CrisisDesc: description,
         CrisisStart: new Date(dateStart),
-        CrisisEnd: null,
+        CrisisEnd: new Date(dateEnd),
         CrisisCountry: country,
         TypeC: crisisType
       })
@@ -159,7 +160,16 @@ function CrisisReportForm() {
             required
           />
         </div>
-
+ <div className={styles.formGroup}>
+          <label htmlFor="dateEnd">end date: (optional)</label>
+          <input
+            type="date"
+            id="dateEnd"
+            value={dateEnd}
+            onChange={(e) => setDateEnd(e.target.value)}
+            
+          />
+        </div>
         <div className={styles.mapContainer}>
           <MapWithNoSSR
             position={position}

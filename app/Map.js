@@ -13,15 +13,13 @@ const Map = ({ crises, typeColors }) => {
   const [damages, setDamages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showDamages, setShowDamages] = useState(true);
-
-
-
-
+  const [damageStats, setDamageStats] = useState({});
+  const [loadingStats, setLoadingStats] = useState({});
 
   const [userEmail, setUserEmail] = useState(null);
   const [userRole, setUserRole] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
-   const [error, setError] = useState(null);
+  const [error, setError] = useState(null);
 
   // Track authentication state
   useEffect(() => {
@@ -72,14 +70,6 @@ const Map = ({ crises, typeColors }) => {
   const isVolunteer = () => userRole === 'volunteer';
   const isEmployee = () => userRole === 'employee';
   const hasVolunteerProfile = () => userProfile?.volunteerProfile !== null;
- 
-
-
-
-
-
-
-
 
   // Set up Leaflet icons once the component mounts (client-side only)
   React.useEffect(() => {
@@ -91,7 +81,6 @@ const Map = ({ crises, typeColors }) => {
       shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png'
     });
     
-    // Clean up to prevent memory leaks
     return () => {
       // Any cleanup if needed
     };
@@ -117,6 +106,31 @@ const Map = ({ crises, typeColors }) => {
       console.error('Error fetching damages:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Fetch service statistics for a specific damage
+  const fetchDamageStats = async (damageId) => {
+    if (damageStats[damageId] || loadingStats[damageId]) {
+      return; // Already loaded or loading
+    }
+
+    setLoadingStats(prev => ({ ...prev, [damageId]: true }));
+
+    try {
+      const response = await fetch(`/api/damage-services-stats?damageId=${damageId}`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch damage statistics');
+      }
+      
+      const data = await response.json();
+      setDamageStats(prev => ({ ...prev, [damageId]: data }));
+    } catch (error) {
+      console.error('Error fetching damage statistics:', error);
+      setDamageStats(prev => ({ ...prev, [damageId]: { error: 'Failed to load statistics' } }));
+    } finally {
+      setLoadingStats(prev => ({ ...prev, [damageId]: false }));
     }
   };
 
@@ -172,15 +186,11 @@ const Map = ({ crises, typeColors }) => {
   const zoom = 11;
   
   // Process GeoJSON polygon coordinates for Leaflet
-  // GeoJSON format: [longitude, latitude]
-  // Leaflet format: [latitude, longitude]
   const formatPolygonCoordinates = (geometry) => {
     if (!geometry || !geometry.coordinates || !geometry.coordinates[0]) {
       return [];
     }
     
-    // Handle only the exterior ring (first array in coordinates)
-    // And flip the coordinates for Leaflet
     return geometry.coordinates[0].map(coord => [coord[1], coord[0]]);
   };
 
@@ -227,7 +237,6 @@ const Map = ({ crises, typeColors }) => {
 
   // Handle navigation to add damage page
   const handleAddDamage = (crisis) => {
-    // Prepare crisis data to pass
     const crisisData = {
       id: crisis.id,
       name: crisis.name,
@@ -237,7 +246,6 @@ const Map = ({ crises, typeColors }) => {
       color: typeColors[crisis.type] || typeColors.default
     };
     
-    // Navigate to add-damage page with crisis data as query parameters
     const queryParams = new URLSearchParams({
       crisisId: crisis.id,
       crisisData: JSON.stringify(crisisData)
@@ -248,7 +256,6 @@ const Map = ({ crises, typeColors }) => {
 
   // Handle navigation to add testimony page
   const handleAddTestimony = (damage) => {
-    // Navigate to add-testimony page with damage data
     const queryParams = new URLSearchParams({
       damageId: damage.id,
       damageData: JSON.stringify(damage)
@@ -257,10 +264,7 @@ const Map = ({ crises, typeColors }) => {
     router.push(`/add-testimony?${queryParams.toString()}`);
   };
 
-
-
-    const handleAddService = (damage) => {
-    // Navigate to add-testimony page with damage data
+  const handleAddService = (damage) => {
     const queryParams = new URLSearchParams({
       damageId: damage.id,
       damageData: JSON.stringify(damage)
@@ -269,12 +273,8 @@ const Map = ({ crises, typeColors }) => {
     router.push(`/add-Service?${queryParams.toString()}`);
   };
 
-
-
-
   // Handle navigation to testimonies page
   const handleSeeTestimonies = (damage) => {
-    // Navigate to testimonies page with damage data
     const queryParams = new URLSearchParams({
       damageId: damage.id,
       damageData: JSON.stringify(damage)
@@ -283,8 +283,7 @@ const Map = ({ crises, typeColors }) => {
     router.push(`/testimonies?${queryParams.toString()}`);
   };
 
-   const handleSeeServices = (damage) => {
-    // Navigate to testimonies page with damage data
+  const handleSeeServices = (damage) => {
     const queryParams = new URLSearchParams({
       damageId: damage.id,
       damageData: JSON.stringify(damage)
@@ -317,23 +316,107 @@ const Map = ({ crises, typeColors }) => {
     };
     return categoryMap[category] || category;
   };
- const renderEmployeeContent = () => (
-<button 
-                      style={{
-                        backgroundColor: '#8B5CF6',
-                        color: 'white',
-                        padding: '6px 8px',
-                        borderRadius: '4px',
-                        border: 'none',
-                        fontSize: '11px',
-                        cursor: 'pointer'
-                      }}
-                      onClick={() => handleAddService(damage)}
-                    >
-                      Add Service
-                   
-                    </button> 
-  );
+
+  // Render service statistics
+  const renderServiceStats = (damageId) => {
+    const stats = damageStats[damageId];
+    const isLoading = loadingStats[damageId];
+
+    if (isLoading) {
+      return (
+        <div style={{ 
+          padding: '8px', 
+          borderTop: '1px solid #eee', 
+          marginTop: '8px',
+          fontSize: '12px'
+        }}>
+          Loading service statistics...
+        </div>
+      );
+    }
+
+    if (!stats) {
+      return null;
+    }
+
+    if (stats.error) {
+      return (
+        <div style={{ 
+          padding: '8px', 
+          borderTop: '1px solid #eee', 
+          marginTop: '8px',
+          fontSize: '12px',
+          color: '#DC2626'
+        }}>
+          {stats.error}
+        </div>
+      );
+    }
+
+    const { statistics } = stats;
+
+    return (
+      <div style={{ 
+        padding: '8px', 
+        borderTop: '1px solid #eee', 
+        marginTop: '8px',
+        fontSize: '12px'
+      }}>
+        <h4 style={{ margin: '0 0 8px 0', fontWeight: 'bold', color: '#059669' }}>
+          Service Statistics
+        </h4>
+        
+        <div style={{ marginBottom: '8px' }}>
+          <p style={{ margin: '2px 0' }}>
+            <strong>Total Services:</strong> {statistics.totalServices}
+          </p>
+          <p style={{ margin: '2px 0' }}>
+            <strong>Volunteers Involved:</strong> {statistics.totalVolunteers}
+          </p>
+        </div>
+
+        {statistics.totalServices > 0 && (
+          <>
+            <div style={{ marginBottom: '8px' }}>
+              <strong>Status Breakdown:</strong>
+              <div style={{ marginLeft: '8px' }}>
+                {Object.entries(statistics.statusBreakdown).map(([status, count]) => (
+                  count > 0 && (
+                    <div key={status} style={{ 
+                      display: 'flex', 
+                      justifyContent: 'space-between',
+                      margin: '1px 0'
+                    }}>
+                      <span style={{ textTransform: 'capitalize' }}>{status}:</span>
+                      <span>{count}</span>
+                    </div>
+                  )
+                ))}
+              </div>
+            </div>
+
+            {Object.keys(statistics.categoryBreakdown).length > 0 && (
+              <div style={{ marginBottom: '8px' }}>
+                <strong>Service Categories:</strong>
+                <div style={{ marginLeft: '8px' }}>
+                  {Object.entries(statistics.categoryBreakdown).map(([category, count]) => (
+                    <div key={category} style={{ 
+                      display: 'flex', 
+                      justifyContent: 'space-between',
+                      margin: '1px 0'
+                    }}>
+                      <span>{category || 'Uncategorized'}:</span>
+                      <span>{count}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div>
@@ -398,6 +481,9 @@ const Map = ({ crises, typeColors }) => {
                       {crisis.startDate && (
                         <p style={{ marginBottom: '8px' }}><strong>Start:</strong> {new Date(crisis.startDate).toLocaleDateString()}</p>
                       )}
+                       {crisis.endDate && (
+                        <p style={{ marginBottom: '8px' }}><strong>End:</strong> {new Date(crisis.endDate).toLocaleDateString()}</p>
+                      )}
                       <div style={{ marginTop: '8px' }}>
                         {isEmployee() &&  
                         <button 
@@ -415,7 +501,6 @@ const Map = ({ crises, typeColors }) => {
                           Add Damage
                         </button>
         }
-                        
                       </div>
                     </div>
                   </Popup>
@@ -428,13 +513,18 @@ const Map = ({ crises, typeColors }) => {
         {/* Render Damage Points */}
         {showDamages && damages.map(damage => (
           <React.Fragment key={`damage-${damage.id}`}>
-            
             <Marker 
               position={[damage.coordinates.latitude, damage.coordinates.longitude]}
               icon={createDamageIcon(damage.category)}
+              eventHandlers={{
+                popupopen: () => {
+                  // Fetch service statistics when popup opens
+                  fetchDamageStats(damage.id);
+                }
+              }}
             >
               <Popup>
-                <div style={{ minWidth: '250px' }}>
+                <div style={{ minWidth: '280px', maxWidth: '350px' }}>
                   <h3 style={{ fontWeight: 'bold', marginBottom: '8px', color: '#DC2626' }}>
                     Damage Report #{damage.id}
                   </h3>
@@ -482,69 +572,52 @@ const Map = ({ crises, typeColors }) => {
                       </p>
                     )}
                   </div>
-
-                  <div style={{ 
-                    fontSize: '11px', 
-                    color: '#666', 
-                    marginBottom: '8px',
-                    borderTop: '1px solid #eee',
-                    paddingTop: '4px'
-                  }}>
-                    <p>Lat: {damage.coordinates.latitude.toFixed(6)}</p>
-                    <p>Lng: {damage.coordinates.longitude.toFixed(6)}</p>
-                  </div>
  
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px' }}>
 
-                     {isVolunteer() && 
-                    
-                    
-<button 
-                      style={{
-                        backgroundColor: '#8B5CF6',
-                        color: 'white',
-                        padding: '6px 8px',
-                        borderRadius: '4px',
-                        border: 'none',
-                        fontSize: '11px',
-                        cursor: 'pointer'
-                      }}
-                      onClick={() => handleAddTestimony(damage)}
-                    >
-                         Add Testimony
-                    </button> 
-                    
-                    
-                    
-                    
-                    
+                  {/* Service Statistics Section */}
+                  {renderServiceStats(damage.id)}
+ 
+                  <div style={{ 
+                    display: 'grid', 
+                    gridTemplateColumns: '1fr 1fr', 
+                    gap: '4px',
+                    marginTop: '8px',
+                    paddingTop: '8px',
+                    borderTop: '1px solid #eee'
+                  }}>
+                    {isVolunteer() && 
+                      <button 
+                        style={{
+                          backgroundColor: '#8B5CF6',
+                          color: 'white',
+                          padding: '6px 8px',
+                          borderRadius: '4px',
+                          border: 'none',
+                          fontSize: '11px',
+                          cursor: 'pointer'
+                        }}
+                        onClick={() => handleAddTestimony(damage)}
+                      >
+                        Add Testimony
+                      </button> 
                     }
 
- 
-                   
                     {isEmployee() && 
-                  
-                  
-                   
-<button 
-                      style={{
-                        backgroundColor: '#8B5CF6',
-                        color: 'white',
-                        padding: '6px 8px',
-                        borderRadius: '4px',
-                        border: 'none',
-                        fontSize: '11px',
-                        cursor: 'pointer'
-                      }}
-                      onClick={() => handleAddService(damage)}
-                    >
-                      Add Service
-                   
-                    </button> 
- 
-
-                  
-                  }
+                      <button 
+                        style={{
+                          backgroundColor: '#8B5CF6',
+                          color: 'white',
+                          padding: '6px 8px',
+                          borderRadius: '4px',
+                          border: 'none',
+                          fontSize: '11px',
+                          cursor: 'pointer'
+                        }}
+                        onClick={() => handleAddService(damage)}
+                      >
+                        Add Service
+                      </button> 
+                    }
                 
                     <button 
                       style={{
@@ -560,7 +633,8 @@ const Map = ({ crises, typeColors }) => {
                     >
                       See Testimonies
                     </button>
-                      <button 
+                    
+                    <button 
                       style={{
                         backgroundColor: '#06B6D4',
                         color: 'white',
