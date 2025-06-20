@@ -1,46 +1,19 @@
 'use client';
 
 import React, { useState, useRef, useEffect, Suspense } from 'react';
-import { MapContainer, TileLayer, Marker, useMapEvents, Circle, useMap, Polygon } from 'react-leaflet';
 import { useSearchParams } from 'next/navigation';
-import 'leaflet/dist/leaflet.css';
+import dynamic from 'next/dynamic';
 import styles from './page.module.css';
-import 'leaflet-draw/dist/leaflet.draw.css';
-import L from 'leaflet';
 
-const defaultIcon = L.icon({
-  iconUrl: 'https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/images/marker-icon.png',
-  iconRetinaUrl: 'https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/images/marker-icon-2x.png',
-  shadowUrl: 'https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
+// Dynamically import the map component with SSR disabled
+const DynamicMapComponent = dynamic(() => import('./MapComponentD'), {
+  ssr: false,
+  loading: () => (
+    <div style={{ height: '400px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f0f0f0' }}>
+      <div>Loading map...</div>
+    </div>
+  )
 });
-
-L.Marker.prototype.options.icon = defaultIcon;
-
-function MapClickHandler({ onPositionChange }) {
-  useMapEvents({
-    click(e) {
-      onPositionChange({ lat: e.latlng.lat, lng: e.latlng.lng });
-    },
-  });
-  return null;
-}
-
-// Component to fly to a location on the map
-function FlyToLocation({ position }) {
-  const map = useMap();
-
-  useEffect(() => {
-    if (position) {
-      map.flyTo([position.lat, position.lng], 13);
-    }
-  }, [map, position]);
-
-  return null;
-}
 
 // Fallback component for Suspense
 function DamageReportFormFallback() {
@@ -91,11 +64,19 @@ function DamageReportFormContent() {
   const [financialEstimation, setFinancialEstimation] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [isMounted, setIsMounted] = useState(false);
 
   const mapRef = useRef(null);
 
+  // Ensure component is mounted before rendering map
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   // Load crisis data from URL parameters
   useEffect(() => {
+    if (!isMounted) return;
+
     const crisisId = searchParams.get('crisisId');
     const crisisDataParam = searchParams.get('crisisData');
 
@@ -113,19 +94,30 @@ function DamageReportFormContent() {
         if (parsedCrisisData.geometry && parsedCrisisData.geometry.coordinates) {
           const coordinates = formatPolygonCoordinates(parsedCrisisData.geometry);
           if (coordinates.length > 0) {
-            const bounds = L.latLngBounds(coordinates);
+            // Create bounds object without Leaflet dependency during SSR
+            const lats = coordinates.map(coord => coord[0]);
+            const lngs = coordinates.map(coord => coord[1]);
+            const bounds = {
+              north: Math.max(...lats),
+              south: Math.min(...lats),
+              east: Math.max(...lngs),
+              west: Math.min(...lngs),
+              center: {
+                lat: (Math.max(...lats) + Math.min(...lats)) / 2,
+                lng: (Math.max(...lngs) + Math.min(...lngs)) / 2
+              }
+            };
             setMapBounds(bounds);
 
             // Set initial position to center of crisis area
-            const center = bounds.getCenter();
-            setPosition({ lat: center.lat, lng: center.lng });
+            setPosition({ lat: bounds.center.lat, lng: bounds.center.lng });
           }
         }
       } catch (error) {
         console.error('Error parsing crisis data:', error);
       }
     }
-  }, [searchParams]);
+  }, [searchParams, isMounted]);
 
   // Format polygon coordinates from GeoJSON to Leaflet format
   const formatPolygonCoordinates = (geometry) => {
@@ -259,8 +251,10 @@ function DamageReportFormContent() {
     }
   };
 
-  // Get crisis polygon coordinates for display
-  const crisisPolygonCoordinates = crisisData ? formatPolygonCoordinates(crisisData.geometry) : [];
+  // Don't render until mounted to avoid hydration mismatch
+  if (!isMounted) {
+    return <DamageReportFormFallback />;
+  }
 
   return (
     <div className={styles.container}>
@@ -325,48 +319,14 @@ function DamageReportFormContent() {
         </div>
 
         <div className={styles.mapContainer}>
-          <MapContainer
-            center={mapBounds ? mapBounds.getCenter() : [33.8938, 35.5018]}
-            zoom={mapBounds ? undefined : 10}
-            bounds={mapBounds}
-            style={{ height: '400px', width: '100%' }}
-            ref={mapRef}
-          >
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
-            <MapClickHandler onPositionChange={handleMapClick} />
-
-            {/* Display crisis area polygon */}
-            {crisisPolygonCoordinates.length > 0 && (
-              <Polygon
-                positions={crisisPolygonCoordinates}
-                pathOptions={{
-                  fillColor: crisisData.color || '#ff0000',
-                  fillOpacity: 0.2,
-                  color: crisisData.color || '#ff0000',
-                  weight: 2,
-                  dashArray: '5, 10'
-                }}
-              />
-            )}
-
-            {/* Display damage location marker and circle */}
-            {position && (
-              <>
-                <Marker position={[position.lat, position.lng]} />
-                {radius > 0 && (
-                  <Circle
-                    center={[position.lat, position.lng]}
-                    radius={parseInt(radius)}
-                    pathOptions={{ color: 'red', fillColor: '#f03', fillOpacity: 0.2 }}
-                  />
-                )}
-                <FlyToLocation position={position} />
-              </>
-            )}
-          </MapContainer>
+          <DynamicMapComponent
+            position={position}
+            radius={radius}
+            crisisData={crisisData}
+            mapBounds={mapBounds}
+            onMapClick={handleMapClick}
+            formatPolygonCoordinates={formatPolygonCoordinates}
+          />
           <p>
             {crisisData ?
               'The dashed area shows the crisis zone. Click on the map to select the damage location.' :
