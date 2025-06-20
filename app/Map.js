@@ -283,14 +283,13 @@ const Map = ({ crises, typeColors }) => {
     router.push(`/testimonies?${queryParams.toString()}`);
   };
 
-  const handleSeeServices = (damage) => {
-    const queryParams = new URLSearchParams({
-      damageId: damage.id,
-      damageData: JSON.stringify(damage)
-    });
-    
-    router.push(`/Services?${queryParams.toString()}`);
-  };
+const handleSeeServices = (damage) => {
+  // Save the entire damage object in sessionStorage
+  sessionStorage.setItem('damageData', JSON.stringify(damage));
+
+  // Navigate only with the ID in the query string
+  router.push(`/Services?damageId=${damage.id}`);
+};
 
   // Format currency
   const formatCurrency = (amount) => {

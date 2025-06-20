@@ -8,7 +8,7 @@ import { auth } from '/lib/firebase'; // Keep auth from Firebase
 function ServicesPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  
+
   const [services, setServices] = useState([]);
   const [damageData, setDamageData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,7 +16,7 @@ function ServicesPage() {
   const [userEmail, setUserEmail] = useState(null);
   const [volunteerId, setVolunteerId] = useState(null);
   const [enrollingServices, setEnrollingServices] = useState(new Set());
-   const [userRole, setUserRole] = useState(null);
+  const [userRole, setUserRole] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
   // Track authentication state
   useEffect(() => {
@@ -57,21 +57,21 @@ function ServicesPage() {
 
 
 
-   useEffect(() => {
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) {
-          setUserEmail(user.email);
-        } else {
-          setUserEmail(null);
-          setUserRole(null);
-          setUserProfile(null);
-          setLoading(false);
-        }
-      });
-  
-      return () => unsubscribe();
-    }, []);
-// Fetch user role and profile when email is available
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserEmail(user.email);
+      } else {
+        setUserEmail(null);
+        setUserRole(null);
+        setUserProfile(null);
+        setLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+  // Fetch user role and profile when email is available
   useEffect(() => {
     const fetchUserRole = async () => {
       if (!userEmail) return;
@@ -108,16 +108,14 @@ function ServicesPage() {
 
 
 
-
-
   useEffect(() => {
     const damageId = searchParams.get('damageId');
-    const damageDataParam = searchParams.get('damageData');
+    const savedDamageData = sessionStorage.getItem('damageData');
 
-    if (damageId && damageDataParam) {
+    if (damageId && savedDamageData) {
       try {
-        const parsedDamageData = JSON.parse(damageDataParam);
-        setDamageData(parsedDamageData);
+        const parsed = JSON.parse(savedDamageData);
+        setDamageData(parsed);
         fetchServices(damageId);
       } catch (error) {
         console.error('Error parsing damage data:', error);
@@ -129,6 +127,7 @@ function ServicesPage() {
       setLoading(false);
     }
   }, [searchParams]);
+
 
   const fetchServices = async (damageId) => {
     try {
@@ -254,7 +253,7 @@ function ServicesPage() {
       damageId: damageData.id,
       damageData: JSON.stringify(damageData)
     });
-    
+
     router.push(`/add-Service?${queryParams.toString()}`);
   };
 
@@ -296,7 +295,7 @@ function ServicesPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <h1>Services for Damage #{damageData?.id}</h1>
         <div style={{ display: 'flex', gap: '10px' }}>
-          {isEmployee() &&   <button
+          {isEmployee() && <button
             onClick={handleAddService}
             style={{
               padding: '10px 20px',
@@ -308,7 +307,7 @@ function ServicesPage() {
             }}
           >
             Add Service
-          </button> }
+          </button>}
           <button
             onClick={() => router.back()}
             style={{
@@ -327,11 +326,11 @@ function ServicesPage() {
 
       {/* Authentication Status */}
       {userEmail && (
-        <div style={{ 
-          backgroundColor: '#EFF6FF', 
+        <div style={{
+          backgroundColor: '#EFF6FF',
           color: '#1E40AF',
-          padding: '12px', 
-          borderRadius: '6px', 
+          padding: '12px',
+          borderRadius: '6px',
           marginBottom: '20px',
           fontSize: '14px'
         }}>
@@ -340,11 +339,11 @@ function ServicesPage() {
       )}
 
       {!userEmail && (
-        <div style={{ 
-          backgroundColor: '#FEF3C7', 
+        <div style={{
+          backgroundColor: '#FEF3C7',
           color: '#92400E',
-          padding: '12px', 
-          borderRadius: '6px', 
+          padding: '12px',
+          borderRadius: '6px',
           marginBottom: '20px',
           fontSize: '14px'
         }}>
@@ -354,12 +353,12 @@ function ServicesPage() {
 
       {/* Damage Information */}
       {damageData && (
-        <div style={{ 
-          backgroundColor: '#F3F4F6', 
+        <div style={{
+          backgroundColor: '#F3F4F6',
           color: 'black',
-          padding: '16px', 
-          borderRadius: '8px', 
-          marginBottom: '20px' 
+          padding: '16px',
+          borderRadius: '8px',
+          marginBottom: '20px'
         }}>
           <h2 style={{ marginBottom: '12px' }}>Damage Information</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '12px' }}>
@@ -382,31 +381,31 @@ function ServicesPage() {
 
       {/* Services List */}
       {services.length === 0 ? (
-        <div style={{ 
-          textAlign: 'center', 
-          padding: '40px', 
-          backgroundColor: '#F9FAFB', 
+        <div style={{
+          textAlign: 'center',
+          padding: '40px',
+          backgroundColor: '#F9FAFB',
           borderRadius: '8px',
           color: 'black'
         }}>
           <h3>No Services Yet</h3>
-         
-          
-         { isEmployee() &&  <div> <p style={{ marginBottom: '20px' }}>Be the first to add a service for this damage.</p> 
-          <button
-            onClick={handleAddService}
-            style={{
-              padding: '12px 24px',
-              backgroundColor: '#10B981',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '16px'
-            }}
-          >
-            Add First Service
-          </button>  </div> }
+
+
+          {isEmployee() && <div> <p style={{ marginBottom: '20px' }}>Be the first to add a service for this damage.</p>
+            <button
+              onClick={handleAddService}
+              style={{
+                padding: '12px 24px',
+                backgroundColor: '#10B981',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '16px'
+              }}
+            >
+              Add First Service
+            </button>  </div>}
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -422,17 +421,17 @@ function ServicesPage() {
               }}
             >
               {/* Service Header */}
-              <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
                 alignItems: 'flex-start',
                 marginBottom: '16px',
                 flexWrap: 'wrap',
                 gap: '12px'
               }}>
                 <div style={{ flex: 1 }}>
-                  <h3 style={{ 
-                    margin: '0 0 8px 0', 
+                  <h3 style={{
+                    margin: '0 0 8px 0',
                     color: '#1F2937',
                     fontSize: '18px',
                     fontWeight: 'bold'
@@ -457,15 +456,15 @@ function ServicesPage() {
                     </span>
                   </div>
                 </div>
-                
+
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
                   {service.costEstimate && (
                     <div style={{ textAlign: 'right' }}>
-                      <p style={{ 
-                        margin: 0, 
-                        fontSize: '18px', 
-                        fontWeight: 'bold', 
-                        color: '#059669' 
+                      <p style={{
+                        margin: 0,
+                        fontSize: '18px',
+                        fontWeight: 'bold',
+                        color: '#059669'
                       }}>
                         {formatCurrency(service.costEstimate)}
                       </p>
@@ -474,7 +473,7 @@ function ServicesPage() {
                       </p>
                     </div>
                   )}
-                  
+
                   {/* Enroll Button */}
                   {userEmail && volunteerId && (
                     <button
@@ -482,27 +481,27 @@ function ServicesPage() {
                       disabled={isVolunteerEnrolled(service) || enrollingServices.has(service.id)}
                       style={{
                         padding: '8px 16px',
-                        backgroundColor: isVolunteerEnrolled(service) 
-                          ? '#10B981' 
+                        backgroundColor: isVolunteerEnrolled(service)
+                          ? '#10B981'
                           : enrollingServices.has(service.id)
-                          ? '#9CA3AF'
-                          : '#3B82F6',
+                            ? '#9CA3AF'
+                            : '#3B82F6',
                         color: 'white',
                         border: 'none',
                         borderRadius: '4px',
-                        cursor: isVolunteerEnrolled(service) || enrollingServices.has(service.id) 
-                          ? 'not-allowed' 
+                        cursor: isVolunteerEnrolled(service) || enrollingServices.has(service.id)
+                          ? 'not-allowed'
                           : 'pointer',
                         fontSize: '14px',
                         fontWeight: 'bold',
                         opacity: isVolunteerEnrolled(service) || enrollingServices.has(service.id) ? 0.7 : 1
                       }}
                     >
-                      {enrollingServices.has(service.id) 
-                        ? 'Enrolling...' 
-                        : isVolunteerEnrolled(service) 
-                        ? '✓ Enrolled' 
-                        : 'Enroll'
+                      {enrollingServices.has(service.id)
+                        ? 'Enrolling...'
+                        : isVolunteerEnrolled(service)
+                          ? '✓ Enrolled'
+                          : 'Enroll'
                       }
                     </button>
                   )}
@@ -511,9 +510,9 @@ function ServicesPage() {
 
               {/* Service Description */}
               <div style={{ marginBottom: '16px' }}>
-                <p style={{ 
-                  margin: 0, 
-                  lineHeight: '1.6', 
+                <p style={{
+                  margin: 0,
+                  lineHeight: '1.6',
                   color: '#374151',
                   fontSize: '14px'
                 }}>
@@ -522,9 +521,9 @@ function ServicesPage() {
               </div>
 
               {/* Service Details Grid */}
-              <div style={{ 
-                display: 'grid', 
-                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
                 gap: '12px',
                 backgroundColor: '#F9FAFB',
                 padding: '12px',
@@ -554,7 +553,7 @@ function ServicesPage() {
 
               {/* Crisis Information */}
               {service.damage?.crisis && (
-                <div style={{ 
+                <div style={{
                   marginTop: '12px',
                   padding: '8px',
                   backgroundColor: '#EFF6FF',
@@ -562,14 +561,14 @@ function ServicesPage() {
                   fontSize: '12px',
                   color: '#1E40AF'
                 }}>
-                  <strong>Related Crisis:</strong> {service.damage.crisis.name} 
+                  <strong>Related Crisis:</strong> {service.damage.crisis.name}
                   {service.damage.crisis.country && ` (${service.damage.crisis.country})`}
                 </div>
               )}
 
               {/* Service Providers */}
               {service.provides && service.provides.length > 0 && (
-                <div style={{ 
+                <div style={{
                   marginTop: '12px',
                   padding: '8px',
                   backgroundColor: '#F0FDF4',
