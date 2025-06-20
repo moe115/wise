@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '/lib/firebase'; // Keep auth from Firebase
 
-function ServicesPage() {
+function ServicesPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -18,6 +18,7 @@ function ServicesPage() {
   const [enrollingServices, setEnrollingServices] = useState(new Set());
   const [userRole, setUserRole] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
+
   // Track authentication state
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -53,10 +54,6 @@ function ServicesPage() {
     fetchVolunteerId();
   }, [userEmail]);
 
-
-
-
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -71,6 +68,7 @@ function ServicesPage() {
 
     return () => unsubscribe();
   }, []);
+
   // Fetch user role and profile when email is available
   useEffect(() => {
     const fetchUserRole = async () => {
@@ -105,9 +103,6 @@ function ServicesPage() {
   const isEmployee = () => userRole === 'employee';
   const hasVolunteerProfile = () => userProfile?.volunteerProfile !== null;
 
-
-
-
   useEffect(() => {
     const damageId = searchParams.get('damageId');
     const savedDamageData = sessionStorage.getItem('damageData');
@@ -127,7 +122,6 @@ function ServicesPage() {
       setLoading(false);
     }
   }, [searchParams]);
-
 
   const fetchServices = async (damageId) => {
     try {
@@ -390,7 +384,6 @@ function ServicesPage() {
         }}>
           <h3>No Services Yet</h3>
 
-
           {isEmployee() && <div> <p style={{ marginBottom: '20px' }}>Be the first to add a service for this damage.</p>
             <button
               onClick={handleAddService}
@@ -585,6 +578,25 @@ function ServicesPage() {
         </div>
       )}
     </div>
+  );
+}
+
+// Loading fallback component
+function ServicesPageFallback() {
+  return (
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px', textAlign: 'center' }}>
+      <h1>Loading Services...</h1>
+      <p>Please wait while we fetch the services.</p>
+    </div>
+  );
+}
+
+// Main component with Suspense wrapper
+function ServicesPage() {
+  return (
+    <Suspense fallback={<ServicesPageFallback />}>
+      <ServicesPageContent />
+    </Suspense>
   );
 }
 
