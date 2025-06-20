@@ -1,11 +1,22 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '/lib/firebase'; // Keep auth from Firebase
 
-function AddTestimonyForm() {
+// Fallback component for loading state
+function AddTestimonyFormFallback() {
+  return (
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px', textAlign: 'center' }}>
+      <h1>Loading...</h1>
+      <p>Preparing testimony form...</p>
+    </div>
+  );
+}
+
+// Main form content component
+function AddTestimonyFormContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -85,7 +96,7 @@ function AddTestimonyForm() {
         formData.append('file', file);
         formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET); // You'll need to set this
         formData.append('folder', 'testimonies'); // Optional: organize files in folders
-        
+
         const response = await fetch(
           `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`,
           {
@@ -176,13 +187,13 @@ function AddTestimonyForm() {
 
       setUploadProgress(100);
       alert('Testimony submitted successfully!');
-      
+
       // Reset form
       setContentT('');
       setDateT(new Date().toISOString().split('T')[0]);
       setTimeT(new Date().toTimeString().split(' ')[0].substring(0, 5));
       setMediaFiles([]);
-      
+
       // Clear file input
       const fileInput = document.getElementById('mediaFiles');
       if (fileInput) fileInput.value = '';
@@ -236,10 +247,10 @@ function AddTestimonyForm() {
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
       <h1 style={{ marginBottom: '20px' }}>Add Testimony</h1>
 
-      <div style={{ 
-        backgroundColor: '#E0F2FE', 
-        padding: '12px', color:'black',
-        borderRadius: '6px', 
+      <div style={{
+        backgroundColor: '#E0F2FE',
+        padding: '12px', color: 'black',
+        borderRadius: '6px',
         marginBottom: '20px',
         fontSize: '14px'
       }}>
@@ -248,11 +259,11 @@ function AddTestimonyForm() {
       </div>
 
       {damageData && (
-        <div style={{ 
-          backgroundColor: '#F3F4F6', color:'black',
-          padding: '16px', 
-          borderRadius: '8px', 
-          marginBottom: '20px' 
+        <div style={{
+          backgroundColor: '#F3F4F6', color: 'black',
+          padding: '16px',
+          borderRadius: '8px',
+          marginBottom: '20px'
         }}>
           <h2 style={{ marginBottom: '12px' }}>Damage Information</h2>
           <p><strong>Damage ID:</strong> #{damageData.id}</p>
@@ -266,46 +277,8 @@ function AddTestimonyForm() {
       )}
 
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        
-        {/* <div>
-          <label htmlFor="dateT" style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold' }}>
-            Date of Observation: *
-          </label>
-          <input
-            type="date"
-            id="dateT"
-            value={dateT}
-            onChange={(e) => setDateT(e.target.value)}
-            required
-            style={{
-              width: '100%',
-              padding: '8px',
-              border: '1px solid #D1D5DB',
-              borderRadius: '4px',
-              fontSize: '14px'
-            }}
-          />
-        </div>
 
-        <div>
-          <label htmlFor="timeT" style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold' }}>
-            Time of Observation: *
-          </label>
-          <input
-            type="time"
-            id="timeT"
-            value={timeT}
-            onChange={(e) => setTimeT(e.target.value)}
-            required
-            style={{
-              width: '100%',
-              padding: '8px',
-              border: '1px solid #D1D5DB',
-              borderRadius: '4px',
-              fontSize: '14px'
-            }}
-          />
-        </div> */}
+
 
         <div>
           <label htmlFor="contentT" style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold' }}>
@@ -369,28 +342,28 @@ function AddTestimonyForm() {
         </div>
 
         {isSubmitting && uploadProgress > 0 && (
-          <div style={{ 
-            backgroundColor: '#F0F9FF', 
-            padding: '12px', 
+          <div style={{
+            backgroundColor: '#F0F9FF',
+            padding: '12px',
             borderRadius: '6px',
             border: '1px solid #0EA5E9'
           }}>
             <p style={{ margin: 0, fontSize: '14px' }}>
-              {uploadProgress < 50 ? 'Uploading media files...' : 
-               uploadProgress < 75 ? 'Processing upload...' : 
-               uploadProgress < 100 ? 'Submitting testimony...' : 'Complete!'} {uploadProgress}%
+              {uploadProgress < 50 ? 'Uploading media files...' :
+                uploadProgress < 75 ? 'Processing upload...' :
+                  uploadProgress < 100 ? 'Submitting testimony...' : 'Complete!'} {uploadProgress}%
             </p>
-            <div style={{ 
-              width: '100%', 
-              height: '4px', 
-              backgroundColor: '#E5E7EB', 
+            <div style={{
+              width: '100%',
+              height: '4px',
+              backgroundColor: '#E5E7EB',
               borderRadius: '2px',
               marginTop: '8px'
             }}>
-              <div style={{ 
-                width: `${uploadProgress}%`, 
-                height: '100%', 
-                backgroundColor: '#0EA5E9', 
+              <div style={{
+                width: `${uploadProgress}%`,
+                height: '100%',
+                backgroundColor: '#0EA5E9',
                 borderRadius: '2px',
                 transition: 'width 0.3s ease'
               }}></div>
@@ -432,6 +405,15 @@ function AddTestimonyForm() {
         </div>
       </form>
     </div>
+  );
+}
+
+// Main component with Suspense wrapper
+function AddTestimonyForm() {
+  return (
+    <Suspense fallback={<AddTestimonyFormFallback />}>
+      <AddTestimonyFormContent />
+    </Suspense>
   );
 }
 

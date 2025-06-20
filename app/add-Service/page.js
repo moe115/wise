@@ -1,11 +1,45 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '/lib/firebase'; // Keep auth from Firebase
+import { auth } from '/lib/firebase';
 
-function AddServiceForm() {
+// Fallback component for loading state
+function AddServiceFormFallback() {
+  return (
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '200px'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            width: '40px',
+            height: '40px',
+            border: '4px solid #f3f4f6',
+            borderTop: '4px solid #3b82f6',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite',
+            margin: '0 auto 16px'
+          }}></div>
+          <p style={{ color: '#6b7280', fontSize: '16px' }}>Loading service form...</p>
+        </div>
+      </div>
+      <style jsx>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+// Main form content component
+function AddServiceFormContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -20,7 +54,7 @@ function AddServiceForm() {
   const [estimatedDurationS, setEstimatedDurationS] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [userEmail, setUserEmail] = useState(null);
- 
+
   // Service categories
   const serviceCategories = [
     'Emergency Response',
@@ -73,8 +107,6 @@ function AddServiceForm() {
     return () => unsubscribe();
   }, []);
 
-  
-
   // Load damage data from URL parameters
   useEffect(() => {
     const damageId = searchParams.get('damageId');
@@ -108,8 +140,6 @@ function AddServiceForm() {
       return;
     }
 
-    
-
     const damageId = searchParams.get('damageId');
     if (!damageId) {
       alert('Error: Damage ID not found');
@@ -142,7 +172,7 @@ function AddServiceForm() {
         validityEndS: validityEndS || null,
         estimatedDurationS: estimatedDurationS || null,
         damageId: parseInt(damageId),
-       };
+      };
 
       // Submit service
       const response = await fetch('/api/add-service', {
@@ -160,7 +190,7 @@ function AddServiceForm() {
       }
 
       alert('Service submitted successfully!');
-      
+
       // Reset form
       setCategoryS('');
       setDescriptionS('');
@@ -197,30 +227,28 @@ function AddServiceForm() {
     return categoryMap[category] || category;
   };
 
-  
-
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
       <h1 style={{ marginBottom: '20px' }}>Add Service</h1>
 
-      <div style={{ 
-        backgroundColor: '#E0F2FE', 
-        padding: '12px', 
+      <div style={{
+        backgroundColor: '#E0F2FE',
+        padding: '12px',
         color: 'black',
-        borderRadius: '6px', 
+        borderRadius: '6px',
         marginBottom: '20px',
         fontSize: '14px'
       }}>
-        
+
       </div>
 
       {damageData && (
-        <div style={{ 
-          backgroundColor: '#F3F4F6', 
+        <div style={{
+          backgroundColor: '#F3F4F6',
           color: 'black',
-          padding: '16px', 
-          borderRadius: '8px', 
-          marginBottom: '20px' 
+          padding: '16px',
+          borderRadius: '8px',
+          marginBottom: '20px'
         }}>
           <h2 style={{ marginBottom: '12px' }}>Damage Information</h2>
           <p><strong>Damage ID:</strong> #{damageData.id}</p>
@@ -234,7 +262,7 @@ function AddServiceForm() {
       )}
 
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        
+
         <div>
           <label htmlFor="categoryS" style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold' }}>
             Service Category: *
@@ -310,28 +338,6 @@ function AddServiceForm() {
             ))}
           </select>
         </div>
-
-        {/* <div>
-          <label htmlFor="costEstimateS" style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold' }}>
-            Cost Estimate (Optional):
-          </label>
-          <input
-            type="number"
-            id="costEstimateS"
-            value={costEstimateS}
-            onChange={(e) => setCostEstimateS(e.target.value)}
-            min="0"
-            step="0.01"
-            placeholder="0.00"
-            style={{
-              width: '100%',
-              padding: '8px',
-              border: '1px solid #D1D5DB',
-              borderRadius: '4px',
-              fontSize: '14px'
-            }}
-          />
-        </div> */}
 
         <div>
           <label htmlFor="estimatedDurationS" style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold' }}>
@@ -452,6 +458,15 @@ function AddServiceForm() {
         </div>
       </form>
     </div>
+  );
+}
+
+// Main component with Suspense wrapper
+function AddServiceForm() {
+  return (
+    <Suspense fallback={<AddServiceFormFallback />}>
+      <AddServiceFormContent />
+    </Suspense>
   );
 }
 

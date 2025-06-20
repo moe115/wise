@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, Suspense } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents, Circle, useMap, Polygon } from 'react-leaflet';
 import { useSearchParams } from 'next/navigation';
 import 'leaflet/dist/leaflet.css';
@@ -42,7 +42,39 @@ function FlyToLocation({ position }) {
   return null;
 }
 
-function DamageReportForm() {
+// Fallback component for Suspense
+function DamageReportFormFallback() {
+  return (
+    <div className={styles.container}>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '400px',
+        flexDirection: 'column'
+      }}>
+        <div style={{ marginBottom: '20px' }}>Loading damage report form...</div>
+        <div style={{
+          width: '40px',
+          height: '40px',
+          border: '4px solid #f3f3f3',
+          borderTop: '4px solid #3498db',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }}></div>
+      </div>
+      <style jsx>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+// Main form content component that uses useSearchParams
+function DamageReportFormContent() {
   const searchParams = useSearchParams();
 
   const [position, setPosition] = useState(null);
@@ -206,7 +238,7 @@ function DamageReportForm() {
       }
 
       alert('Damage reported successfully!');
-      
+
       // Reset form
       setPosition(null);
       setRadius(500);
@@ -430,8 +462,8 @@ function DamageReportForm() {
           ></textarea>
         </div>
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           className={styles.submitButton}
           disabled={isSubmitting}
         >
@@ -439,6 +471,15 @@ function DamageReportForm() {
         </button>
       </form>
     </div>
+  );
+}
+
+// Main component with Suspense wrapper
+function DamageReportForm() {
+  return (
+    <Suspense fallback={<DamageReportFormFallback />}>
+      <DamageReportFormContent />
+    </Suspense>
   );
 }
 

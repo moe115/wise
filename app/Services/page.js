@@ -43,9 +43,7 @@ function ServicesPageContent() {
 
         if (response.ok) {
           setVolunteerId(data.volunteerId);
-        } else {
-          console.error('Error fetching volunteer:', data.error);
-        }
+        }  
       } catch (error) {
         console.error('Error fetching volunteer:', error);
       }

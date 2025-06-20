@@ -2,11 +2,45 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 
-const TestimoniesPage = () => {
+// Fallback component for loading state
+const TestimoniesPageFallback = () => {
+  return (
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontFamily: 'Arial, sans-serif',
+      backgroundColor: '#F9FAFB'
+    }}>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{
+          width: '50px',
+          height: '50px',
+          border: '4px solid #f3f3f3',
+          borderTop: '4px solid #3B82F6',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite',
+          margin: '0 auto 20px'
+        }}></div>
+        <p style={{ color: '#6B7280' }}>Loading page...</p>
+      </div>
+      <style jsx>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+// Main content component that uses useSearchParams
+const TestimoniesPageContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [testimonies, setTestimonies] = useState([]);
@@ -37,15 +71,15 @@ const TestimoniesPage = () => {
     try {
       setLoading(true);
       setError(null);
-      
+
       const response = await fetch(`/api/get-testimonies/${damageId}`);
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch testimonies');
       }
-      
+
       const data = await response.json();
-      
+
       if (data.success) {
         setTestimonies(data.testimonies);
       } else {
@@ -108,17 +142,17 @@ const TestimoniesPage = () => {
 
   if (loading) {
     return (
-      <div style={{ 
-        minHeight: '100vh', 
-        display: 'flex', 
-        justifyContent: 'center', 
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
         alignItems: 'center',
         fontFamily: 'Arial, sans-serif'
       }}>
         <div style={{ textAlign: 'center' }}>
-          <div style={{ 
-            width: '50px', 
-            height: '50px', 
+          <div style={{
+            width: '50px',
+            height: '50px',
             border: '4px solid #f3f3f3',
             borderTop: '4px solid #3B82F6',
             borderRadius: '50%',
@@ -133,15 +167,15 @@ const TestimoniesPage = () => {
 
   if (error) {
     return (
-      <div style={{ 
-        minHeight: '100vh', 
-        display: 'flex', 
-        justifyContent: 'center', 
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
         alignItems: 'center',
         fontFamily: 'Arial, sans-serif'
       }}>
-        <div style={{ 
-          textAlign: 'center', 
+        <div style={{
+          textAlign: 'center',
           padding: '40px',
           backgroundColor: '#FEE2E2',
           borderRadius: '8px',
@@ -149,7 +183,7 @@ const TestimoniesPage = () => {
         }}>
           <h2 style={{ color: '#DC2626', marginBottom: '16px' }}>Error Loading Testimonies</h2>
           <p style={{ color: '#7F1D1D', marginBottom: '20px' }}>{error}</p>
-          <button 
+          <button
             onClick={() => router.back()}
             style={{
               backgroundColor: '#3B82F6',
@@ -168,8 +202,8 @@ const TestimoniesPage = () => {
   }
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
+    <div style={{
+      minHeight: '100vh',
       backgroundColor: '#F9FAFB',
       fontFamily: 'Arial, sans-serif',
       padding: '20px'
@@ -184,23 +218,23 @@ const TestimoniesPage = () => {
 
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         {/* Header */}
-        <div style={{ 
-          backgroundColor: 'white', 
-          borderRadius: '8px', 
+        <div style={{
+          backgroundColor: 'white',
+          borderRadius: '8px',
           padding: '24px',
           marginBottom: '24px',
           boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <h1 style={{ 
-              fontSize: '28px', 
-              fontWeight: 'bold', 
+            <h1 style={{
+              fontSize: '28px',
+              fontWeight: 'bold',
               color: '#1F2937',
               margin: 0
             }}>
               Damage Testimonies
             </h1>
-            <button 
+            <button
               onClick={() => router.back()}
               style={{
                 backgroundColor: '#6B7280',
@@ -218,9 +252,9 @@ const TestimoniesPage = () => {
 
           {/* Damage Information */}
           {damageInfo && (
-            <div style={{ 
-              backgroundColor: '#FEF3C7', 
-              padding: '16px', 
+            <div style={{
+              backgroundColor: '#FEF3C7',
+              padding: '16px',
               borderRadius: '6px',
               border: '1px solid #F59E0B'
             }}>
@@ -243,8 +277,8 @@ const TestimoniesPage = () => {
             </div>
           )}
 
-          <p style={{ 
-            color: '#6B7280', 
+          <p style={{
+            color: '#6B7280',
             margin: '16px 0 0 0',
             fontSize: '16px'
           }}>
@@ -254,9 +288,9 @@ const TestimoniesPage = () => {
 
         {/* Testimonies List */}
         {testimonies.length === 0 ? (
-          <div style={{ 
-            backgroundColor: 'white', 
-            borderRadius: '8px', 
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '8px',
             padding: '40px',
             textAlign: 'center',
             boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
@@ -269,27 +303,27 @@ const TestimoniesPage = () => {
           <div style={{ display: 'grid', gap: '24px' }}>
             {testimonies.map((testimony) => {
               const reputationBadge = getReputationBadge(testimony.volunteer.reputationScore);
-              
+
               return (
-                <div key={testimony.id} style={{ 
-                  backgroundColor: 'white', 
-                  borderRadius: '12px', 
+                <div key={testimony.id} style={{
+                  backgroundColor: 'white',
+                  borderRadius: '12px',
                   padding: '24px',
                   boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                   border: '1px solid #E5E7EB'
                 }}>
                   {/* Volunteer Information */}
-                  <div style={{ 
-                    display: 'flex', 
-                    justifyContent: 'space-between', 
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
                     alignItems: 'flex-start',
                     marginBottom: '20px',
                     flexWrap: 'wrap',
                     gap: '16px'
                   }}>
                     <div>
-                      <h3 style={{ 
-                        color: '#1F2937', 
+                      <h3 style={{
+                        color: '#1F2937',
                         margin: '0 0 8px 0',
                         fontSize: '18px',
                         fontWeight: 'bold'
@@ -312,7 +346,7 @@ const TestimoniesPage = () => {
                         {formatVolunteerType(testimony.volunteer.type)} • ID: {testimony.volunteer.id}
                       </p>
                     </div>
-                    
+
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                       <span style={{
                         backgroundColor: reputationBadge.bgColor,
@@ -324,8 +358,8 @@ const TestimoniesPage = () => {
                       }}>
                         {reputationBadge.text}
                       </span>
-                      <span style={{ 
-                        color: '#6B7280', 
+                      <span style={{
+                        color: '#6B7280',
                         fontSize: '12px'
                       }}>
                         {formatDate(testimony.date)}
@@ -335,22 +369,22 @@ const TestimoniesPage = () => {
 
                   {/* Testimony Content */}
                   <div style={{ marginBottom: '20px' }}>
-                    <h4 style={{ 
-                      color: '#374151', 
+                    <h4 style={{
+                      color: '#374151',
                       margin: '0 0 12px 0',
                       fontSize: '16px',
                       fontWeight: '600'
                     }}>
                       Testimony:
                     </h4>
-                    <div style={{ 
-                      backgroundColor: '#F9FAFB', 
-                      padding: '16px', 
+                    <div style={{
+                      backgroundColor: '#F9FAFB',
+                      padding: '16px',
                       borderRadius: '8px',
                       border: '1px solid #E5E7EB'
                     }}>
-                      <p style={{ 
-                        margin: 0, 
+                      <p style={{
+                        margin: 0,
                         color: '#374151',
                         lineHeight: '1.6',
                         whiteSpace: 'pre-wrap'
@@ -363,26 +397,26 @@ const TestimoniesPage = () => {
                   {/* Media */}
                   {testimony.mediaURL && (
                     <div style={{ marginBottom: '12px' }}>
-                      <h4 style={{ 
-                        color: '#374151', 
+                      <h4 style={{
+                        color: '#374151',
                         margin: '0 0 12px 0',
                         fontSize: '16px',
                         fontWeight: '600'
                       }}>
                         Attached Media:
                       </h4>
-                      <div style={{ 
+                      <div style={{
                         border: '2px dashed #D1D5DB',
                         borderRadius: '8px',
                         padding: '16px',
                         textAlign: 'center'
                       }}>
                         {testimony.mediaURL.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
-                          <img 
-                            src={testimony.mediaURL} 
+                          <img
+                            src={testimony.mediaURL}
                             alt="Testimony media"
-                            style={{ 
-                              maxWidth: '100%', 
+                            style={{
+                              maxWidth: '100%',
                               maxHeight: '400px',
                               borderRadius: '6px',
                               boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
@@ -391,11 +425,11 @@ const TestimoniesPage = () => {
                         ) : (
                           <div>
                             <div style={{ fontSize: '32px', marginBottom: '8px' }}>📎</div>
-                            <a 
-                              href={testimony.mediaURL} 
-                              target="_blank" 
+                            <a
+                              href={testimony.mediaURL}
+                              target="_blank"
                               rel="noopener noreferrer"
-                              style={{ 
+                              style={{
                                 color: '#3B82F6',
                                 textDecoration: 'none',
                                 fontWeight: '500'
@@ -410,13 +444,13 @@ const TestimoniesPage = () => {
                   )}
 
                   {/* Testimony ID */}
-                  <div style={{ 
+                  <div style={{
                     borderTop: '1px solid #E5E7EB',
                     paddingTop: '12px',
                     textAlign: 'right'
                   }}>
-                    <span style={{ 
-                      color: '#9CA3AF', 
+                    <span style={{
+                      color: '#9CA3AF',
                       fontSize: '12px'
                     }}>
                       Testimony ID: #{testimony.id}
@@ -431,5 +465,14 @@ const TestimoniesPage = () => {
     </div>
   );
 };
+
+// Main component with Suspense wrapper
+function TestimoniesPage() {
+  return (
+    <Suspense fallback={<TestimoniesPageFallback />}>
+      <TestimoniesPageContent />
+    </Suspense>
+  );
+}
 
 export default TestimoniesPage;
