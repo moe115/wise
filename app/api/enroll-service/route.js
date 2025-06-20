@@ -47,9 +47,9 @@ export async function POST(req) {
             });
         }
 
-        // Check if volunteer exists
+        // Check if volunteer exists and get current reputation score
         const volunteerCheck = await prisma.$queryRaw`
-            SELECT "volId" FROM "Volunteer" 
+            SELECT "volId", "ReputationScore" FROM "Volunteer" 
             WHERE "volId" = ${parsedVolunteerId}
         `;
 
@@ -80,26 +80,42 @@ export async function POST(req) {
             });
         }
 
-        // Create the enrollment using raw SQL
-        await prisma.$executeRaw`
-            INSERT INTO "PROVIDES" (
-                "VolunteerID", 
-                "ServiceID"
-            ) VALUES (
-                ${parsedVolunteerId}::integer,
-                ${parsedServiceId}::integer
-            )
-        `;
+        // Use a transaction to ensure both operations succeed or fail together
+        await prisma.$transaction(async (tx) => {
+            // Create the enrollment
+            await tx.$executeRaw`
+                INSERT INTO "PROVIDES" (
+                    "VolunteerID", 
+                    "ServiceID"
+                ) VALUES (
+                    ${parsedVolunteerId}::integer,
+                    ${parsedServiceId}::integer
+                )
+            `;
 
-        // Get total enrollments for this service
-        const enrollmentCount = await prisma.$queryRaw`
-            SELECT COUNT(*)::integer as count FROM "PROVIDES" 
-            WHERE "ServiceID" = ${parsedServiceId}
-        `;
+            // Update volunteer's reputation score by adding 1.0
+            await tx.$executeRaw`
+                UPDATE "Volunteer" 
+                SET "ReputationScore" = "ReputationScore" + 1.0
+                WHERE "volId" = ${parsedVolunteerId}
+            `;
+        });
+
+        // Get total enrollments for this service and updated reputation score
+        const [enrollmentCount, updatedVolunteer] = await Promise.all([
+            prisma.$queryRaw`
+                SELECT COUNT(*)::integer as count FROM "PROVIDES" 
+                WHERE "ServiceID" = ${parsedServiceId}
+            `,
+            prisma.$queryRaw`
+                SELECT "ReputationScore" FROM "Volunteer" 
+                WHERE "volId" = ${parsedVolunteerId}
+            `
+        ]);
 
         return new Response(JSON.stringify({
             success: true,
-            message: 'Successfully enrolled in service',
+            message: 'Successfully enrolled in service and reputation score updated',
             enrollment: {
                 volunteerId: parsedVolunteerId,
                 serviceId: parsedServiceId
@@ -107,6 +123,10 @@ export async function POST(req) {
             service: {
                 id: parsedServiceId,
                 totalEnrollments: enrollmentCount[0]?.count || 0
+            },
+            volunteer: {
+                id: parsedVolunteerId,
+                newReputationScore: updatedVolunteer[0]?.ReputationScore || 0
             }
         }), {
             status: 201,

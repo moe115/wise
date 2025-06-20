@@ -30,7 +30,7 @@ export async function GET(request) {
     });
 
   } catch (error) {
-    console.error('Error fetching volunteer:', error);
+    
     return Response.json({ error: 'Internal server error' }, { status: 500 });
   } finally {
     await prisma.$disconnect();

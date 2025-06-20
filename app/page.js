@@ -100,6 +100,11 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
       <nav className={styles.navbar}>
         <div className={styles.logo}>WISE</div>
         <ul className={styles.navList}>
+          <li>
+            <Link href="/Volunteers" className={styles.navLink}>
+              Volunteers
+            </Link>
+          </li>
           {userEmail ? (
             <li className={styles.dropdown}>
               <button
@@ -178,6 +183,61 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
           </Link>
         </div> }
 
+        <section className={styles.reputationSection}>
+          <h2>How Volunteer Reputation Scoring Works</h2>
+          <div className={styles.reputationContent}>
+            <p className={styles.reputationIntro}>
+              Our reputation system rewards volunteers for their active participation and contribution to crisis response efforts. 
+              Your reputation score reflects your commitment to helping communities in need.
+            </p>
+            
+            <div className={styles.scoreBreakdown}>
+              <h3>Ways to Earn Reputation Points:</h3>
+              <div className={styles.scoreGrid}>
+                <div className={styles.scoreItem}>
+                  <div className={styles.scoreIcon}>📝</div>
+                  <div className={styles.scoreDetails}>
+                    <h4>Submit a Testimony</h4>
+                    <p className={styles.points}>+0.5 points</p>
+                    <p>Share your experience and provide valuable insights about crisis situations</p>
+                  </div>
+                </div>
+                
+                <div className={styles.scoreItem}>
+                  <div className={styles.scoreIcon}>🤝</div>
+                  <div className={styles.scoreDetails}>
+                    <h4>Enroll in a Service</h4>
+                    <p className={styles.points}>+1.0 point</p>
+                    <p>Show your commitment by volunteering for crisis response services</p>
+                  </div>
+                </div>
+                
+                <div className={styles.scoreItem}>
+                  <div className={styles.scoreIcon}>✅</div>
+                  <div className={styles.scoreDetails}>
+                    <h4>Complete a Service</h4>
+                    <p className={styles.points}>+1.5 points</p>
+                    <p>Successfully finish your volunteer service and make a real impact</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className={styles.reputationBenefits}>
+              <h3>Benefits of Higher Reputation:</h3>
+              <ul>
+                <li>🌟 Enhanced credibility within the volunteer community</li>
+                <li>🏆 Recognition for your contributions to crisis response</li>
+                <li>📈 Priority consideration for specialized volunteer opportunities</li>
+                <li>🎯 Access to advanced training and leadership roles</li>
+              </ul>
+            </div>
+            
+            <div className={styles.reputationCTA}>
+              <p>Ready to start building your reputation? <Link href="/citsignup" className={styles.reputationLink}>Join as a volunteer</Link> and begin making a difference in your community!</p>
+            </div>
+          </div>
+        </section>
 
       </main>
 

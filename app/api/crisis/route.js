@@ -25,8 +25,7 @@ export async function GET() {
     `;
 
     // Transform the data to include proper GeoJSON
-    console.log("frrfrfrfr",crises);
-    const formattedCrises = crises.map(crisis => ({
+     const formattedCrises = crises.map(crisis => ({
       id: crisis.CrisisId,
       name: crisis.Crisisname,
       description: crisis.CrisisDesc,

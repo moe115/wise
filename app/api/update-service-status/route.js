@@ -1,5 +1,3 @@
-// app/api/update-service-status/route.js
-
 import { PrismaClient } from '../../../generated/prisma';
 
 // Proper initialization of Prisma client
@@ -7,105 +5,162 @@ const globalForPrisma = global;
 const prisma = globalForPrisma.prisma || new PrismaClient();
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
-export async function PUT(request) {
+export async function PUT(req) {
   try {
-    const body = await request.json();
-    const { serviceId, status, volunteerId } = body;
+    const { serviceId, status, volunteerId } = await req.json();
+
+    console.log("Service status update data received:", {
+      serviceId,
+      status,
+      volunteerId
+    });
 
     // Validate required fields
-    if (!serviceId || !status || !volunteerId) {
-      return Response.json({ 
-        error: 'Service ID, status, and volunteer ID are required' 
-      }, { status: 400 });
+    if (!serviceId) {
+      throw new Error('serviceId is required');
     }
 
-    // Validate status options
-    const validStatuses = ['pending', 'in progress', 'completed', 'cancelled', 'on hold'];
-    if (!validStatuses.includes(status.toLowerCase())) {
-      return Response.json({ 
-        error: 'Invalid status. Valid options are: ' + validStatuses.join(', ') 
-      }, { status: 400 });
+    if (!status) {
+      throw new Error('status is required');
     }
 
-    // Check if the volunteer is actually enrolled in this service
-    const volunteerService = await prisma.pROVIDES.findUnique({
-      where: {
-        VolunteerID_ServiceID: {
-          VolunteerID: parseInt(volunteerId),
-          ServiceID: parseInt(serviceId)
-        }
+    if (!volunteerId) {
+      throw new Error('volunteerId is required');
+    }
+
+    // Validate IDs are valid numbers
+    const parsedServiceId = parseInt(serviceId);
+    const parsedVolunteerId = parseInt(volunteerId);
+
+    if (isNaN(parsedServiceId) || isNaN(parsedVolunteerId)) {
+      throw new Error('Invalid serviceId or volunteerId - must be valid numbers');
+    }
+
+    // Validate status length (based on schema: VARCHAR(50))
+    if (status.length > 50) {
+      throw new Error('Status cannot exceed 50 characters');
+    }
+
+    // Check if service exists and get current status
+    const serviceCheck = await prisma.$queryRaw`
+            SELECT "ServiceID", "StatusS" FROM "SERVICE" 
+            WHERE "ServiceID" = ${parsedServiceId}
+        `;
+
+    if (serviceCheck.length === 0) {
+      return new Response(JSON.stringify({
+        success: false,
+        message: 'Service not found'
+      }), {
+        status: 404,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    const currentStatus = serviceCheck[0].StatusS;
+
+    // Check if volunteer exists and is enrolled in this service
+    const enrollmentCheck = await prisma.$queryRaw`
+            SELECT p."VolunteerID", p."ServiceID", v."ReputationScore"
+            FROM "PROVIDES" p
+            JOIN "Volunteer" v ON p."VolunteerID" = v."volId"
+            WHERE p."ServiceID" = ${parsedServiceId} 
+            AND p."VolunteerID" = ${parsedVolunteerId}
+        `;
+
+    if (enrollmentCheck.length === 0) {
+      return new Response(JSON.stringify({
+        success: false,
+        message: 'Volunteer not found or not enrolled in this service'
+      }), {
+        status: 404,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Check if status is being changed to "Completed"
+    const isStatusChangeToCompleted = status.toLowerCase() === 'completed' &&
+      currentStatus?.toLowerCase() !== 'completed';
+
+    // Use a transaction to ensure both operations succeed or fail together
+    let updatedReputationScore = enrollmentCheck[0].ReputationScore;
+
+    await prisma.$transaction(async (tx) => {
+      // Update service status
+      await tx.$executeRaw`
+                UPDATE "SERVICE" 
+                SET "StatusS" = ${status}
+                WHERE "ServiceID" = ${parsedServiceId}
+            `;
+
+      // If status is changed to "Completed", update completion date and reputation score
+      if (isStatusChangeToCompleted) {
+        // Update completion date
+        await tx.$executeRaw`
+                    UPDATE "SERVICE" 
+                    SET "CompletionDateS" = CURRENT_DATE
+                    WHERE "ServiceID" = ${parsedServiceId}
+                `;
+
+        // Update volunteer's reputation score by adding 1.5
+        await tx.$executeRaw`
+                    UPDATE "Volunteer" 
+                    SET "ReputationScore" = "ReputationScore" + 1.5
+                    WHERE "volId" = ${parsedVolunteerId}
+                `;
       }
     });
 
-    if (!volunteerService) {
-      return Response.json({ 
-        error: 'Volunteer is not enrolled in this service' 
-      }, { status: 403 });
+    // Get updated reputation score if it was changed
+    if (isStatusChangeToCompleted) {
+      const updatedVolunteer = await prisma.$queryRaw`
+                SELECT "ReputationScore" FROM "Volunteer" 
+                WHERE "volId" = ${parsedVolunteerId}
+            `;
+      updatedReputationScore = updatedVolunteer[0]?.ReputationScore || updatedReputationScore;
     }
 
-    // Update the service status
-    const updatedService = await prisma.sERVICE.update({
-      where: {
-        ServiceID: parseInt(serviceId)
-      },
+    // Get updated service information
+    const updatedService = await prisma.$queryRaw`
+            SELECT "ServiceID", "StatusS", "CompletionDateS" FROM "SERVICE" 
+            WHERE "ServiceID" = ${parsedServiceId}
+        `;
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: isStatusChangeToCompleted
+        ? 'Service status updated to Completed and reputation score increased'
+        : 'Service status updated successfully',
       data: {
-        StatusS: status,
-        // If status is completed, set completion date
-        ...(status.toLowerCase() === 'completed' && {
-          CompletionDateS: new Date()
-        })
-      },
-      include: {
-        Damage: {
-          include: {
-            Crisis: true
-          }
+        service: {
+          id: parsedServiceId,
+          previousStatus: currentStatus,
+          newStatus: status,
+          completionDate: updatedService[0]?.CompletionDateS || null
+        },
+        volunteer: {
+          id: parsedVolunteerId,
+          reputationScore: updatedReputationScore,
+          scoreIncreased: isStatusChangeToCompleted
         }
       }
-    });
-
-    // Return the updated service data
-    const responseData = {
-      serviceId: updatedService.ServiceID,
-      service: {
-        id: updatedService.ServiceID,
-        category: updatedService.CategoryS,
-        description: updatedService.DescriptionS,
-        status: updatedService.StatusS,
-        costEstimate: updatedService.CostEstimateS,
-        completionDate: updatedService.CompletionDateS,
-        validityStart: updatedService.ValidityStartS,
-        validityEnd: updatedService.ValidityEndS,
-        estimatedDuration: updatedService.EstimatedDurationS
-      },
-      damage: {
-        id: updatedService.Damage.DamageID,
-        category: updatedService.Damage.CategoryD,
-        description: updatedService.Damage.Description,
-        startDate: updatedService.Damage.StartDateD,
-        endDate: updatedService.Damage.EndDateD,
-        financialEstimation: updatedService.Damage.FinancialEstimationD,
-        city: updatedService.Damage.City,
-        radius: updatedService.Damage.Radius,
-        geoLocation: updatedService.Damage.GeoLonglat,
-        crisis: updatedService.Damage.Crisis ? {
-          id: updatedService.Damage.Crisis.CrisisId,
-        } : null
-      }
-    };
-
-    return Response.json({
-      message: 'Service status updated successfully',
-      data: responseData
+    }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
     });
 
   } catch (error) {
-    console.error('Error updating service status:', error);
-    return Response.json({ 
-      error: 'Internal server error',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
-    }, { status: 500 });
-  } finally {
-    await prisma.$disconnect();
+    console.error('Service status update error:', error);
+
+    // Return more specific error information for debugging
+    return new Response(JSON.stringify({
+      success: false,
+      error: 'Failed to update service status',
+      details: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }
