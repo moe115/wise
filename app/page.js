@@ -100,11 +100,26 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
       <nav className={styles.navbar}>
         <div className={styles.logo}>WISE</div>
         <ul className={styles.navList}>
-          <li>
-            <Link href="/Volunteers" className={styles.navLink}>
-              Volunteers
-            </Link>
-          </li>
+        
+        
+          {isVolunteer() &&  
+        <div >
+             <li>
+                <div className={styles.dropdown}>  <Link href="/VolunteerServicesDashboard">
+                  <button className={styles.dropbtn}>Profile
+                  </button>
+                </Link>
+                </div>
+              </li>
+        </div> }
+
+
+            <li>
+                <div className={styles.dropdown}>  <Link href="/Volunteers">
+                  <button className={styles.dropbtn}>Volunteers</button>
+                </Link>
+                </div>
+              </li>
           {userEmail ? (
             <li className={styles.dropdown}>
               <button

@@ -111,23 +111,8 @@ const CrisisMap = () => {
                         <div className="text-sm text-gray-500">Total Crises</div>
                         <div className="text-xl font-bold text-gray-800">{stats.totalCrises}</div>
                     </div>
-                    <div className="bg-white p-3 rounded shadow">
-                        <div className="text-sm text-gray-500">Extreme Crises</div>
-                        <div className="text-xl font-bold text-gray-800">{stats.extremeCrises}</div>
-                    </div>
-                    <div className="bg-white p-3 rounded shadow">
-                        <div className="text-sm text-gray-500">Est. Financial Impact</div>
-                        <div className="text-xl font-bold text-gray-800">
-                            ${stats.financialImpact.toLocaleString()}
-                        </div>
-                    </div>
-                    <div className="bg-white p-3 rounded shadow">
-                        <div className="text-sm text-gray-500">Total Area (km²)</div>
-                        <div className="text-xl font-bold text-gray-800">
-                            {stats.totalArea.toFixed(2)}
-                        </div>
-                    </div>
-                </div>
+                   
+                 </div>
             </div>
         </div>
     );
