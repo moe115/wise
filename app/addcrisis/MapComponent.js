@@ -25,17 +25,17 @@ function MapComponent({ position, onPolygonDrawn }) {
     <>
       <FixLeafletIcons />
       <MapContainer
-      center={[33.8938, 35.5018]} // Default center: Beirut, Lebanon
-      zoom={10}
-      style={{ height: '300px', width: '100%' }}
-    >
-      <PolygonDrawer onPolygonDrawn={onPolygonDrawn} />
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      <FlyToLocation position={position} />
-    </MapContainer>
+        center={[43.601869, 1.440582]} // Default center: Beirut, Lebanon
+        zoom={10}
+        style={{ height: '300px', width: '100%' }}
+      >
+        <PolygonDrawer onPolygonDrawn={onPolygonDrawn} />
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        <FlyToLocation position={position} />
+      </MapContainer>
     </>
   );
 }
