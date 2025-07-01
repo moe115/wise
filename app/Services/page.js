@@ -465,8 +465,7 @@ function ServicesPageContent() {
                     </div>
                   )}
 
-                  {/* Enroll Button */}
-                  {userEmail && volunteerId && (
+                   {userEmail && volunteerId && (
                     <button
                       onClick={() => handleEnrollService(service.id)}
                       disabled={isVolunteerEnrolled(service) || enrollingServices.has(service.id)}
